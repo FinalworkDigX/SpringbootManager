@@ -1,10 +1,10 @@
 
     function appendRoom(room) {
+    console.log(room);
         $('#displayRooms').append(
             '<form class="delete_form">' +
             '[<strong>id:</strong> ' + room.id + ', <strong>name:</strong> ' + room.name + ', <strong>desc:</strong> ' + room.description + ', <strong>loc:</strong>' + room.location + ']' +
             '<input type="hidden" name="id" value="' + room.id + '">' +
-            '<input type="hidden" name="lel" value="' + "dddd" + '">' +
             '<button type="submit">Delete</button>' +
             '</form>'
         )
@@ -48,7 +48,7 @@
         var socket = new SockJS('/roomWS');
         var stompClient = Stomp.over(socket);
         //stompClient.debug = null;
-        stompClient.connect({}, (frame) => {
+        stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/room', onNewRoom);
         });
