@@ -2,6 +2,7 @@ package ehb.finalwork.manager.database;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
+import ehb.finalwork.manager.service.DataLogChangeListener;
 import ehb.finalwork.manager.service.RoomChangeListener;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class DBInitializer implements InitializingBean
     @Autowired
     private RoomChangeListener roomChangeListener;
 
+    @Autowired
+    private DataLogChangeListener dataLogChangeListener;
+
     private static final RethinkDB r = RethinkDB.r;
 
     @Override
@@ -23,6 +27,7 @@ public class DBInitializer implements InitializingBean
     {
         this.createDb();
         roomChangeListener.pushChangesToWebSocket();
+        dataLogChangeListener.pushChangesToWebSocket();
     }
 
     private void createDb() {
@@ -43,11 +48,14 @@ public class DBInitializer implements InitializingBean
             r.db("manager").tableCreate("beacon").run(con);
             // r.db("manager").table("room").run(con);
         }
-        if (!tables.contains("object")) {
-            r.db("manager").tableCreate("object").run(con);
+        if (!tables.contains("item")) {
+            r.db("manager").tableCreate("item").run(con);
             // r.db("manager").table("room").run(con);
         }
-
+        if (!tables.contains("data_log")) {
+            r.db("manager").tableCreate("data_log").run(con);
+             r.db("manager").table("data_log").indexCreate("item_id").run(con);
+        }
         /* Verify / Create tables for each object? // 1 table with all info? */
     }
 }
