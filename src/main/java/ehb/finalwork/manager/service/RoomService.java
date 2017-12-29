@@ -2,7 +2,7 @@ package ehb.finalwork.manager.service;
 
 import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
-import ehb.finalwork.manager.model.Id;
+import ehb.finalwork.manager.dto.RethinkRoomDto;
 import ehb.finalwork.manager.model.Room;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,13 @@ public class RoomService {
     private static final RethinkDB r = RethinkDB.r;
     protected final Logger log = LoggerFactory.getLogger(RoomService.class);
 
-    public List<Room> getRooms() {
+    public List<RethinkRoomDto> getRooms() {
 
-        List<Room> rooms = r.db("manager").table("room")
+        List<RethinkRoomDto> rooms = r.db("manager").table("room")
                 .orderBy().optArg("index", r.desc("id"))
                 .limit(20)
                 .orderBy("id")
-                .run(connectionFactory.createConnection(), Room.class);
+                .run(connectionFactory.createConnection(), RethinkRoomDto.class);
 
         return rooms;
     }
@@ -39,11 +39,11 @@ public class RoomService {
         return newRoom;
     }
 
-    public void deleteRoom(Id id) {
+    public void deleteRoom(String id) {
 
-        Object run = r.db("manager").table("room").get(id.getId()).delete().optArg("return_changes", true).run(connectionFactory.createConnection());
+        Object run = r.db("manager").table("room").get(id).delete().optArg("return_changes", true).run(connectionFactory.createConnection());
 
         log.info("Delete {}", run);
-        log.info("Delete id {}", id.getId());
+        log.info("Delete id {}", id);
     }
 }
