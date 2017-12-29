@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>TestPage - manager</title>
+
+
+    </head>
+    <body>
+
+        <div id="room">
+            <form onsubmit="return createRoom();">
+                <label>
+                    Name:
+                    <input type="text" id="name" />
+                </label>
+                <label>
+                    Desc:
+                    <input type="text" id="description" />
+                </label>
+                <label>
+                    Loc:
+                    <input type="text" id="location" />
+                </label>
+                <button type="submit">Send</button>
+            </form>
+            <div id="displayRooms"></div>
+        </div>
+
+        <footer>
+            <script src="webjars/jquery/2.1.4/jquery.js"></script>
+            <script src="webjars/sockjs-client/1.0.0/sockjs.js"></script>
+            <script src="webjars/stomp-websocket/2.3.3/stomp.js"></script>
+            <script src="js/main.js"></script>
+        </footer>
+    </body>
+</html>
