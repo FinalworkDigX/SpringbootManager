@@ -2,6 +2,7 @@ package ehb.finalwork.manager.service;
 
 import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
+import ehb.finalwork.manager.model.Id;
 import ehb.finalwork.manager.model.Room;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,13 @@ public class RoomService {
 
         log.info("Insert {}", run);
         return newRoom;
+    }
+
+    public void deleteRoom(Id id) {
+
+        Object run = r.db("manager").table("room").get(id.getId()).delete().optArg("return_changes", true).run(connectionFactory.createConnection());
+
+        log.info("Delete {}", run);
+        log.info("Delete id {}", id.getId());
     }
 }

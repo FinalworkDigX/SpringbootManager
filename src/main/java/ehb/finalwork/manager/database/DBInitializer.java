@@ -27,16 +27,27 @@ public class DBInitializer implements InitializingBean
 
     private void createDb() {
         Connection con = connectionFactory.createConnection();
-        // Get databases
+        // Verify / Create database
         List<String> dbList = r.dbList().run(con);
         if (!dbList.contains("manager")) {
             r.dbCreate("manager").run(con);
         }
-        // Get tables of Database
+
+        // Verify / Create tables
         List<String> tables = r.db("manager").tableList().run(con);
         if (!tables.contains("room")) {
             r.db("manager").tableCreate("room").run(con);
-            r.db("manager").table("room").run(con);
+           // r.db("manager").table("room").run(con);
         }
+        if (!tables.contains("beacon")) {
+            r.db("manager").tableCreate("beacon").run(con);
+            // r.db("manager").table("room").run(con);
+        }
+        if (!tables.contains("object")) {
+            r.db("manager").tableCreate("object").run(con);
+            // r.db("manager").table("room").run(con);
+        }
+
+        /* Verify / Create tables for each object? // 1 table with all info? */
     }
 }

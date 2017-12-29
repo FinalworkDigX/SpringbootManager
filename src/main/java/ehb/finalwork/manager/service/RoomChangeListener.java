@@ -30,9 +30,15 @@ public class RoomChangeListener {
 
         while (cursor.hasNext()) {
 
-            Room r = cursor.next();
-            log.info("New Room: {}", r.getName());
-            webSocket.convertAndSend("/topic/room", r);
+            if (cursor.next() != null) {
+                Room r = cursor.next();
+                log.info("New Room: {}", r.getName());
+                webSocket.convertAndSend("/topic/room", r);
+            }
+            else {
+                // TODO: 29-12-17 item delete?
+                log.info("Item deleted// ChangeListener cursor == null");
+            }
         }
     }
 }

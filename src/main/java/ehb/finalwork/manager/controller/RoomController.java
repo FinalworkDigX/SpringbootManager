@@ -1,5 +1,6 @@
 package ehb.finalwork.manager.controller;
 
+import ehb.finalwork.manager.model.Id;
 import ehb.finalwork.manager.model.Room;
 import ehb.finalwork.manager.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,10 @@ public class RoomController {
     @RequestMapping(method = RequestMethod.POST)
     public Room postRoom(@RequestBody Room newRoom) {
         return roomService.createRoom(newRoom);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void deleteRoom(@RequestBody Id id) {
+        roomService.deleteRoom(id);
     }
 }

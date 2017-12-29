@@ -1,6 +1,13 @@
 
     function appendRoom(room) {
-        $('#messages').append($('<div />').text(room.name + ": " + room.description))
+        $('#displayRooms').append(
+            '<form class="delete_form">' +
+            '[<strong>id:</strong> ' + room.id + ', <strong>name:</strong> ' + room.name + ', <strong>desc:</strong> ' + room.description + ', <strong>loc:</strong>' + room.location + ']' +
+            '<input type="hidden" name="id" value="' + room.id + '">' +
+            '<input type="hidden" name="lel" value="' + "dddd" + '">' +
+            '<button type="submit">Delete</button>' +
+            '</form>'
+        )
     }
 
     function getPreviousRooms() {
@@ -20,9 +27,17 @@
         $descriptionInput.val('');
         $locationInput.val('');
 
-        post('/room', room);
+        myAjaxCalls('/room', 'POST', room);
         return false;
     }
+
+    $(document).on('submit', '.delete_form', function (e) {
+       //e.preventDefault();
+       var $values = cleanInputs($(this));
+       var room = {"id": $values.id};
+
+       myAjaxCalls('/room', 'DELETE', room);
+    });
 
     function onNewRoom(result) {
         var message = JSON.parse(result.body);
@@ -39,9 +54,19 @@
         });
     }
 
-    function post(url, data) {
+    function cleanInputs(form) {
+        var values = {};
+
+        $.each(form.serializeArray(), function (i, field) {
+            values[field.name] = field.value;
+        });
+
+        return values
+    }
+
+    function myAjaxCalls(url, method, data) {
         return $.ajax({
-            type: 'POST',
+            type: method,
             url: url,
             headers: {
                 'Accept': 'application/json',

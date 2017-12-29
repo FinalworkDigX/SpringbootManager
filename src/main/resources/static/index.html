@@ -2,17 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>TestPage - manager</title>
 
 
     </head>
     <body>
 
-        <div id="chat">
-
-            <div id="messages">
-
-            </div>
+        <div id="room">
             <form onsubmit="return createRoom();">
                 <label>
                     Name:
@@ -28,6 +24,7 @@
                 </label>
                 <button type="submit">Send</button>
             </form>
+            <div id="displayRooms"></div>
         </div>
 
         <footer>
