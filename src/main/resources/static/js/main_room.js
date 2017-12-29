@@ -1,8 +1,7 @@
 
     function appendRoom(room) {
-    console.log(room);
         $('#displayRooms').append(
-            '<form class="delete_form">' +
+            '<form class="delete_room_form">' +
             '[<strong>id:</strong> ' + room.id + ', <strong>name:</strong> ' + room.name + ', <strong>desc:</strong> ' + room.description + ', <strong>loc:</strong>' + room.location + ']' +
             '<input type="hidden" name="id" value="' + room.id + '">' +
             '<button type="submit">Delete</button>' +
@@ -16,27 +15,25 @@
         );
     }
 
-    function createRoom() {
-        var $nameInput = $('#name');
-        var $descriptionInput = $('#description');
-        var $locationInput = $('#location');
+    $(document).on('submit', '.create_room_form', function (e) {
+        e.preventDefault();
+        var $this = $(this);
 
-        var room = {name: $nameInput.val(), description: $descriptionInput.val(), location: $locationInput.val()};
+        var $values = getCleanInputs($this);
+        $this.trigger('reset');
 
-        $nameInput.val('');
-        $descriptionInput.val('');
-        $locationInput.val('');
+        var room = {name: $values.name, description: $values.description, location: $values.location};
 
         myAjaxCalls('/room', 'POST', room);
-        return false;
-    }
+    });
 
-    $(document).on('submit', '.delete_form', function (e) {
-       //e.preventDefault();
-       var $values = cleanInputs($(this));
-       var room = {"id": $values.id};
+    $(document).on('submit', '.delete_room_form', function (e) {
+       e.preventDefault();
+       var $this = $(this);
+       var $values = getCleanInputs($this);
 
-       myAjaxCalls('/room', 'DELETE', room);
+       myAjaxCalls('/room/' + $values.id, 'DELETE', null);
+       $this.remove();
     });
 
     function onNewRoom(result) {
@@ -54,7 +51,7 @@
         });
     }
 
-    function cleanInputs(form) {
+    function getCleanInputs(form) {
         var values = {};
 
         $.each(form.serializeArray(), function (i, field) {
