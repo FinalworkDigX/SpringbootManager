@@ -22,6 +22,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
+        // TODO: 06-01-18 go to single registry endpoint w/ multiple topics 
         registry.addEndpoint("/roomWS").withSockJS();
         registry.addEndpoint("/dataLogWS").withSockJS();
     }
