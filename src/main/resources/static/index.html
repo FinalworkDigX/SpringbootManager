@@ -31,7 +31,7 @@
             <form method="get" class="create_dataLog_form">
                 <label>
                     ItemId:
-                    <input type="text" name="item_id"/>
+                    <input type="text" name="item_id" value="test"/>
                 </label>
                 <label>
                     Info:
@@ -48,6 +48,10 @@
             <script src="webjars/stomp-websocket/2.3.3/stomp.js"></script>
             <script src="js/main_room.js"></script>
             <script src="js/main_dataLog.js"></script>
+
+            <script>
+                $('input[name="information"]').val(Math.random().toString(36).substr(2, 5));
+            </script>
         </footer>
     </body>
 </html>

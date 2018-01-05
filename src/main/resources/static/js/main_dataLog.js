@@ -1,6 +1,6 @@
 
     function appendDataLog(dataLog) {
-        $('#displayDataLogs').append(
+        $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
             '[<strong>id:</strong> ' + dataLog.id + ', <strong>item_id:</strong> ' + dataLog.item_id + ', <strong>information:</strong> ' +
             dataLog.information + ', <strong>timestamp:</strong>' + dataLog.timestamp + ']' +
@@ -20,6 +20,8 @@
 
         var $values = getCleanInputs($this);
         $this.trigger('reset');
+        //In the ghetto, in the ghettooooo
+        $('input[name="information"]').val(Math.random().toString(36).substr(2, 5));
 
         var dataLog = {item_id: $values.item_id, information: $values.information};
 
