@@ -1,37 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>TestPage - manager</title>
+<head>
+    <meta charset="UTF-8">
+    <title>TestPage - manager</title>
 
 
-    </head>
-    <body>
+</head>
+<body>
 
-        <div id="room">
-            <form onsubmit="return createRoom();">
-                <label>
-                    Name:
-                    <input type="text" id="name" />
-                </label>
-                <label>
-                    Desc:
-                    <input type="text" id="description" />
-                </label>
-                <label>
-                    Loc:
-                    <input type="text" id="location" />
-                </label>
-                <button type="submit">Send</button>
-            </form>
-            <div id="displayRooms"></div>
-        </div>
+<div id="room">
+    <form method="get" class="create_room_form">
+        <label>
+            Name:
+            <input type="text" name="name"/>
+        </label>
+        <label>
+            Desc:
+            <input type="text" name="description"/>
+        </label>
+        <label>
+            Loc:
+            <input type="text" name="location"/>
+        </label>
+        <button type="submit">Send</button>
+    </form>
+    <div id="displayRooms" style="max-height: 250px"></div>
+</div>
+<!-------------------------------------------------------->
+<div id="dataLog">
+    <form method="get" class="create_dataLog_form">
+        <label>
+            ItemId:
+            <input type="text" name="item_id" value="test"/>
+        </label>
+        <label>
+            Info:
+            <input type="text" name="information"/>
+        </label>
+        <button type="submit">Send</button>
+    </form>
+    <div id="displayDataLogs" style="max-height: 250px"></div>
+</div>
 
-        <footer>
-            <script src="webjars/jquery/2.1.4/jquery.js"></script>
-            <script src="webjars/sockjs-client/1.0.0/sockjs.js"></script>
-            <script src="webjars/stomp-websocket/2.3.3/stomp.js"></script>
-            <script src="js/main.js"></script>
-        </footer>
-    </body>
+<footer>
+    <script src="webjars/jquery/2.1.4/jquery.js"></script>
+    <script src="webjars/sockjs-client/1.0.0/sockjs.js"></script>
+    <script src="webjars/stomp-websocket/2.3.3/stomp.js"></script>
+
+    <script src="js/main.js"></script>
+
+    <script>
+        $('input[name="information"]').val(Math.random().toString(36).substr(2, 5));
+    </script>
+</footer>
+</body>
 </html>

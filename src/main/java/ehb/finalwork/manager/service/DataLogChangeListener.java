@@ -1,24 +1,23 @@
 package ehb.finalwork.manager.service;
 
 import com.rethinkdb.net.Cursor;
-import ehb.finalwork.manager.dto.RethinkRoomDto;
+import ehb.finalwork.manager.dto.RethinkDataLogDto;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoomChangeListener extends BaseChangeListener {
+public class DataLogChangeListener extends BaseChangeListener {
 
     @Async
     public void pushChangesToWebSocket() {
-
         log.warn("NEW DATA-LOG CURSOR");
-        Cursor<RethinkRoomDto> cursor = r.db("manager").table("room").changes().getField("new_val").run(connectionFactory.createConnection(), RethinkRoomDto.class);
+        Cursor<RethinkDataLogDto> cursor = r.db("manager").table("data_log").changes().getField("new_val").run(connectionFactory.createConnection(), RethinkDataLogDto.class);
 
         while (cursor.hasNext()) {
             try {
-                RethinkRoomDto room = cursor.next();
-                log.info("New Room: {}", room.getName());
-                webSocket.convertAndSend("/topic/room", room);
+                RethinkDataLogDto dl = cursor.next();
+                log.info("New DataLog: {}", dl.getId());
+                webSocket.convertAndSend("/topic/dataLog", dl);
             }
             catch (Exception e) {
                 log.error("===================================================================================================================");

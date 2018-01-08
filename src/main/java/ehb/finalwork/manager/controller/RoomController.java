@@ -1,13 +1,10 @@
 package ehb.finalwork.manager.controller;
 
-import ehb.finalwork.manager.model.Id;
+import ehb.finalwork.manager.dto.RethinkRoomDto;
 import ehb.finalwork.manager.model.Room;
 import ehb.finalwork.manager.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,18 +15,18 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Room> getRooms() {
+    @GetMapping()
+    public List<RethinkRoomDto> getRooms() {
         return roomService.getRooms();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping()
     public Room postRoom(@RequestBody Room newRoom) {
         return roomService.createRoom(newRoom);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteRoom(@RequestBody Id id) {
-        roomService.deleteRoom(id);
+    @DeleteMapping("/{rid}")
+    public void deleteRoom(@PathVariable String rid) {
+        roomService.deleteRoom(rid);
     }
 }

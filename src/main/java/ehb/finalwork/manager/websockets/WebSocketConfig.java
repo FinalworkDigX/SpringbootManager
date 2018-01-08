@@ -10,8 +10,18 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+    //    //Begin test for
+    //    @Autowired
+    //    private WebSocketMessageBrokerStats webSocketMessageBrokerStats;
+    //
+    //    @PostConstruct
+    //    public void init() {
+    //        webSocketMessageBrokerStats.setLoggingPeriod(10 * 60000); // desired time in millis
+    //    }
+
     /**
      * Set slug to use as prefix for client to listen for updates w/ websockets
+     *
      * @param config
      */
     @Override
@@ -21,6 +31,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/roomWS").withSockJS();
+
+        // TODO: 06-01-18 go to single registry endpoint w/ multiple topics
+        registry.addEndpoint("/managerWS").withSockJS();
     }
+
 }

@@ -4,19 +4,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RethinkDBConfiguration
-{
+public class RethinkDBConfiguration {
     public static final String DBHOST = "10.3.50.6";
 
     @Bean
-    public RethinkDBConnectionFactory connectionFactory()
-    {
+    public RethinkDBConnectionFactory connectionFactory() {
         return new RethinkDBConnectionFactory(DBHOST);
     }
 
     @Bean
-    DBInitializer dbInitializer()
-    {
+    DBInitializer dbInitializer() {
         return new DBInitializer();
     }
 }
