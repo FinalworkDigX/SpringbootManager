@@ -1,4 +1,3 @@
-
     // Append functions
     function appendDataLog(dataLog) {
         $('#displayDataLogs').prepend(
@@ -66,18 +65,18 @@
     });
 
     $(document).on('submit', '.delete_dataLog_form', function (e) {
-       e.preventDefault();
-       var $this = $(this);
-       var $values = getCleanInputs($this);
+        e.preventDefault();
+        var $this = $(this);
+        var $values = getCleanInputs($this);
 
-       myAjaxCalls('/dataLog/' + $values.id, 'DELETE', null);
-       $this.remove();
+        myAjaxCalls('/dataLog/' + $values.id, 'DELETE', null);
+        $this.remove();
     });
 
     // New data
     function onNewData(result) {
         var source = result.headers.destination;
-        source = source.substring(source.lastIndexOf('/')+1);
+        source = source.substring(source.lastIndexOf('/') + 1);
         var dataLog = JSON.parse(result.body);
 
         switch (source) {
@@ -92,16 +91,22 @@
         }
     }
 
+    function onError(error) {
+        console.log(error);
+    }
+
     // Connect to WS
     function connectManagerWebSocket() {
         var socket = new SockJS('/managerWS');
         var stompClient = Stomp.over(socket);
         //stompClient.debug = null;
-        stompClient.connect({}, function(frame) {
+        stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/dataLog', onNewData);
-            stompClient.subscribe('/topic/room', onNewData)
+            stompClient.subscribe('/topic/dataLog', onNewData, onError);
+            stompClient.subscribe('/topic/room', onNewData, onError)
         });
+        // stompClient.heartbeat.incoming = 0
+        // stompClient.heartbeat.outgoing = 100
     }
 
     function getCleanInputs(form) {

@@ -6,13 +6,12 @@ import com.rethinkdb.net.Connection;
 public class RethinkDBConnectionFactory {
     private String host;
 
-    public RethinkDBConnectionFactory(String host)
-    {
+    public RethinkDBConnectionFactory(String host) {
         this.host = host;
     }
 
-    public Connection createConnection()
-    {
+    public Connection createConnection() {
+        //Automatically closes after 20seconds
         return RethinkDB.r.connection().hostname(this.host).connect();
     }
 }

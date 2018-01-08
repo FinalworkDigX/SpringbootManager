@@ -15,36 +15,29 @@ import java.util.List;
 @Service
 public class DataLogService {
 
-    @Autowired
-    RethinkDBConnectionFactory connectionFactory;
-
     private static final RethinkDB r = RethinkDB.r;
     protected final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
+    @Autowired
+    RethinkDBConnectionFactory connectionFactory;
+
     public List<RethinkDataLogDto> getDataLogs() {
 
-        List<RethinkDataLogDto> dataLogList = r.db("manager").table("data_log")
-                .orderBy().optArg("index", r.desc("id"))
-                .orderBy("id")
-                .run(connectionFactory.createConnection(), RethinkDataLogDto.class);
+        List<RethinkDataLogDto> dataLogList = r.db("manager").table("data_log").orderBy().optArg("index", r.desc("id")).orderBy("id").run(connectionFactory.createConnection(), RethinkDataLogDto.class);
 
         return dataLogList;
     }
 
     public RethinkDataLogDto getDataLog(String id) {
 
-        RethinkDataLogDto dataLogDto = r.db("manager").table("data_log")
-                .get(id)
-                .run(connectionFactory.createConnection(), RethinkDataLogDto.class);
+        RethinkDataLogDto dataLogDto = r.db("manager").table("data_log").get(id).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
 
         return dataLogDto;
     }
 
     public List<RethinkDataLogDto> getDataLogByItem(String id) {
 
-        List<RethinkDataLogDto> dataLogList = r.db("manager").table("data_log")
-                .filter(row -> row.g("item_id").eq(id))
-                .run(connectionFactory.createConnection(), RethinkDataLogDto.class);
+        List<RethinkDataLogDto> dataLogList = r.db("manager").table("data_log").filter(row -> row.g("item_id").eq(id)).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
 
         return dataLogList;
     }
