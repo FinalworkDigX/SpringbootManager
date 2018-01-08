@@ -4,13 +4,16 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
 import ehb.finalwork.manager.service.DataLogChangeListener;
 import ehb.finalwork.manager.service.RoomChangeListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class DBInitializer implements InitializingBean
-{
+public class DBInitializer implements InitializingBean {
+    private final Logger log = LoggerFactory.getLogger(DBInitializer.class);
+
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;
 
@@ -23,9 +26,10 @@ public class DBInitializer implements InitializingBean
     private static final RethinkDB r = RethinkDB.r;
 
     @Override
-    public void afterPropertiesSet() throws Exception
-    {
+    public void afterPropertiesSet() throws Exception {
         this.createDb();
+        log.info("item added");
+
         roomChangeListener.pushChangesToWebSocket();
         dataLogChangeListener.pushChangesToWebSocket();
     }

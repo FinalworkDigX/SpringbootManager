@@ -13,6 +13,7 @@ public class RethinkDBConnectionFactory {
 
     public Connection createConnection()
     {
+        //Automatically closes after 20seconds
         return RethinkDB.r.connection().hostname(this.host).connect();
     }
 }

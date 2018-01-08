@@ -92,6 +92,10 @@
         }
     }
 
+    function onError(error) {
+        console.log(error);
+    }
+
     // Connect to WS
     function connectManagerWebSocket() {
         var socket = new SockJS('/managerWS');
@@ -99,9 +103,11 @@
         //stompClient.debug = null;
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/dataLog', onNewData);
-            stompClient.subscribe('/topic/room', onNewData)
+            stompClient.subscribe('/topic/dataLog', onNewData, onError);
+            stompClient.subscribe('/topic/room', onNewData, onError)
         });
+        // stompClient.heartbeat.incoming = 0
+        // stompClient.heartbeat.outgoing = 100
     }
 
     function getCleanInputs(form) {
