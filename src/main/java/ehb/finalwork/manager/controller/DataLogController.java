@@ -26,7 +26,7 @@ public class DataLogController {
     }
 
     @GetMapping("/byItemId/{iid}")
-    public  List<RethinkDataLogDto> getDataLogByItemId(@PathVariable String iid) {
+    public List<RethinkDataLogDto> getDataLogByItemId(@PathVariable String iid) {
         return dataLogService.getDataLogByItem(iid);
     }
 

@@ -4,29 +4,25 @@ import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkRoomDto;
 import ehb.finalwork.manager.model.Room;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import org.slf4j.Logger;
 
 @Service
 public class RoomService {
 
-    @Autowired
-    private RethinkDBConnectionFactory connectionFactory;
-
     private static final RethinkDB r = RethinkDB.r;
     protected final Logger log = LoggerFactory.getLogger(RoomService.class);
 
+    @Autowired
+    private RethinkDBConnectionFactory connectionFactory;
+
     public List<RethinkRoomDto> getRooms() {
 
-        List<RethinkRoomDto> rooms = r.db("manager").table("room")
-                .orderBy().optArg("index", r.desc("id"))
-                .limit(20)
-                .orderBy("id")
-                .run(connectionFactory.createConnection(), RethinkRoomDto.class);
+        List<RethinkRoomDto> rooms = r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), RethinkRoomDto.class);
 
         return rooms;
     }
