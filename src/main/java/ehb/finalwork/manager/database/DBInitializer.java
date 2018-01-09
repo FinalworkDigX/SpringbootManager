@@ -30,8 +30,8 @@ public class DBInitializer implements InitializingBean {
         this.createDb();
         log.info("item added");
 
-        roomChangeListener.pushChangesToWebSocket();
-        dataLogChangeListener.pushChangesToWebSocket();
+        // roomChangeListener.pushChangesToWebSocket();
+        dataLogChangeListener.startCursorScheduler();
     }
 
     private void createDb() {
