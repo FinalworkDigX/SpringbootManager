@@ -21,7 +21,7 @@ public class DataLogChangeListener extends BaseChangeListener {
             }
             catch (Exception e) {
                 log.error("===================================================================================================================");
-                log.error("EXCEPTION: ", e);
+                log.error("DATA-LOG EXCEPTION: ", e);
                 log.error("===================================================================================================================");
 
                 // On error close change-feed & create new one

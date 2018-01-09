@@ -11,7 +11,7 @@ public class RoomChangeListener extends BaseChangeListener {
     @Async
     public void pushChangesToWebSocket() {
 
-        log.warn("NEW DATA-LOG CURSOR");
+        log.warn("NEW ROOM CURSOR");
         Cursor<RethinkRoomDto> cursor = r.db("manager").table("room").changes().getField("new_val").run(connectionFactory.createConnection(), RethinkRoomDto.class);
 
         while (cursor.hasNext()) {
@@ -22,7 +22,7 @@ public class RoomChangeListener extends BaseChangeListener {
             }
             catch (Exception e) {
                 log.error("===================================================================================================================");
-                log.error("EXCEPTION: ", e);
+                log.error("ROOM EXCEPTION: ", e);
                 log.error("===================================================================================================================");
 
                 // On error close change-feed & create new one
