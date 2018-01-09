@@ -14,7 +14,7 @@ public class DataLogChangeListener extends BaseChangeListener {
     private Cursor<RethinkDataLogDto> cursor;
 
     @Async
-    @Scheduled(cron = "*/30 * * * *")
+    @Scheduled(cron = "*/15 * * * *")
     public void startCursorScheduler() {
 
         log.warn("NEW SCHEDULED CRON JOB");
