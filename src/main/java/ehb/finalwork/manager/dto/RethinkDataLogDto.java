@@ -1,15 +1,19 @@
 package ehb.finalwork.manager.dto;
 
+import ehb.finalwork.manager.model.Information;
+
+import java.util.List;
+
 public class RethinkDataLogDto {
     private String id;
     private String item_id;
-    private String information;
+    private List<Information> information;
     private Long timestamp;
 
     public RethinkDataLogDto() {
     }
 
-    public RethinkDataLogDto(String id, String item_id, String information, Long timestamp) {
+    public RethinkDataLogDto(String id, String item_id, List<Information> information, Long timestamp) {
         this.id = id;
         this.item_id = item_id;
         this.information = information;
@@ -32,11 +36,11 @@ public class RethinkDataLogDto {
         this.item_id = item_id;
     }
 
-    public String getInformation() {
+    public List<Information> getInformation() {
         return information;
     }
 
-    public void setInformation(String information) {
+    public void setInformation(List<Information> information) {
         this.information = information;
     }
 
