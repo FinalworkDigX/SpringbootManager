@@ -24,21 +24,18 @@ public class DataLogChangeListener extends BaseChangeListener {
         if (cursor != null) {
             cursor.close();
         }
-        log.warn("1");
+
         pushChangesToWebSocket();
     }
 
     private void pushChangesToWebSocket() {
 
-        log.warn("2");
         cursor = r.db("manager").table("data_log").changes()
                 .getField("new_val")
                 .run(connectionFactory.createConnection(), RethinkDataLogDto.class);
 
-        log.warn("3");
         while (cursor.hasNext()) {
             try {
-                log.warn("DL Before change -cusrosr.next()");
                 RethinkDataLogDto dl = cursor.next();
                 log.info("New DataLog: {}", dl.getId());
                 webSocket.convertAndSend("/topic/dataLog", dl);
@@ -55,7 +52,6 @@ public class DataLogChangeListener extends BaseChangeListener {
                 log.info("----------------------------------------------------------------------------------------------------------------");
             }
         }
-        log.warn("4");
 
     }
 }
