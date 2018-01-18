@@ -1,6 +1,7 @@
 package ehb.finalwork.manager.service;
 
 import com.rethinkdb.RethinkDB;
+import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
