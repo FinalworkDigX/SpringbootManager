@@ -3,10 +3,12 @@ package ehb.finalwork.manager.service;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@EnableScheduling
 public class DataLogChangeListener extends BaseChangeListener {
 
     // TODO: 09/01/2018 SCHEDULER reset cursor every 30minutes -> stops to respond
@@ -14,7 +16,7 @@ public class DataLogChangeListener extends BaseChangeListener {
     private Cursor<RethinkDataLogDto> cursor;
 
     @Async
-    @Scheduled(cron = "*/15 * * * *")
+    @Scheduled(cron = "0 */10 * * * *")
     public void startCursorScheduler() {
 
         log.warn("NEW SCHEDULED CRON JOB");
@@ -26,8 +28,7 @@ public class DataLogChangeListener extends BaseChangeListener {
         pushChangesToWebSocket();
     }
 
-    @Async
-    public void pushChangesToWebSocket() {
+    private void pushChangesToWebSocket() {
 
         log.warn("2");
         cursor = r.db("manager").table("data_log").changes()
