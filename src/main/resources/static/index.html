@@ -25,18 +25,25 @@
     <div id="displayRooms" style="max-height: 250px"></div>
 </div>
 <!-------------------------------------------------------->
+<br/>
 <div id="dataLog">
     <form method="get" class="create_dataLog_form">
         <label>
             ItemId:
-            <input type="text" name="item_id" value="test"/>
+            <input type="text" name="item_id" value="test_item"/>
         </label>
         <label>
-            Info:
-            <input type="text" name="information"/>
+            Info: <span class="info_input_display"></span>
+            <input type="hidden" name="information" value="">
         </label>
         <button type="submit">Send</button>
     </form>
+    <div class="create_dataLog_script_div">
+        <label>
+            TestScript:
+            <button type="button" class="create_dataLog_script">Start</button>
+        </label>
+    </div>
     <div id="displayDataLogs" style="max-height: 250px"></div>
 </div>
 
@@ -47,9 +54,6 @@
 
     <script src="js/main.js"></script>
 
-    <script>
-        $('input[name="information"]').val(Math.random().toString(36).substr(2, 5));
-    </script>
 </footer>
 </body>
 </html>
