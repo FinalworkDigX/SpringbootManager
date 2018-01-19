@@ -20,7 +20,7 @@
             '<form class="delete_room_form">' +
             '[<strong>id:</strong> ' + room.id + ', <strong>name:</strong> ' + room.name + ', <strong>desc:</strong> ' + room.description + ', <strong>loc:</strong>' + room.location + ']' +
             '<input type="hidden" name="id" value="' + room.id + '">' +
-            '<button type="submit">Delete</button>' +
+            '<button type="submit" class="delete_room_button">Delete</button>' +
             '</form>'
         )
     }
