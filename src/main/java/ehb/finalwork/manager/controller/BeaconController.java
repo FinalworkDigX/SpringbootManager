@@ -14,11 +14,18 @@ public class BeaconController {
     @Autowired
     BeaconService beaconService;
 
-    @MessageMapping("/calibrate/beacons")
-    @SendTo("/topic/calibrate/beacons")
+    @MessageMapping("/beacon/calibrate")
+    @SendTo("/topic/beacon/calibrate")
     public RethinkBeaconDto calibrate(RethinkBeaconDto beaconDto) {
 
         return beaconService.calibrate(beaconDto);
+    }
+
+    @MessageMapping("/beacon/create")
+    @SendTo("/topic/beacon/create")
+    public Beacon create(Beacon beacon) {
+
+        return beaconService.createBeacon(beacon);
     }
 
 }
