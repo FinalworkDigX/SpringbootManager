@@ -101,11 +101,11 @@
     function onError(error) {
         console.log(error);
     }
-
+    var stompClient;
     // Connect to WS
     function connectManagerWebSocket() {
         var socket = new SockJS('/managerWS');
-        var stompClient = Stomp.over(socket);
+        stompClient = Stomp.over(socket);
         //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -136,6 +136,29 @@
             },
             data: JSON.stringify(data)
         })
+    }
+
+    // <<<<< send message using STOMP
+
+    function testCalibrate(message, float) {
+
+        var test = {
+            id: message,
+            name: "test_beacon - " + message,
+            calibrationFactor: float
+        };
+
+        stompClient.send("/beacon/calibrate", {priority: 9}, JSON.stringify(test));
+    }
+
+    function testBeaconCreate(message) {
+
+        var test = {
+            id: message,
+            name: "test_beacon - " + message
+        };
+
+        stompClient.send("/beacon/create", {priority: 9}, JSON.stringify(test));
     }
 
     // <<<<< BEGIN: TestScript
