@@ -2,12 +2,12 @@ package ehb.finalwork.manager.database;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
-import ehb.finalwork.manager.service.DataLogChangeListener;
-import ehb.finalwork.manager.service.RoomChangeListener;
+import ehb.finalwork.manager.service.ChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -20,17 +20,19 @@ public class DBInitializer implements InitializingBean {
     private RethinkDBConnectionFactory connectionFactory;
 
     @Autowired
-    private RoomChangeListener roomChangeListener;
+    @Qualifier("RoomChangeListener")
+    private ChangeListener roomChangeListener;
 
     @Autowired
-    private DataLogChangeListener dataLogChangeListener;
+    @Qualifier("DataLogChangeListener")
+    private ChangeListener dataLogChangeListener;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         this.createDb();
         log.info("item added");
 
-        // roomChangeListener.pushChangesToWebSocket();
+        roomChangeListener.startCursorScheduler();
         dataLogChangeListener.startCursorScheduler();
     }
 
@@ -56,9 +58,9 @@ public class DBInitializer implements InitializingBean {
             r.db("manager").tableCreate("item").run(con);
             // r.db("manager").table("room").run(con);
         }
-        if (!tables.contains("data_log")) {
-            r.db("manager").tableCreate("data_log").run(con);
-            r.db("manager").table("data_log").indexCreate("item_id").run(con);
+        if (!tables.contains("dataLog")) {
+            r.db("manager").tableCreate("dataLog").run(con);
+            r.db("manager").table("dataLog").indexCreate("item_id").run(con);
         }
         /* Verify / Create tables for each object? // 1 table with all info? */
     }
