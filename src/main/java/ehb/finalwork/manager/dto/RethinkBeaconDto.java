@@ -7,13 +7,13 @@ public class RethinkBeaconDto extends RethinkDtoTemplate {
     private String room_id;
     private String name;
     private String description;
-    private Float calibrationFactor;
+    private Double calibrationFactor;
     private Vec3d location;
 
     public RethinkBeaconDto() {
     }
 
-    public RethinkBeaconDto(String room_id, String name, String description, Float calibrationFactor, Vec3d location) {
+    public RethinkBeaconDto(String room_id, String name, String description, Double calibrationFactor, Vec3d location) {
         this.room_id = room_id;
         this.name = name;
         this.description = description;
@@ -45,11 +45,11 @@ public class RethinkBeaconDto extends RethinkDtoTemplate {
         this.description = description;
     }
 
-    public Float getCalibrationFactor() {
+    public Double getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    public void setCalibrationFactor(Float calibrationFactor) {
+    public void setCalibrationFactor(Double calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
     }
 
