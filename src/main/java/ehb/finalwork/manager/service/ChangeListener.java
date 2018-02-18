@@ -3,7 +3,6 @@ package ehb.finalwork.manager.service;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
-import ehb.finalwork.manager.dto.RethinkDataLogDto;
 import ehb.finalwork.manager.dto.RethinkDtoTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +13,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @EnableScheduling
 public class ChangeListener {
 
     private static final RethinkDB r = RethinkDB.r;
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private Cursor<RethinkDataLogDto> cursor;
+    private Cursor<RethinkDtoTemplate> cursor;
 
     private RethinkDtoTemplate model;
 
@@ -38,28 +35,38 @@ public class ChangeListener {
 
     @Async
     @Scheduled(cron = "0 */10 * * * *")
+//    @Scheduled(cron = "0 */1 * * * *")
     public void startCursorScheduler() {
 
-        log.warn("NEW SCHEDULED CRON JOB - " + model.getTableName());
+        if (this.model != null) {
 
-        if (cursor != null) {
-            cursor.close();
+            log.warn("NEW SCHEDULED CRON JOB - " + this.model.getTableName());
+
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            pushChangesToWebSocket();
         }
-
-        pushChangesToWebSocket();
+        else {
+            log.warn("TODO: search origin of rogue instance");
+        }
     }
 
     private void pushChangesToWebSocket() {
 
-        cursor = r.db("manager").table(model.getTableName()).changes()
+        cursor = r.db("manager").table(this.model.getTableName()).changes()
                 .getField("new_val")
-                .run(connectionFactory.createConnection(), model.getClass());
+                .run(connectionFactory.createConnection(), this.model.getClass());
 
         while (cursor.hasNext()) {
             try {
                 RethinkDtoTemplate dl = cursor.next();
-                log.info("New " + model.getTableName() + ": {}", dl.getId());
+                log.info("New " + this.model.getTableName() + ": {}", dl.getId());
                 webSocket.convertAndSend("/topic/" + dl.getTableName(), dl);
+            }
+            catch (NullPointerException e) {
+                log.error("delete? - " + e.getLocalizedMessage());
             }
             catch (Exception e) {
                 log.error("===================================================================================================================");
