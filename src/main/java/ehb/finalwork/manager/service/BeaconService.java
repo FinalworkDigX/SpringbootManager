@@ -24,7 +24,8 @@ public class BeaconService {
     }
 
     public RethinkBeaconDto calibrate(RethinkBeaconDto beaconDto) {
-        beaconDto = r.db("manager").table("beacon").get(beaconDto.getId()).update(beaconDto).optArg("return_changes", true).getField("new_val").run(connectionFactory.createConnection(), RethinkBeaconDto.class);
+        log.warn(beaconDto.getName());
+        beaconDto = r.db("manager").table("beacon").get(beaconDto.getId()).update(beaconDto).optArg("return_changes", true).getField("changes").nth(0).getField("new_val").run(connectionFactory.createConnection(), RethinkBeaconDto.class);
         return beaconDto;
     }
 
