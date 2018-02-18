@@ -22,7 +22,9 @@ public class RoomService {
 
     public List<RethinkRoomDto> getRooms() {
 
-        return r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), RethinkRoomDto.class);
+        List<RethinkRoomDto> rooms = r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), RethinkRoomDto.class);
+
+        return rooms;
     }
 
     public Room createRoom(Room newRoom) {
@@ -30,7 +32,6 @@ public class RoomService {
         Object run = r.db("manager").table("room").insert(newRoom).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
-        //TODO: return 'RethinkRoomDto'
         return newRoom;
     }
 

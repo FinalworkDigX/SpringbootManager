@@ -42,7 +42,6 @@ public class DataLogService {
         Object run = r.db("manager").table("dataLog").insert(dl).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
-        //TODO: Return 'RethinkDataLogDto'
         return dl;
     }
 }
