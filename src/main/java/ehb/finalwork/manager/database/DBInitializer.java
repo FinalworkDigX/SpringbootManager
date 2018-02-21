@@ -37,7 +37,9 @@ public class DBInitializer implements InitializingBean {
     }
 
     private void createDb() {
+        log.warn("before");
         Connection con = connectionFactory.createConnection();
+        log.warn("after");
         // Verify / Create database
         List<String> dbList = r.dbList().run(con);
         if (!dbList.contains("manager")) {
