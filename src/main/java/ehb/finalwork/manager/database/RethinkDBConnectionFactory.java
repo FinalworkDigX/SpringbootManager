@@ -2,24 +2,36 @@ package ehb.finalwork.manager.database;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RethinkDBConnectionFactory {
+
+    private final Logger log = LoggerFactory.getLogger(DBInitializer.class);
+    private static RethinkDBConnectionFactory instance;
 
     private String host;
     private String username;
     private String password;
 
-    public RethinkDBConnectionFactory(String host, String username, String password) {
+    private RethinkDBConnectionFactory(String host, String username, String password) {
         this.host = host;
         this.username = username;
         this.password = password;
+    }
+
+    public static RethinkDBConnectionFactory getInstance(String host, String username, String password) {
+        if (instance == null) {
+            instance = new RethinkDBConnectionFactory(host, username, password);
+        }
+        return instance;
     }
 
     public Connection createConnection() {
         //Automatically closes after 20seconds
         return RethinkDB.r.connection()
                 .hostname(this.host)
-                .user(username, password)
+                .user(this.username, this.password)
                 .connect();
     }
 }

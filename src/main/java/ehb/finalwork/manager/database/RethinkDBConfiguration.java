@@ -9,10 +9,17 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:rethink.properties")
 @ConfigurationProperties(prefix = "rethink")
 public class RethinkDBConfiguration {
-//    public static final String DBHOST = "10.3.50.6";
-    private static final String DBHOST = "192.168.0.115";
     private String username;
     private String password;
+    private String ip;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public String getUsername() {
         return username;
@@ -32,7 +39,7 @@ public class RethinkDBConfiguration {
 
     @Bean
     public RethinkDBConnectionFactory connectionFactory() {
-        return new RethinkDBConnectionFactory(DBHOST, username, password);
+        return RethinkDBConnectionFactory.getInstance(ip, username, password);
     }
 
     @Bean
