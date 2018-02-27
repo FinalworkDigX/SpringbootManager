@@ -1,15 +1,25 @@
 package ehb.finalwork.manager.database;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@PropertySource(value = "classpath:rethink.properties", ignoreResourceNotFound=true)
 public class RethinkDBConfiguration {
-    public static final String DBHOST = "10.3.50.6";
+
+    @Value("${rethink.username:test_account}")
+    private String username;
+    @Value("${rethink.password:}")
+    private String password;
+    @Value("${rethink.host:db.ludovicmarchand.be}")
+    private String host;
 
     @Bean
     public RethinkDBConnectionFactory connectionFactory() {
-        return new RethinkDBConnectionFactory(DBHOST);
+        return RethinkDBConnectionFactory.getInstance(host, username, password);
     }
 
     @Bean

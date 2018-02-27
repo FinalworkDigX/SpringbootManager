@@ -15,16 +15,14 @@ import java.util.List;
 public class RoomService {
 
     private static final RethinkDB r = RethinkDB.r;
-    protected final Logger log = LoggerFactory.getLogger(RoomService.class);
+    private final Logger log = LoggerFactory.getLogger(RoomService.class);
 
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;
 
     public List<RethinkRoomDto> getRooms() {
 
-        List<RethinkRoomDto> rooms = r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), RethinkRoomDto.class);
-
-        return rooms;
+        return r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), RethinkRoomDto.class);
     }
 
     public Room createRoom(Room newRoom) {
@@ -32,6 +30,7 @@ public class RoomService {
         Object run = r.db("manager").table("room").insert(newRoom).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
+        //TODO: return 'RethinkRoomDto'
         return newRoom;
     }
 

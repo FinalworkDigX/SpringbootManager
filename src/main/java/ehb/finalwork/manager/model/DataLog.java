@@ -1,14 +1,17 @@
 package ehb.finalwork.manager.model;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class DataLog {
     private String item_id;
-    private String information;
+    private List<Information> information;
     private Long timestamp;
 
     public DataLog() {
     }
 
-    public DataLog(String item_id, String information, Long timestamp) {
+    public DataLog(String item_id, List<Information> information, Long timestamp) {
         this.item_id = item_id;
         this.information = information;
         this.timestamp = timestamp;
@@ -22,19 +25,19 @@ public class DataLog {
         this.item_id = item_id;
     }
 
-    public String getInformation() {
+    public List<Information> getInformation() {
         return information;
     }
 
-    public void setInformation(String information) {
+    public void setInformation(List<Information> information) {
         this.information = information;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Long getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimeStamp(Long timestamp) {
-        this.timestamp = timestamp;
     }
 }
