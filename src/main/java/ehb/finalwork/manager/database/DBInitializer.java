@@ -29,40 +29,50 @@ public class DBInitializer implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        if (connectionFactory.isTestAccount()) {
+            log.info("Connected with test account");
+            return;
+        }
+
         this.createDb();
-        log.info("item added");
 
         roomChangeListener.startCursorScheduler();
         dataLogChangeListener.startCursorScheduler();
     }
 
     private void createDb() {
-        log.warn("before");
         Connection con = connectionFactory.createConnection();
-        log.warn("after");
+
         // Verify / Create database
         List<String> dbList = r.dbList().run(con);
         if (!dbList.contains("manager")) {
             r.dbCreate("manager").run(con);
         }
+        if (!dbList.contains("test")) {
+            r.dbCreate("test").run(con);
+        }
 
         // Verify / Create tables
-        List<String> tables = r.db("manager").tableList().run(con);
+        this.initDatabase("manager", con);
+        this.initDatabase("test", con);
+
+    }
+
+    private void initDatabase(String database, Connection con) {
+
+        List<String> tables = r.db(database).tableList().run(con);
         if (!tables.contains("room")) {
-            r.db("manager").tableCreate("room").run(con);
-            // r.db("manager").table("room").run(con);
+            r.db(database).tableCreate("room").run(con);
         }
         if (!tables.contains("beacon")) {
-            r.db("manager").tableCreate("beacon").run(con);
-            // r.db("manager").table("room").run(con);
+            r.db(database).tableCreate("beacon").run(con);
         }
         if (!tables.contains("item")) {
-            r.db("manager").tableCreate("item").run(con);
-            // r.db("manager").table("room").run(con);
+            r.db(database).tableCreate("item").run(con);
         }
         if (!tables.contains("dataLog")) {
-            r.db("manager").tableCreate("dataLog").run(con);
-            r.db("manager").table("dataLog").indexCreate("item_id").run(con);
+            r.db(database).tableCreate("dataLog").run(con);
+            r.db(database).table("dataLog").indexCreate("item_id").run(con);
         }
         /* Verify / Create tables for each object? // 1 table with all info? */
     }

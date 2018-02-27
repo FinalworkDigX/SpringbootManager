@@ -13,11 +13,13 @@ public class RethinkDBConnectionFactory {
     private String host;
     private String username;
     private String password;
+    private final boolean testing;
 
     private RethinkDBConnectionFactory(String host, String username, String password) {
         this.host = host;
         this.username = username;
         this.password = password;
+        this.testing = password.equals("");
     }
 
     public static RethinkDBConnectionFactory getInstance(String host, String username, String password) {
@@ -25,6 +27,10 @@ public class RethinkDBConnectionFactory {
             instance = new RethinkDBConnectionFactory(host, username, password);
         }
         return instance;
+    }
+
+    public boolean isTestAccount() {
+        return this.testing;
     }
 
     public Connection createConnection() {

@@ -15,7 +15,7 @@ import java.util.List;
 public class RoomService {
 
     private static final RethinkDB r = RethinkDB.r;
-    protected final Logger log = LoggerFactory.getLogger(RoomService.class);
+    private final Logger log = LoggerFactory.getLogger(RoomService.class);
 
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;

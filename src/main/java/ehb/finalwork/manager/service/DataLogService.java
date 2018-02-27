@@ -16,7 +16,7 @@ import java.util.List;
 public class DataLogService {
 
     private static final RethinkDB r = RethinkDB.r;
-    protected final Logger log = LoggerFactory.getLogger(DataLogService.class);
+    private final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
     @Autowired
     RethinkDBConnectionFactory connectionFactory;

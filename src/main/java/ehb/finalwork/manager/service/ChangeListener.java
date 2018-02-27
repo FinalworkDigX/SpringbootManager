@@ -35,7 +35,6 @@ public class ChangeListener {
 
     @Async
     @Scheduled(cron = "0 */10 * * * *")
-//    @Scheduled(cron = "0 */1 * * * *")
     public void startCursorScheduler() {
 
         if (this.model != null) {
