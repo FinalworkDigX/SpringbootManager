@@ -3,7 +3,7 @@ package ehb.finalwork.manager.dto;
 import com.sun.javafx.geom.Vec3d;
 import ehb.finalwork.manager.model.Beacon;
 
-public class RethinkBeaconDto extends RethinkDtoTemplate {
+public class RethinkBeaconDto {
     private String room_id;
     private String name;
     private String description;
@@ -59,20 +59,5 @@ public class RethinkBeaconDto extends RethinkDtoTemplate {
 
     public void setLocation(Vec3d location) {
         this.location = location;
-    }
-
-    @Override
-    public String getTableName() {
-        return "beacon";
-    }
-
-    @Override
-    public String getId() {
-        return this.id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
     }
 }

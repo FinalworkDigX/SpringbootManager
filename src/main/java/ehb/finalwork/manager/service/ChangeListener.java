@@ -3,7 +3,7 @@ package ehb.finalwork.manager.service;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
-import ehb.finalwork.manager.dto.RethinkDtoTemplate;
+import ehb.finalwork.manager.model.ModelTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class ChangeListener {
 
     private static final RethinkDB r = RethinkDB.r;
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private Cursor<RethinkDtoTemplate> cursor;
+    private Cursor<ModelTemplate> cursor;
 
-    private RethinkDtoTemplate model;
+    private ModelTemplate model;
 
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;
@@ -29,7 +29,7 @@ public class ChangeListener {
     @Autowired
     private SimpMessagingTemplate webSocket;
 
-    public void setModel(RethinkDtoTemplate model) {
+    public void setModel(ModelTemplate model) {
         this.model = model;
     }
 
@@ -60,7 +60,7 @@ public class ChangeListener {
 
         while (cursor.hasNext()) {
             try {
-                RethinkDtoTemplate dl = cursor.next();
+                ModelTemplate dl = cursor.next();
                 log.info("New " + this.model.getTableName() + ": {}", dl.getId());
                 webSocket.convertAndSend("/topic/" + dl.getTableName(), dl);
             }

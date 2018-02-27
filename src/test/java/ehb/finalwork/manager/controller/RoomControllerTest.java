@@ -39,10 +39,10 @@ public class RoomControllerTest {
     @Test
     public void getRooms() throws Exception {
 
-        RethinkRoomDto r1 = new RethinkRoomDto("1", "test_1", "test_desc_1", "test_loc_1");
-        RethinkRoomDto r2 = new RethinkRoomDto("2", "test_2", "test_desc_2", "test_loc_2");
+        Room r1 = new Room("1", "test_1", "test_desc_1", "test_loc_1");
+        Room r2 = new Room("2", "test_2", "test_desc_2", "test_loc_2");
 
-        List<RethinkRoomDto> allRooms = new ArrayList<RethinkRoomDto>();
+        List<Room> allRooms = new ArrayList<Room>();
         allRooms.add(r1);
         allRooms.add(r2);
 
@@ -58,7 +58,7 @@ public class RoomControllerTest {
     @Test
     public void addRoom() throws Exception {
 
-        Room r1 = new Room("test_2", "test_desc_2", "test_loc_2");
+        RethinkRoomDto r1 = new RethinkRoomDto("test_2", "test_desc_2", "test_loc_2");
 
         given(this.roomController.postRoom(r1)).willReturn(r1);
 

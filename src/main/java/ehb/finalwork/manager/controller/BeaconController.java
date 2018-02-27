@@ -16,16 +16,16 @@ public class BeaconController {
 
     @MessageMapping("/beacon/calibrate")
     @SendTo("/topic/beacon/calibrate")
-    public RethinkBeaconDto calibrate(RethinkBeaconDto beaconDto) {
+    public Beacon calibrate(Beacon beacon) {
 
-        return beaconService.calibrate(beaconDto);
+        return beaconService.calibrate(beacon);
     }
 
     @MessageMapping("/beacon/create")
     @SendTo("/topic/beacon/create")
-    public Beacon create(Beacon beacon) {
+    public RethinkBeaconDto create(RethinkBeaconDto beaconDto) {
 
-        return beaconService.createBeacon(beacon);
+        return beaconService.createBeacon(beaconDto);
     }
 
 }

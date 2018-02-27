@@ -20,18 +20,18 @@ public class RoomService {
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;
 
-    public List<RethinkRoomDto> getRooms() {
+    public List<Room> getRooms() {
 
-        return r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), RethinkRoomDto.class);
+        return r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), Room.class);
     }
 
-    public Room createRoom(Room newRoom) {
+    public RethinkRoomDto createRoom(RethinkRoomDto roomDto) {
 
-        Object run = r.db("manager").table("room").insert(newRoom).run(connectionFactory.createConnection());
+        Object run = r.db("manager").table("room").insert(roomDto).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
-        //TODO: return 'RethinkRoomDto'
-        return newRoom;
+        //TODO: return 'Room'
+        return roomDto;
     }
 
     public void deleteRoom(String id) {

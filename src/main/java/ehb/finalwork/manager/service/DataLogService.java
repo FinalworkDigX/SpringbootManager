@@ -21,28 +21,28 @@ public class DataLogService {
     @Autowired
     RethinkDBConnectionFactory connectionFactory;
 
-    public List<RethinkDataLogDto> getDataLogs() {
+    public List<DataLog> getDataLogs() {
 
-        return r.db("manager").table("dataLog").orderBy().optArg("index", r.desc("id")).orderBy("id").run(connectionFactory.createConnection(), RethinkDataLogDto.class);
+        return r.db("manager").table("dataLog").orderBy().optArg("index", r.desc("id")).orderBy("id").run(connectionFactory.createConnection(), DataLog.class);
     }
 
-    public RethinkDataLogDto getDataLog(String id) {
+    public DataLog getDataLog(String id) {
 
-        return r.db("manager").table("dataLog").get(id).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
+        return r.db("manager").table("dataLog").get(id).run(connectionFactory.createConnection(), DataLog.class);
     }
 
-    public List<RethinkDataLogDto> getDataLogByItem(String id) {
+    public List<DataLog> getDataLogByItem(String id) {
 
-        return r.db("manager").table("dataLog").filter(row -> row.g("item_id").eq(id)).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
+        return r.db("manager").table("dataLog").filter(row -> row.g("item_id").eq(id)).run(connectionFactory.createConnection(), DataLog.class);
     }
 
-    public DataLog createDataLog(DataLog dl) {
+    public RethinkDataLogDto createDataLog(RethinkDataLogDto dataLogDto) {
 
-        dl.setTimestamp(Instant.now().getEpochSecond());
-        Object run = r.db("manager").table("dataLog").insert(dl).run(connectionFactory.createConnection());
+        dataLogDto.setTimestamp(Instant.now().getEpochSecond());
+        Object run = r.db("manager").table("dataLog").insert(dataLogDto).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
-        //TODO: Return 'RethinkDataLogDto'
-        return dl;
+        //TODO: Return 'DataLog'
+        return dataLogDto;
     }
 }

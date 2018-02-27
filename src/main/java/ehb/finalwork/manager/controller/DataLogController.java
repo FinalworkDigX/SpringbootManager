@@ -9,29 +9,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dataLog")
+@RequestMapping("/v1/dataLog")
 public class DataLogController {
 
     @Autowired
     DataLogService dataLogService;
 
     @GetMapping()
-    public List<RethinkDataLogDto> getDataLogs() {
+    public List<DataLog> getDataLogs() {
         return dataLogService.getDataLogs();
     }
 
     @GetMapping("/byId/{dlid}")
-    public RethinkDataLogDto getDataLogById(@PathVariable String dlid) {
+    public DataLog getDataLogById(@PathVariable String dlid) {
         return dataLogService.getDataLog(dlid);
     }
 
     @GetMapping("/byItemId/{iid}")
-    public List<RethinkDataLogDto> getDataLogByItemId(@PathVariable String iid) {
+    public List<DataLog> getDataLogByItemId(@PathVariable String iid) {
         return dataLogService.getDataLogByItem(iid);
     }
 
     @PostMapping()
-    public DataLog createDataLog(@RequestBody DataLog datalog) {
-        return dataLogService.createDataLog(datalog);
+    public RethinkDataLogDto createDataLog(@RequestBody RethinkDataLogDto dataLogDto) {
+        return dataLogService.createDataLog(dataLogDto);
     }
 }
