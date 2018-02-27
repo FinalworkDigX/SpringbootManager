@@ -16,38 +16,33 @@ import java.util.List;
 public class DataLogService {
 
     private static final RethinkDB r = RethinkDB.r;
-    protected final Logger log = LoggerFactory.getLogger(DataLogService.class);
+    private final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
     @Autowired
     RethinkDBConnectionFactory connectionFactory;
 
     public List<RethinkDataLogDto> getDataLogs() {
 
-        List<RethinkDataLogDto> dataLogList = r.db("manager").table("data_log").orderBy().optArg("index", r.desc("id")).orderBy("id").run(connectionFactory.createConnection(), RethinkDataLogDto.class);
-
-        return dataLogList;
+        return r.db("manager").table("dataLog").orderBy().optArg("index", r.desc("id")).orderBy("id").run(connectionFactory.createConnection(), RethinkDataLogDto.class);
     }
 
     public RethinkDataLogDto getDataLog(String id) {
 
-        RethinkDataLogDto dataLogDto = r.db("manager").table("data_log").get(id).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
-
-        return dataLogDto;
+        return r.db("manager").table("dataLog").get(id).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
     }
 
     public List<RethinkDataLogDto> getDataLogByItem(String id) {
 
-        List<RethinkDataLogDto> dataLogList = r.db("manager").table("data_log").filter(row -> row.g("item_id").eq(id)).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
-
-        return dataLogList;
+        return r.db("manager").table("dataLog").filter(row -> row.g("item_id").eq(id)).run(connectionFactory.createConnection(), RethinkDataLogDto.class);
     }
 
     public DataLog createDataLog(DataLog dl) {
 
-        dl.setTimeStamp(Instant.now().getEpochSecond());
-        Object run = r.db("manager").table("data_log").insert(dl).run(connectionFactory.createConnection());
+        dl.setTimestamp(Instant.now().getEpochSecond());
+        Object run = r.db("manager").table("dataLog").insert(dl).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
+        //TODO: Return 'RethinkDataLogDto'
         return dl;
     }
 }

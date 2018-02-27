@@ -1,57 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TestPage - manager</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>TestPage - manager</title>
+    </head>
+    <style>
+        body {
+            font-family: Consolas;
+        }
 
+        form:not(.delete_room_form), .create_dataLog_script_div {
+            margin: .5em 0;
+        }
+        button[type=submit]:not(.delete_room_button), .create_dataLog_script {
+            min-width: 10em;
+            padding: .5em;
+            margin: .5em;
+        }
+        strong {
+            color: #F75421;
+        }
 
-</head>
-<body>
+        .display_info {
+            max-height: 500px;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+    </style>
+    <body>
+        <div id="room">
+            <h2>Rooms</h2>
+            <form method="get" class="create_room_form">
+                <label>
+                    Name:
+                    <input type="text" name="name"/>
+                </label>
+                <label>
+                    Desc:
+                    <input type="text" name="description"/>
+                </label>
+                <label>
+                    Loc:
+                    <input type="text" name="location"/>
+                </label>
+                <button type="submit">Send</button>
+            </form>
+            <div id="displayRooms" class="display_info"></div>
+        </div>
+        <!-------------------------------------------------------->
+        <br/>
+        <div id="dataLog">
+        <h2>DataLogs</h2>
+        <form method="get" class="create_dataLog_form">
+            <label>
+                ItemId:
+                <input type="text" name="item_id" value="test_item"/>
+            </label>
+            <br/>
+            <label>
+                Info: <span class="info_input_display"></span>
+                <input type="hidden" name="information" value="">
+            </label>
+            <br/>
+            <button type="submit">Send</button>
+        </form>
+        <div class="create_dataLog_script_div">
+            <label>
+                TestScript:
+                <button type="button" class="create_dataLog_script">Start</button>
+            </label>
+        </div>
+        <div id="displayDataLogs" class="display_info"></div>
+        </div>
 
-<div id="room">
-    <form method="get" class="create_room_form">
-        <label>
-            Name:
-            <input type="text" name="name"/>
-        </label>
-        <label>
-            Desc:
-            <input type="text" name="description"/>
-        </label>
-        <label>
-            Loc:
-            <input type="text" name="location"/>
-        </label>
-        <button type="submit">Send</button>
-    </form>
-    <div id="displayRooms" style="max-height: 250px"></div>
-</div>
-<!-------------------------------------------------------->
-<div id="dataLog">
-    <form method="get" class="create_dataLog_form">
-        <label>
-            ItemId:
-            <input type="text" name="item_id" value="test"/>
-        </label>
-        <label>
-            Info:
-            <input type="text" name="information"/>
-        </label>
-        <button type="submit">Send</button>
-    </form>
-    <div id="displayDataLogs" style="max-height: 250px"></div>
-</div>
+        <footer>
+            <script src="webjars/jquery/2.1.4/jquery.js"></script>
+            <script src="webjars/sockjs-client/1.0.0/sockjs.js"></script>
+            <script src="webjars/stomp-websocket/2.3.3/stomp.js"></script>
 
-<footer>
-    <script src="webjars/jquery/2.1.4/jquery.js"></script>
-    <script src="webjars/sockjs-client/1.0.0/sockjs.js"></script>
-    <script src="webjars/stomp-websocket/2.3.3/stomp.js"></script>
+            <script src="js/main.js"></script>
 
-    <script src="js/main.js"></script>
-
-    <script>
-        $('input[name="information"]').val(Math.random().toString(36).substr(2, 5));
-    </script>
-</footer>
-</body>
+        </footer>
+    </body>
 </html>

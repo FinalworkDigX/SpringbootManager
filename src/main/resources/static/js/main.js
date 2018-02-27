@@ -1,9 +1,16 @@
     // Append functions
     function appendDataLog(dataLog) {
+
+        var info = dataLog.information;
+        var data = "";
+        for(var i = 0; i <info.length; i++) {
+            data += "[name: " + info[i].name + ", data:" + info[i].data+ ", index:" + info[i].index + "]";
+        }
+
         $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
-            '[<strong>id:</strong> ' + dataLog.id + ', <strong>item_id:</strong> ' + dataLog.item_id + ', <strong>information:</strong> ' +
-            dataLog.information + ', <strong>timestamp:</strong>' + dataLog.timestamp + ']' +
+            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.item_id + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
+            data + ', <br/>&nbsp;&nbsp;<strong>timestamp:</strong>' + dataLog.timestamp + '<br/>]' +
             '</div>'
         )
     }
@@ -13,7 +20,7 @@
             '<form class="delete_room_form">' +
             '[<strong>id:</strong> ' + room.id + ', <strong>name:</strong> ' + room.name + ', <strong>desc:</strong> ' + room.description + ', <strong>loc:</strong>' + room.location + ']' +
             '<input type="hidden" name="id" value="' + room.id + '">' +
-            '<button type="submit">Delete</button>' +
+            '<button type="submit" class="delete_room_button">Delete</button>' +
             '</form>'
         )
     }
@@ -36,9 +43,9 @@
         var $values = getCleanInputs($this);
         $this.trigger('reset');
         //In the ghetto, in the ghettooooo
-        $('input[name="information"]').val(Math.random().toString(36).substr(2, 5));
+        setupDataLogFormData();
 
-        var dataLog = {item_id: $values.item_id, information: $values.information};
+        var dataLog = {item_id: $values.item_id, information: JSON.parse($values.information)};
 
         myAjaxCalls('/dataLog', 'POST', dataLog);
     });
@@ -94,11 +101,11 @@
     function onError(error) {
         console.log(error);
     }
-
+    var stompClient;
     // Connect to WS
     function connectManagerWebSocket() {
         var socket = new SockJS('/managerWS');
-        var stompClient = Stomp.over(socket);
+        stompClient = Stomp.over(socket);
         //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -131,5 +138,72 @@
         })
     }
 
+    // <<<<< send message using STOMP
+
+    function testCalibrate(message, float) {
+
+        var test = {
+            id: message,
+            name: "test_beacon - " + message,
+            calibrationFactor: float
+        };
+
+        stompClient.send("/beacon/calibrate", {priority: 9}, JSON.stringify(test));
+    }
+
+    function testBeaconCreate(message) {
+
+        var test = {
+            id: message,
+            name: "test_beacon - " + message
+        };
+
+        stompClient.send("/beacon/create", {priority: 9}, JSON.stringify(test));
+    }
+
+    // <<<<< BEGIN: TestScript
+    var dataLogScript = false;
+    var dataLogScriptLoop;
+
+    $(".create_dataLog_script").on('click', function () {
+        console.log("in script");
+        dataLogScript = !dataLogScript;
+        if (dataLogScript) {
+            makeDataLogScript();
+            $(".create_dataLog_script").html("Stop");
+        }
+        else {
+            clearInterval(dataLogScriptLoop);
+            $(".create_dataLog_script").html("Start");
+        }
+    });
+
+    function makeDataLogScript() {
+
+        dataLogScriptLoop = setInterval(function () {
+            var info = randomDataForTest();
+            var dataLog = {item_id: "test_item", information: info};
+            myAjaxCalls('/dataLog', 'POST', dataLog);
+        }, 1000);
+    }
+
+    function randomDataForTest() {
+        return [{name: "first_row", data: randomString(), index: 1}, {name: "second_row", data: randomString(), index: 2}, {name: "third_row", data: randomString(), index: 3}];
+    }
+
+    function randomString() {
+        return Math.random().toString(36).substr(2, 5);
+    }
+
+    function setupDataLogFormData() {
+        var randomData = JSON.stringify(randomDataForTest());
+        $('input[name="information"]').val(randomData);
+        $('.info_input_display').html(randomData);
+    }
+    // >>>>>> END: TestScript
+
+    // Init test page
     getPreviousData();
     connectManagerWebSocket();
+
+    setupDataLogFormData();

@@ -1,9 +1,8 @@
 package ehb.finalwork.manager.dto;
 
-public class RethinkRoomDto {
-    private String id;
+public class RethinkRoomDto extends RethinkDtoTemplate {
     private String name;
-    private String Description;
+    private String description;
     private String location;
 
     public RethinkRoomDto() {
@@ -12,13 +11,9 @@ public class RethinkRoomDto {
     public RethinkRoomDto(String id, String name, String description, String location) {
         this.id = id;
         this.name = name;
-        Description = description;
+        this.description = description;
         this.location = location;
     }
-
-    public String getId() { return id; }
-
-    public void setId(String id) { this.id = id; }
 
     public String getName() {
         return name;
@@ -29,11 +24,11 @@ public class RethinkRoomDto {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getLocation() {
@@ -42,5 +37,20 @@ public class RethinkRoomDto {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String getTableName() {
+        return "room";
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 }
