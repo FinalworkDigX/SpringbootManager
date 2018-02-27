@@ -48,7 +48,7 @@ public class RoomControllerTest {
 
         given(this.roomController.getRooms()).willReturn(allRooms);
 
-        this.mvc.perform(get("/room").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(get("/v1/room").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", is(r1.getName())))
@@ -65,7 +65,7 @@ public class RoomControllerTest {
         String s = asJsonString(r1);
 
         this.mvc.perform(
-                post("/room")
+                post("/v1/room")
                         .content(asJsonString(r1))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
