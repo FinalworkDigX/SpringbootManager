@@ -2,17 +2,19 @@ package ehb.finalwork.manager.security;
 
 import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-//@Configuration
-//@EnableWebSecurity
-//@PropertySource(value = "classpath:security.properties", ignoreResourceNotFound=true)
-//public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+@EnableWebSecurity
+@PropertySource(value = "classpath:security.properties", ignoreResourceNotFound=true)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //    @Value("${auth0.apiAudience:}")
 //    private String audience;
@@ -44,4 +46,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 //                .anyRequest().authenticated();
 //
 //    }
-//}
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+
