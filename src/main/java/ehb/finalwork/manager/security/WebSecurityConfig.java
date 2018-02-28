@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value(value = "${auth0.connection:}")
     private String connection;
-    @Value(value = "${auth0.domain:}")
+    @Value(value = "${auth0.domain:finalwork.eu.auth0.com}")
     private String domain;
     @Value(value = "${auth0.clientId:}")
     private String clientId;
