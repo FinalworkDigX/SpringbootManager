@@ -31,6 +31,13 @@ public class RoomService {
 
         log.info("Insert {}", run);
         //TODO: return 'Room'
+//        User user = r.db("manager").table("user").insert(userDto)
+//                .optArg("return_changes", true)
+//                .getField("changes").nth(0)
+//                .getField("new_val")
+//                .run(connectionFactory.createConnection(), User.class);
+//
+//        log.info("Insert {}", user);
         return roomDto;
     }
 
