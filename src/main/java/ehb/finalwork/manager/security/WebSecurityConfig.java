@@ -1,9 +1,6 @@
 package ehb.finalwork.manager.security;
 
-import com.auth0.client.auth.AuthAPI;
-import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
-import com.sun.deploy.net.HttpResponse;
 import ehb.finalwork.manager.model.AuthAPIWrapper;
 import ehb.finalwork.manager.model.MgmtAPIWrapper;
 import ehb.finalwork.manager.model.OauthToken;
@@ -20,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
 
 @Configuration
 @EnableWebSecurity
@@ -97,13 +96,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-Type", "application/json");
 
-        JSONObject json = new JSONObject();
-        json.put("grant_type", managementConnection);
-        json.put("client_id", clientId);
-        json.put("client_secret", clientSecret);
-        json.put("audience", managementAudience);
+        HashMap<String, String> jsonMap = new HashMap<String, String>();
+        jsonMap.put("grant_type", managementConnection);
+        jsonMap.put("client_id", clientId);
+        jsonMap.put("client_secret", clientSecret);
+        jsonMap.put("audience", managementAudience);
 
-        HttpEntity<String> httpEntity = new HttpEntity <String> (json.toString(), httpHeaders);
+        JSONObject json = new JSONObject(jsonMap);
+        HttpEntity<String> httpEntity = new HttpEntity<String>(json.toString(), httpHeaders);
 
         RestTemplate restTemplate = new RestTemplate();
         OauthToken response = restTemplate.postForObject(issuer + "oauth/token", httpEntity, OauthToken.class);

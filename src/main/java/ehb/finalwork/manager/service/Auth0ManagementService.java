@@ -1,10 +1,8 @@
 package ehb.finalwork.manager.service;
 
-import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
 import com.auth0.net.Request;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import ehb.finalwork.manager.dto.Auth0UserDto;
 import ehb.finalwork.manager.model.MgmtAPIWrapper;
 import org.slf4j.Logger;

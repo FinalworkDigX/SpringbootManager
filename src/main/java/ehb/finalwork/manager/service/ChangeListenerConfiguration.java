@@ -1,7 +1,5 @@
 package ehb.finalwork.manager.service;
 
-import ehb.finalwork.manager.dto.RethinkDataLogDto;
-import ehb.finalwork.manager.dto.RethinkRoomDto;
 import ehb.finalwork.manager.model.DataLog;
 import ehb.finalwork.manager.model.Room;
 import org.springframework.context.annotation.Bean;

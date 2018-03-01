@@ -3,3 +3,12 @@ jdk:
   - oraclejdk8
 before_install:
   - chmod +x mvnw
+
+branches:
+  only:
+    - master
+    - dev
+
+cache:
+  directories:
+  - $HOME/.m2

@@ -1,6 +1,5 @@
 package ehb.finalwork.manager.controller;
 
-import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
 import ehb.finalwork.manager.service.Auth0ManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
