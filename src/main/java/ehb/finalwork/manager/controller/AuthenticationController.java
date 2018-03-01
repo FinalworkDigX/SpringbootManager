@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     private Logger log = LoggerFactory.getLogger(getClass());

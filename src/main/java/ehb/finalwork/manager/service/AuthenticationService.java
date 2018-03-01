@@ -1,27 +1,19 @@
 package ehb.finalwork.manager.service;
 
-import com.auth0.client.auth.AuthAPI;
-import com.auth0.exception.APIException;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.auth.CreatedUser;
 import com.auth0.json.auth.TokenHolder;
 import com.auth0.net.AuthRequest;
 import com.auth0.net.Request;
 import com.auth0.net.SignUpRequest;
-import com.rethinkdb.RethinkDB;
-import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.*;
 import ehb.finalwork.manager.model.AuthAPIWrapper;
-import ehb.finalwork.manager.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.auth0.*;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -44,9 +36,7 @@ public class AuthenticationService {
         } catch (Auth0Exception exception) {
             log.error(exception.getMessage());
         }
-        Auth0UserDto u = new Auth0UserDto();
-        u.setErrorMessage("username or password is invalid");
-        return u;
+        return new Auth0CreateUserDto("username or password is invalid");
     }
 
     public TokenHolder login(Auth0LoginDto auth0LoginDto) {
@@ -62,22 +52,17 @@ public class AuthenticationService {
         catch (Auth0Exception exception) {
             log.error(exception.getMessage());
         }
-        Auth0TokenHolder u = new Auth0TokenHolder();
-        u.setErrorMessage("username or password is invalid");
-        return u;
+        return new Auth0TokenHolder("username or password is invalid");
     }
 
-    public Auth0UserDto resetPassword(Auth0LoginDto auth0LoginDto) {
+    public Auth0CreateUserDto resetPassword(Auth0LoginDto auth0LoginDto) {
         Request request = auth.resetPassword(auth0LoginDto.getEmail(), auth.getConnection());
         try {
             request.execute();
-            return new Auth0UserDto();
         }
         catch (Auth0Exception exception) {
             log.error(exception.getMessage());
         }
-        Auth0UserDto u = new Auth0UserDto();
-        u.setErrorMessage("username or password is invalid");
-        return u;
+        return new Auth0CreateUserDto("A reset email has been sent to the email address");
     }
 }

@@ -1,14 +1,14 @@
 package ehb.finalwork.manager.dto;
 
-import com.auth0.json.auth.TokenHolder;
+import com.auth0.json.auth.CreatedUser;
 
-public class Auth0TokenHolder extends TokenHolder {
+public class Auth0CreateUserDto extends CreatedUser {
     private String errorMessage;
 
-    public Auth0TokenHolder() {
+    public Auth0CreateUserDto() {
     }
 
-    public Auth0TokenHolder(String errorMessage) {
+    public Auth0CreateUserDto(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 

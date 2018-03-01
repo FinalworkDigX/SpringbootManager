@@ -18,15 +18,7 @@ public class AuthAPIWrapper extends AuthAPI {
         return connection;
     }
 
-    public void setConnection(String connection) {
-        this.connection = connection;
-    }
-
     public String getAudience() {
         return audience;
-    }
-
-    public void setAudience(String audience) {
-        this.audience = audience;
     }
 }
