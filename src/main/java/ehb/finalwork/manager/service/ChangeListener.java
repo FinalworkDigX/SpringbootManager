@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.net.ConnectException;
+
 @Service
 @EnableScheduling
 public class ChangeListener {
@@ -45,7 +47,13 @@ public class ChangeListener {
                 cursor.close();
             }
 
-            pushChangesToWebSocket();
+            try {
+                pushChangesToWebSocket();
+            }
+            catch (Exception e) {
+                // No properties -> Connection time out / wrong credentials
+                log.error(e.getMessage());
+            }
         }
         else {
             log.warn("TODO: search origin of rogue instance");
