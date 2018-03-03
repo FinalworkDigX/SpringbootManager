@@ -5,6 +5,8 @@ import ehb.finalwork.manager.model.AuthAPIWrapper;
 import ehb.finalwork.manager.model.MgmtAPIWrapper;
 import ehb.finalwork.manager.model.OauthToken;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,13 +24,13 @@ import java.util.HashMap;
 
 @Configuration
 @EnableWebSecurity
-@PropertySource(value = "classpath:security.properties", ignoreResourceNotFound=true)
+@PropertySource(value = "classpath:security.properties", ignoreResourceNotFound = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Value("${auth0.apiAudience:}")
     private String apiAudience;
-    @Value("${auth0.managementAudience:}")
-    private String managementAudience;
     @Value("${auth0.issuer:}")
     private String issuer;
     @Value(value = "${auth0.apiConnection:}")
@@ -77,6 +79,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthAPIWrapper authAPIWrapper() {
+        if (isNullOrEmpty(clientId) ||
+                isNullOrEmpty(clientSecret) ||
+                isNullOrEmpty(apiConnection) ||
+                isNullOrEmpty(apiAudience)
+                ) {
+            log.warn("Default AuthAPI is being used, check if security.properties is present and has all required information.");
+        }
+
         return new AuthAPIWrapper(domain, clientId, clientSecret, apiConnection, apiAudience);
     }
 
@@ -87,8 +97,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         if (isNullOrEmpty(managementConnection) ||
                 isNullOrEmpty(clientId) ||
                 isNullOrEmpty(clientSecret) ||
-                isNullOrEmpty(managementAudience) ||
-                isNullOrEmpty(issuer)) {
+                isNullOrEmpty(issuer)
+                ) {
+            log.warn("Default ManagementAPI is being used, check if security.properties is present and has all required information.");
             return new MgmtAPIWrapper(domain, "nope", apiConnection);
         }
 
@@ -100,7 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         jsonMap.put("grant_type", managementConnection);
         jsonMap.put("client_id", clientId);
         jsonMap.put("client_secret", clientSecret);
-        jsonMap.put("audience", managementAudience);
+        jsonMap.put("audience", issuer + "api/v2/");
 
         JSONObject json = new JSONObject(jsonMap);
         HttpEntity<String> httpEntity = new HttpEntity<String>(json.toString(), httpHeaders);

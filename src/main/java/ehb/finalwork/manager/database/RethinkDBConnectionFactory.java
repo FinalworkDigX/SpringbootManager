@@ -5,10 +5,6 @@ import com.rethinkdb.net.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContext;
-import java.io.FileInputStream;
-import java.io.InputStream;
-
 public class RethinkDBConnectionFactory {
 
     private final Logger log = LoggerFactory.getLogger(DBInitializer.class);
