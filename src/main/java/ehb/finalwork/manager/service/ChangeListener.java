@@ -41,7 +41,7 @@ public class ChangeListener {
 
         if (this.model != null) {
 
-            log.warn("NEW SCHEDULED CRON JOB - " + this.model.getTableName());
+            log.info("NEW SCHEDULED CRON JOB - " + this.model.getTableName());
 
             if (cursor != null) {
                 cursor.close();
