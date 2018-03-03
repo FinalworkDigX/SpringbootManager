@@ -14,26 +14,33 @@ import java.util.List;
 @Service
 public class BeaconService {
     private static final RethinkDB r = RethinkDB.r;
-    protected final Logger log = LoggerFactory.getLogger(DataLogService.class);
+    private final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;
 
-    public List<RethinkBeaconDto> getBeacons() {
-        return r.db("manager").table("beacon").getAll().run(connectionFactory.createConnection(), RethinkBeaconDto.class);
+    public List<Beacon> getBeacons() {
+        return r.db("manager").table("beacon").getAll().run(connectionFactory.createConnection(), Beacon.class);
     }
 
-    public RethinkBeaconDto calibrate(RethinkBeaconDto beaconDto) {
+    public Beacon calibrate(Beacon beaconDto) {
         log.warn(beaconDto.getName());
-        beaconDto = r.db("manager").table("beacon").get(beaconDto.getId()).update(beaconDto).optArg("return_changes", true).getField("changes").nth(0).getField("new_val").run(connectionFactory.createConnection(), RethinkBeaconDto.class);
-        return beaconDto;
+
+        return r.db("manager")
+                .table("beacon")
+                .get(beaconDto.getId())
+                .update(beaconDto)
+                .optArg("return_changes", true)
+                .getField("changes").nth(0)
+                .getField("new_val")
+                .run(connectionFactory.createConnection(), Beacon.class);
     }
 
-    public Beacon createBeacon(Beacon beacon) {
+    public RethinkBeaconDto createBeacon(RethinkBeaconDto beaconDto) {
 
-        Object run = r.db("manager").table("beacon").insert(beacon).run(connectionFactory.createConnection());
+        Object run = r.db("manager").table("beacon").insert(beaconDto).run(connectionFactory.createConnection());
 
         log.info("Insert {}", run);
-        return beacon;
+        return beaconDto;
     }
 }

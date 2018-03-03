@@ -2,7 +2,7 @@ package ehb.finalwork.manager.model;
 
 import com.sun.javafx.geom.Vec3d;
 
-public class Beacon {
+public class Beacon extends ModelTemplate{
     private String room_id;
     private String name;
     private String description;
@@ -12,7 +12,8 @@ public class Beacon {
     public Beacon() {
     }
 
-    public Beacon(String room_id, String name, String description, Double calibrationFactor, Vec3d location) {
+    public Beacon(String id, String room_id, String name, String description, Double calibrationFactor, Vec3d location) {
+        this.id = id;
         this.room_id = room_id;
         this.name = name;
         this.description = description;
@@ -58,5 +59,10 @@ public class Beacon {
 
     public void setLocation(Vec3d location) {
         this.location = location;
+    }
+
+    @Override
+    public String getTableName() {
+        return "beacon";
     }
 }

@@ -24,4 +24,4 @@ nbdist/
 .nb-gradle/
 src/main/resources/rethink\.properties
 
-*.crt
+src/main/resources/security\.properties

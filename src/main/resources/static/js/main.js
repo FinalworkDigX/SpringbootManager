@@ -1,3 +1,7 @@
+
+    const DATALOG_URL = "/v1/dataLog";
+    const ROOM_URL = "/v1/room";
+
     // Append functions
     function appendDataLog(dataLog) {
 
@@ -27,10 +31,10 @@
 
     // Get previous data
     function getPreviousData() {
-        $.get('/dataLog').done(
+        $.get(DATALOG_URL).done(
             dataLogs => dataLogs.forEach(appendDataLog)
         );
-        $.get('/room').done(
+        $.get(ROOM_URL).done(
             rooms => rooms.forEach(appendRoom)
         );
     }
@@ -47,7 +51,7 @@
 
         var dataLog = {item_id: $values.item_id, information: JSON.parse($values.information)};
 
-        myAjaxCalls('/dataLog', 'POST', dataLog);
+        myAjaxCalls(DATALOG_URL, 'POST', dataLog);
     });
 
     $(document).on('submit', '.create_room_form', function (e) {
@@ -59,16 +63,7 @@
 
         var room = {name: $values.name, description: $values.description, location: $values.location};
 
-        myAjaxCalls('/room', 'POST', room);
-    });
-
-    $(document).on('submit', '.delete_room_form', function (e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $values = getCleanInputs($this);
-
-        myAjaxCalls('/room/' + $values.id, 'DELETE', null);
-        $this.remove();
+        myAjaxCalls(ROOM_URL, 'POST', room);
     });
 
     $(document).on('submit', '.delete_dataLog_form', function (e) {
@@ -76,7 +71,16 @@
         var $this = $(this);
         var $values = getCleanInputs($this);
 
-        myAjaxCalls('/dataLog/' + $values.id, 'DELETE', null);
+        myAjaxCalls(DATALOG_URL + $values.id, 'DELETE', null);
+        $this.remove();
+    });
+
+    $(document).on('submit', '.delete_room_form', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $values = getCleanInputs($this);
+
+        myAjaxCalls(ROOM_URL + $values.id, 'DELETE', null);
         $this.remove();
     });
 
