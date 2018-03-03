@@ -58,7 +58,7 @@ public class RoomControllerTest {
     @Test
     public void addRoom() throws Exception {
 
-        RethinkRoomDto r1 = new RethinkRoomDto("test_2", "test_desc_2", "test_loc_2");
+        RethinkRoomDto r1 = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
 
         given(this.roomController.postRoom(r1)).willReturn(r1);
 
@@ -71,7 +71,19 @@ public class RoomControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
-//                .andExpect(jsonPath("name", is(r1.getName())));
+//                .andExpect(jsonPath("$.name", is(r1.getName())));
+    }
+
+    @Test
+    public void deleteRoom() throws Exception {
+
+        Room r1 = new Room("111", "test_1", "test_desc_1", "test_loc_1");
+
+        doNothing().when(this.roomController).deleteRoom(r1.getId());
+        this.mvc.perform(
+                delete("/v1/room/{rid}", r1.getId())
+                )
+                .andExpect(status().isOk());
     }
 
     public static String asJsonString(final Object obj) {
