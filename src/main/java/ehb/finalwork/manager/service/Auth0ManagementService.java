@@ -23,7 +23,7 @@ public class Auth0ManagementService {
         user.setConnection(mgmt.getConnection());
 
         Request<User> request = mgmt.users().create(user);
-        return executeQuery(request, false);
+        return (User) executeQuery(request, true);
     }
 
     public User updateUser(User user) {
@@ -31,22 +31,22 @@ public class Auth0ManagementService {
         user.setConnection(mgmt.getConnection());
 
         Request<User> request = mgmt.users().update(user.getId(), user);
-        return executeQuery(request, false);
+        return (User) executeQuery(request, true);
     }
 
     public Auth0UserDto deleteUser(String uid) {
         Request request = mgmt.users().delete(uid);
-        return executeQuery(request, true);
+        return (Auth0UserDto) executeQuery(request, false);
     }
 
-    private Auth0UserDto executeQuery(Request request, Boolean emptyReturn) {
+    private Object executeQuery(Request request, Boolean hasReturn) {
         try {
-            if (emptyReturn) {
-                request.execute();
-                return new Auth0UserDto();
+            if (hasReturn) {
+                return request.execute();
             }
             else {
-                return (Auth0UserDto) request.execute();
+                request.execute();
+                return new Auth0UserDto();
             }
         }
         catch (Auth0Exception e) {
