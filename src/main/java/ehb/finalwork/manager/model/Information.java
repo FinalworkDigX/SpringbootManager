@@ -1,6 +1,6 @@
 package ehb.finalwork.manager.model;
 
-public class Information extends ModelTemplate{
+public class Information {
     private String name;
     private String data;
     private Long index;
@@ -8,8 +8,7 @@ public class Information extends ModelTemplate{
     public Information() {
     }
 
-    public Information(String id, String name, String data, Long index) {
-        this.id = id;
+    public Information(String name, String data, Long index) {
         this.name = name;
         this.data = data;
         this.index = index;
@@ -37,11 +36,5 @@ public class Information extends ModelTemplate{
 
     public void setIndex(Long index) {
         this.index = index;
-    }
-
-    // TODO: really needed to extend base model?
-    @Override
-    public String getTableName() {
-        return "info";
     }
 }

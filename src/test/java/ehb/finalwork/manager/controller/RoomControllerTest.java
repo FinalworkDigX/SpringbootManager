@@ -37,7 +37,7 @@ public class RoomControllerTest {
     private RoomController roomController;
 
     @Test
-    public void getRooms() throws Exception {
+    public void getRoomsTest() throws Exception {
 
         Room r1 = new Room("1", "test_1", "test_desc_1", "test_loc_1");
         Room r2 = new Room("2", "test_2", "test_desc_2", "test_loc_2");
@@ -56,7 +56,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void addRoom() throws Exception {
+    public void addRoomTest() throws Exception {
 
         RethinkRoomDto r1 = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
 
@@ -75,7 +75,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void deleteRoom() throws Exception {
+    public void deleteRoomTest() throws Exception {
 
         Room r1 = new Room("111", "test_1", "test_desc_1", "test_loc_1");
 
