@@ -1,7 +1,9 @@
 package ehb.finalwork.manager.service;
 
+import com.auth0.client.mgmt.filter.UserFilter;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
+import com.auth0.json.mgmt.users.UsersPage;
 import com.auth0.net.Request;
 import ehb.finalwork.manager.dto.Auth0UserDto;
 import ehb.finalwork.manager.model.MgmtAPIWrapper;
@@ -37,6 +39,12 @@ public class Auth0ManagementService {
     public Auth0UserDto deleteUser(String uid) {
         Request request = mgmt.users().delete(uid);
         return (Auth0UserDto) executeQuery(request, false);
+    }
+
+    public UsersPage getUsers() {
+        UserFilter userFilter = new UserFilter();
+        Request request = mgmt.users().list(userFilter);
+        return (UsersPage) executeQuery(request, true);
     }
 
     private Object executeQuery(Request request, Boolean hasReturn) {

@@ -1,6 +1,7 @@
 package ehb.finalwork.manager.controller;
 
 import com.auth0.json.mgmt.users.User;
+import com.auth0.json.mgmt.users.UsersPage;
 import ehb.finalwork.manager.service.Auth0ManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,11 @@ public class Auth0ManagementController {
 
     @Autowired
     private Auth0ManagementService managementService;
+
+    @GetMapping("/users")
+    public UsersPage getAll() {
+        return managementService.getUsers();
+    }
 
     @PostMapping("/user")
     public User create(@RequestBody User user) {
