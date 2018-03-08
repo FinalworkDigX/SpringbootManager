@@ -19,12 +19,15 @@ public class RethinkReturnObject {
     private Long skipped;
     private Long errors;
     private Long deleted;
-    private List<HashMap> changes;
+//    private List<HashMap> changes;
+
+    private List<RethinkChangesReturn> changes;
 
     public RethinkReturnObject() {
+        this.changes = new ArrayList<RethinkChangesReturn>();
     }
 
-    public RethinkReturnObject(Long inserted, Long replaced, Long unchanged, Long skipped, Long errors, Long deleted, List<HashMap> changes) {
+    public RethinkReturnObject(Long inserted, Long replaced, Long unchanged, Long skipped, Long errors, Long deleted, List<RethinkChangesReturn> changes) {
         this.inserted = inserted;
         this.replaced = replaced;
         this.unchanged = unchanged;
@@ -32,6 +35,8 @@ public class RethinkReturnObject {
         this.errors = errors;
         this.deleted = deleted;
         this.changes = changes;
+
+//        this.changes = new ArrayList<RethinkChangesReturn>();
     }
 
     public Long getInserted() {
@@ -83,21 +88,25 @@ public class RethinkReturnObject {
     }
 
     public List<RethinkChangesReturn> getChanges() {
+        return this.changes;
+    }
 
-        List<RethinkChangesReturn> returnObjects = new ArrayList<RethinkChangesReturn>();
-        for (HashMap map: this.changes) {
-            returnObjects.add((RethinkChangesReturn) asMapped(map, new RethinkChangesReturn()));
-        }
-
-        return returnObjects;
+    public RethinkChangesReturn getFirstChange() {
+        return this.changes.get(0);
     }
 
     public void setChanges(List<HashMap> changes) {
-        this.changes = changes;
-        Boolean e = false;
+        // Receiving HashMap from RethinkDB...
+        for (HashMap map: changes) {
+            this.changes.add((RethinkChangesReturn) asMapped(map, new RethinkChangesReturn()));
+        }
     }
 
-    public Object asMapped(final HashMap map, final Object toObject) {
+    public Object getFirstNewVal(final Object asObject) {
+        return this.asMapped(this.getFirstChange().getNew_val(), asObject);
+    }
+
+    private Object asMapped(final HashMap map, final Object toObject) {
         try {
             log.info(toObject.getClass().toString());
             return new ObjectMapper().convertValue(map, toObject.getClass());
