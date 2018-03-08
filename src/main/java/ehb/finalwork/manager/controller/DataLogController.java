@@ -13,7 +13,7 @@ import java.util.List;
 public class DataLogController {
 
     @Autowired
-    DataLogService dataLogService;
+    private DataLogService dataLogService;
 
     @GetMapping()
     public List<DataLog> getDataLogs() {
@@ -31,7 +31,7 @@ public class DataLogController {
     }
 
     @PostMapping()
-    public RethinkDataLogDto createDataLog(@RequestBody RethinkDataLogDto dataLogDto) {
+    public DataLog createDataLog(@RequestBody RethinkDataLogDto dataLogDto) {
         return dataLogService.createDataLog(dataLogDto);
     }
 }

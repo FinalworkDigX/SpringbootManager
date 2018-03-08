@@ -2,7 +2,7 @@ package ehb.finalwork.manager.service;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
-import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
+import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.model.ModelTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.net.ConnectException;
 
 @Service
 @EnableScheduling

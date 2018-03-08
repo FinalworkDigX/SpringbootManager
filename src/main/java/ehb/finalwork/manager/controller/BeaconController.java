@@ -29,7 +29,7 @@ public class BeaconController {
 
     @MessageMapping("/beacon/create")
     @SendTo("/topic/beacon/create")
-    public RethinkBeaconDto create(RethinkBeaconDto beaconDto) {
+    public Beacon create(RethinkBeaconDto beaconDto) {
 
         return beaconService.createBeacon(beaconDto);
     }
