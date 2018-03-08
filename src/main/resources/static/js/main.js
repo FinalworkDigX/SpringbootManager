@@ -71,7 +71,7 @@
         var $this = $(this);
         var $values = getCleanInputs($this);
 
-        myAjaxCalls(DATALOG_URL + $values.id, 'DELETE', null);
+        myAjaxCalls(DATALOG_URL + "/" + $values.id, 'DELETE', null);
         $this.remove();
     });
 
@@ -80,7 +80,7 @@
         var $this = $(this);
         var $values = getCleanInputs($this);
 
-        myAjaxCalls(ROOM_URL + $values.id, 'DELETE', null);
+        myAjaxCalls(ROOM_URL + "/" + $values.id, 'DELETE', null);
         $this.remove();
     });
 
@@ -114,7 +114,8 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/dataLog', onNewData, onError);
-            stompClient.subscribe('/topic/room', onNewData, onError)
+            stompClient.subscribe('/topic/room', onNewData, onError);
+            stompClient.subscribe('/topic/beacon/calibrate/test-id', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -152,7 +153,7 @@
             calibrationFactor: float
         };
 
-        stompClient.send("/beacon/calibrate", {priority: 9}, JSON.stringify(test));
+        stompClient.send("/beacon/calibrate/test-id", {priority: 9}, JSON.stringify(test));
     }
 
     function testBeaconCreate(message) {
