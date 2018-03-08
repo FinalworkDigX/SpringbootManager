@@ -1,13 +1,12 @@
-package ehb.finalwork.manager.database;
+package ehb.finalwork.manager.dao.database;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(value = "classpath:rethink.properties", ignoreResourceNotFound=true)
+@PropertySource(value = "classpath:security.properties", ignoreResourceNotFound=true)
 public class RethinkDBConfiguration {
 
     @Value("${rethink.username:test_account}")

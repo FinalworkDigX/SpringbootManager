@@ -37,18 +37,18 @@ public class RoomControllerTest {
     private RoomController roomController;
 
     @Test
-    public void getRooms() throws Exception {
+    public void getRoomsTest() throws Exception {
 
-        RethinkRoomDto r1 = new RethinkRoomDto("1", "test_1", "test_desc_1", "test_loc_1");
-        RethinkRoomDto r2 = new RethinkRoomDto("2", "test_2", "test_desc_2", "test_loc_2");
+        Room r1 = new Room("1", "test_1", "test_desc_1", "test_loc_1");
+        Room r2 = new Room("2", "test_2", "test_desc_2", "test_loc_2");
 
-        List<RethinkRoomDto> allRooms = new ArrayList<RethinkRoomDto>();
+        List<Room> allRooms = new ArrayList<Room>();
         allRooms.add(r1);
         allRooms.add(r2);
 
         given(this.roomController.getRooms()).willReturn(allRooms);
 
-        this.mvc.perform(get("/room").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(get("/v1/room").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", is(r1.getName())))
@@ -56,22 +56,33 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void addRoom() throws Exception {
+    public void addRoomTest() throws Exception {
 
-        Room r1 = new Room("test_2", "test_desc_2", "test_loc_2");
+        RethinkRoomDto create_val = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
+        Room return_val = new Room("id", "test_1", "test_desc_1", "test_loc_1");
 
-        given(this.roomController.postRoom(r1)).willReturn(r1);
-
-        String s = asJsonString(r1);
+        given(this.roomController.postRoom(create_val)).willReturn(return_val);
 
         this.mvc.perform(
-                post("/room")
-                        .content(asJsonString(r1))
+                post("/v1/room")
+                        .content(asJsonString(create_val))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
-//                .andExpect(jsonPath("name", is(r1.getName())));
+//                .andExpect(jsonPath("$.name", is(r1.getName())));
+    }
+
+    @Test
+    public void deleteRoomTest() throws Exception {
+
+        Room r1 = new Room("111", "test_1", "test_desc_1", "test_loc_1");
+
+        doNothing().when(this.roomController).deleteRoom(r1.getId());
+        this.mvc.perform(
+                delete("/v1/room/{rid}", r1.getId())
+                )
+                .andExpect(status().isOk());
     }
 
     public static String asJsonString(final Object obj) {

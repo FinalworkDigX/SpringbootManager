@@ -1,4 +1,4 @@
-package ehb.finalwork.manager.database;
+package ehb.finalwork.manager.dao.database;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
@@ -61,6 +61,9 @@ public class DBInitializer implements InitializingBean {
     private void initDatabase(String database, Connection con) {
 
         List<String> tables = r.db(database).tableList().run(con);
+        if (!tables.contains("user")) {
+            r.db(database).tableCreate("user").run(con);
+        }
         if (!tables.contains("room")) {
             r.db(database).tableCreate("room").run(con);
         }

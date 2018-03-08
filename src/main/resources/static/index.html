@@ -50,28 +50,29 @@
         <!-------------------------------------------------------->
         <br/>
         <div id="dataLog">
-        <h2>DataLogs</h2>
-        <form method="get" class="create_dataLog_form">
-            <label>
-                ItemId:
-                <input type="text" name="item_id" value="test_item"/>
-            </label>
-            <br/>
-            <label>
-                Info: <span class="info_input_display"></span>
-                <input type="hidden" name="information" value="">
-            </label>
-            <br/>
-            <button type="submit">Send</button>
-        </form>
-        <div class="create_dataLog_script_div">
-            <label>
-                TestScript:
-                <button type="button" class="create_dataLog_script">Start</button>
-            </label>
+            <h2>DataLogs</h2>
+            <form method="get" class="create_dataLog_form">
+                <label>
+                    ItemId:
+                    <input type="text" name="item_id" value="test_item"/>
+                </label>
+                <br/>
+                <label>
+                    Info: <span class="info_input_display"></span>
+                    <input type="hidden" name="information" value="">
+                </label>
+                <br/>
+                <button type="submit">Send</button>
+            </form>
+            <div class="create_dataLog_script_div">
+                <label>
+                    TestScript:
+                    <button type="button" class="create_dataLog_script">Start</button>
+                </label>
+            </div>
+            <div id="displayDataLogs" class="display_info"></div>
         </div>
-        <div id="displayDataLogs" class="display_info"></div>
-        </div>
+
 
         <footer>
             <script src="webjars/jquery/2.1.4/jquery.js"></script>

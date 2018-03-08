@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/v1/room")
 public class RoomController {
 
     @Autowired
     private RoomService roomService;
 
     @GetMapping()
-    public List<RethinkRoomDto> getRooms() {
+    public List<Room> getRooms() {
         return roomService.getRooms();
     }
 
     @PostMapping()
-    public Room postRoom(@RequestBody Room newRoom) {
-        return roomService.createRoom(newRoom);
+    public Room postRoom(@RequestBody RethinkRoomDto roomDto) {
+        return roomService.createRoom(roomDto);
     }
 
     @DeleteMapping("/{rid}")

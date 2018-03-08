@@ -3,7 +3,7 @@ package ehb.finalwork.manager.model;
 import java.lang.reflect.Array;
 import java.util.List;
 
-public class DataLog {
+public class DataLog extends ModelTemplate{
     private String item_id;
     private List<Information> information;
     private Long timestamp;
@@ -11,7 +11,8 @@ public class DataLog {
     public DataLog() {
     }
 
-    public DataLog(String item_id, List<Information> information, Long timestamp) {
+    public DataLog(String id, String item_id, List<Information> information, Long timestamp) {
+        this.id = id;
         this.item_id = item_id;
         this.information = information;
         this.timestamp = timestamp;
@@ -39,5 +40,15 @@ public class DataLog {
 
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getTableName() {
+        return "dataLog";
     }
 }

@@ -1,6 +1,6 @@
 package ehb.finalwork.manager.model;
 
-public class Room {
+public class Room extends ModelTemplate{
     private String name;
     private String Description;
     private String location;
@@ -8,7 +8,8 @@ public class Room {
     public Room() {
     }
 
-    public Room(String name, String description, String location) {
+    public Room(String id, String name, String description, String location) {
+        this.id = id;
         this.name = name;
         Description = description;
         this.location = location;
@@ -36,5 +37,15 @@ public class Room {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getTableName() {
+        return "room";
     }
 }
