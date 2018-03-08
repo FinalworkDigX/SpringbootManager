@@ -1,4 +1,4 @@
-package ehb.finalwork.manager.database;
+package ehb.finalwork.manager.dao.database;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;

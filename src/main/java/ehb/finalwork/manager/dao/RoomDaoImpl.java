@@ -1,0 +1,67 @@
+package ehb.finalwork.manager.dao;
+
+import com.rethinkdb.RethinkDB;
+import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
+import ehb.finalwork.manager.dto.RethinkRoomDto;
+import ehb.finalwork.manager.model.RethinkReturnObject;
+import ehb.finalwork.manager.model.Room;
+import ehb.finalwork.manager.service.RoomService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.List;
+
+public class RoomDaoImpl implements RoomDao {
+
+    private static final RethinkDB r = RethinkDB.r;
+    private final Logger log = LoggerFactory.getLogger(RoomService.class);
+
+    @Autowired
+    private RethinkDBConnectionFactory connectionFactory;
+
+    @Override
+    public List<Room> getAllRooms() {
+        return r.db("manager").table("room")
+                .orderBy().optArg("index", r.desc("id"))
+                .limit(20)
+                .orderBy("id")
+                .run(connectionFactory.createConnection(), Room.class);
+    }
+
+    @Override
+    public Room getRoomById(String id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Room createRoom(RethinkRoomDto roomDto) {
+
+        RethinkReturnObject returnObject = r.db("manager")
+                .table("room")
+                .insert(roomDto)
+                .optArg("return_changes", true)
+                .run(connectionFactory.createConnection(), RethinkReturnObject.class);
+
+        Room room = new Room();
+        if (returnObject.getInserted() != 0) {
+            room = (Room) returnObject.getFirstNewVal(room);
+        }
+
+        log.info("Room Insert: {}", returnObject.toString());
+        return room;
+    }
+
+    @Override
+    public Room updateRoom(Room room) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteRoom(String id) {
+        Object run = r.db("manager").table("room").get(id).delete().optArg("return_changes", true).run(connectionFactory.createConnection());
+        log.info("Delete {}", run);
+        log.info("Delete id {}", id);
+    }
+}
