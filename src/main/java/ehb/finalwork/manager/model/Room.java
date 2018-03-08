@@ -40,6 +40,11 @@ public class Room extends ModelTemplate{
     }
 
     @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public String getTableName() {
         return "room";
     }

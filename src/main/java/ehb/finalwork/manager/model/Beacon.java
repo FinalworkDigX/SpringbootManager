@@ -62,6 +62,11 @@ public class Beacon extends ModelTemplate{
     }
 
     @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public String getTableName() {
         return "beacon";
     }

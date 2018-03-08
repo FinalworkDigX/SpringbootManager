@@ -43,6 +43,11 @@ public class DataLog extends ModelTemplate{
     }
 
     @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public String getTableName() {
         return "dataLog";
     }
