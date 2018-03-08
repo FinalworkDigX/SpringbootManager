@@ -21,7 +21,7 @@ public class RoomController {
     }
 
     @PostMapping()
-    public RethinkRoomDto postRoom(@RequestBody RethinkRoomDto roomDto) {
+    public Room postRoom(@RequestBody RethinkRoomDto roomDto) {
         return roomService.createRoom(roomDto);
     }
 

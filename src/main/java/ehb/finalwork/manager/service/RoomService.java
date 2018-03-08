@@ -3,6 +3,7 @@ package ehb.finalwork.manager.service;
 import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkRoomDto;
+import ehb.finalwork.manager.model.RethinkReturnObject;
 import ehb.finalwork.manager.model.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +26,43 @@ public class RoomService {
         return r.db("manager").table("room").orderBy().optArg("index", r.desc("id")).limit(20).orderBy("id").run(connectionFactory.createConnection(), Room.class);
     }
 
-    public RethinkRoomDto createRoom(RethinkRoomDto roomDto) {
+    public Room createRoom(RethinkRoomDto roomDto) {
 
-        Object run = r.db("manager").table("room").insert(roomDto).run(connectionFactory.createConnection());
-
-        log.info("Insert {}", run);
-        //TODO: return 'Room'
-//        User user = r.db("manager").table("user").insert(userDto)
-//                .optArg("return_changes", true)
-//                .getField("changes").nth(0)
-//                .getField("new_val")
-//                .run(connectionFactory.createConnection(), User.class);
+//        Object run = r.db("manager").table("room").insert(roomDto).run(connectionFactory.createConnection());
 //
-//        log.info("Insert {}", user);
-        return roomDto;
+//        log.info("Insert {}", run);
+//        //TODO: return 'Room'
+////        User user = r.db("manager").table("user").insert(userDto)
+////                .optArg("return_changes", true)
+////                .getField("changes").nth(0)
+////                .getField("new_val")
+////                .run(connectionFactory.createConnection(), User.class);
+////
+////        log.info("Insert {}", user);
+//        return roomDto;
+
+        RethinkReturnObject p = r.db("manager")
+                .table("room")
+                .insert(roomDto)
+                .optArg("return_changes", true)
+                .run(connectionFactory.createConnection(), RethinkReturnObject.class);
+
+        if (p.getInserted() != 0) {
+            return (Room) p.asMapped(p.getChanges().get(0).getNew_val(), new Room());
+
+            // WORKING  SOLUTION ==> GENERALIZE
+
+            //            ObjectMapper mapper = new ObjectMapper();
+            //            log.info("if value: {}",p.getChanges());
+            //            Map m = p.getChanges().get(0);
+            //            RethinkChangesReturn<Beacon> br = mapper.convertValue(m, RethinkChangesReturn.class);
+            //            Beacon b = mapper.convertValue(br.getNew_val(), Beacon.class);
+            //            log.info("if value: {}",br);
+        }
+
+        log.info("pom: {}", p);
+
+        return new Room();
     }
 
     public void deleteRoom(String id) {

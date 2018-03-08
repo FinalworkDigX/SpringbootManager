@@ -58,15 +58,14 @@ public class RoomControllerTest {
     @Test
     public void addRoomTest() throws Exception {
 
-        RethinkRoomDto r1 = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
+        RethinkRoomDto create_val = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
+        Room return_val = new Room("id", "test_1", "test_desc_1", "test_loc_1");
 
-        given(this.roomController.postRoom(r1)).willReturn(r1);
-
-        String s = asJsonString(r1);
+        given(this.roomController.postRoom(create_val)).willReturn(return_val);
 
         this.mvc.perform(
                 post("/v1/room")
-                        .content(asJsonString(r1))
+                        .content(asJsonString(create_val))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )

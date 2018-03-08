@@ -1,15 +1,19 @@
 package ehb.finalwork.manager.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
 import ehb.finalwork.manager.model.Beacon;
+import ehb.finalwork.manager.model.RethinkChangesReturn;
+import ehb.finalwork.manager.model.RethinkReturnObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BeaconService {
@@ -23,17 +27,32 @@ public class BeaconService {
         return r.db("manager").table("beacon").getAll().run(connectionFactory.createConnection(), Beacon.class);
     }
 
-    public Beacon calibrate(Beacon beaconDto) {
-        log.warn(beaconDto.getName());
+    public Beacon calibrate(Beacon beacon) {
+        log.warn(beacon.getName());
 
-        return r.db("manager")
+        RethinkReturnObject p = r.db("manager")
                 .table("beacon")
-                .get(beaconDto.getId())
-                .update(beaconDto)
+                .get(beacon.getId())
+                .update(beacon)
                 .optArg("return_changes", true)
-                .getField("changes").nth(0)
-                .getField("new_val")
-                .run(connectionFactory.createConnection(), Beacon.class);
+                .run(connectionFactory.createConnection(), RethinkReturnObject.class);
+
+        if (p.getReplaced() != 0) {
+            return (Beacon) p.asMapped(p.getChanges().get(0).getNew_val(), new Beacon());
+
+            // WORKING  SOLUTION ==> GENERALIZE
+
+//            ObjectMapper mapper = new ObjectMapper();
+//            log.info("if value: {}",p.getChanges());
+//            Map m = p.getChanges().get(0);
+//            RethinkChangesReturn<Beacon> br = mapper.convertValue(m, RethinkChangesReturn.class);
+//            Beacon b = mapper.convertValue(br.getNew_val(), Beacon.class);
+//            log.info("if value: {}",br);
+        }
+
+        log.info("pom: {}", p);
+
+        return beacon;
     }
 
     public RethinkBeaconDto createBeacon(RethinkBeaconDto beaconDto) {
