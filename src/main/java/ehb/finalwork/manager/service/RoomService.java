@@ -21,6 +21,10 @@ public class RoomService {
         return roomDao.getAll();
     }
 
+    public Room getById(String id) {
+        return roomDao.getById(id);
+    }
+
     public Room create(RethinkRoomDto roomDto) {
         return roomDao.create(roomDto);
     }
