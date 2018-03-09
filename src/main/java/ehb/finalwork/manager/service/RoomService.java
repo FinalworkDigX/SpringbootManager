@@ -17,15 +17,15 @@ public class RoomService {
     @Autowired
     private RoomDao roomDao;
 
-    public List<Room> getRooms() {
-        return roomDao.getAllRooms();
+    public List<Room> getAll() {
+        return roomDao.getAll();
     }
 
-    public Room createRoom(RethinkRoomDto roomDto) {
-        return roomDao.createRoom(roomDto);
+    public Room create(RethinkRoomDto roomDto) {
+        return roomDao.create(roomDto);
     }
 
-    public void deleteRoom(String id) {
-        roomDao.deleteRoom(id);
+    public void delete(String id) {
+        roomDao.delete(id);
     }
 }

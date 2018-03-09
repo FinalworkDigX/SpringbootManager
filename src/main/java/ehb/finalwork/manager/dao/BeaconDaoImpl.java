@@ -22,7 +22,7 @@ public class BeaconDaoImpl implements BeaconDao {
     private RethinkDBConnectionFactory connectionFactory;
 
     @Override
-    public List<Beacon> getAllBeacons() {
+    public List<Beacon> getAll() {
         return r.db("manager")
                 .table("beacon")
                 .getAll()
@@ -35,7 +35,7 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
-    public Beacon createBeacon(RethinkBeaconDto beaconDto) {
+    public Beacon create(RethinkBeaconDto beaconDto) {
         RethinkReturnObject returnObject = r.db("manager")
                 .table("beacon")
                 .insert(beaconDto)
@@ -52,7 +52,7 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
-    public Beacon updateBeacon(Beacon beacon) {
+    public Beacon update(Beacon beacon) {
         RethinkReturnObject returnObject = r.db("manager")
                 .table("beacon")
                 .get(beacon.getId())
@@ -69,7 +69,7 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
-    public void deleteBeacon(String id) {
+    public void delete(String id) {
         throw new NotImplementedException();
     }
 }

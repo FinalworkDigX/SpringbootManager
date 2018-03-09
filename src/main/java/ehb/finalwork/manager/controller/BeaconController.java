@@ -31,7 +31,7 @@ public class BeaconController {
     @SendTo("/topic/beacon/create")
     public Beacon create(RethinkBeaconDto beaconDto) {
 
-        return beaconService.createBeacon(beaconDto);
+        return beaconService.create(beaconDto);
     }
 
 }

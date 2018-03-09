@@ -17,15 +17,15 @@ public class BeaconService {
     @Autowired
     private BeaconDao beaconDao;
 
-    public List<Beacon> getBeacons() {
-        return beaconDao.getAllBeacons();
+    public List<Beacon> getAll() {
+        return beaconDao.getAll();
     }
 
     public Beacon calibrate(Beacon beacon) {
         return beaconDao.updateBeacon(beacon);
     }
 
-    public Beacon createBeacon(RethinkBeaconDto beaconDto) {
-        return beaconDao.createBeacon(beaconDto);
+    public Beacon create(RethinkBeaconDto beaconDto) {
+        return beaconDao.create(beaconDto);
     }
 }

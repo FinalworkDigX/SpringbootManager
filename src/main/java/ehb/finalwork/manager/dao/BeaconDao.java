@@ -6,9 +6,9 @@ import ehb.finalwork.manager.model.Beacon;
 import java.util.List;
 
 public interface BeaconDao {
-    public List<Beacon> getAllBeacons();
-    public Beacon getBeaconById(String id);
-    public Beacon createBeacon(RethinkBeaconDto beaconDto);
-    public Beacon updateBeacon(Beacon beacon);
-    public void deleteBeacon(String id);
+    public List<Beacon> getAll();
+    public Beacon getById(String id);
+    public Beacon create(RethinkBeaconDto beaconDto);
+    public Beacon update(Beacon beacon);
+    public void delete(String id);
 }

@@ -6,9 +6,9 @@ import ehb.finalwork.manager.model.Room;
 import java.util.List;
 
 public interface RoomDao {
-    public List<Room> getAllRooms();
-    public Room getRoomById(String id);
-    public Room createRoom(RethinkRoomDto roomDto);
-    public Room updateRoom(Room room);
-    public void deleteRoom(String id);
+    public List<Room> getAll();
+    public Room getById(String id);
+    public Room create(RethinkRoomDto roomDto);
+    public Room update(Room room);
+    public void delete(String id);
 }

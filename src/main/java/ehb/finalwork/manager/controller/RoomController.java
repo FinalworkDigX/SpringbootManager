@@ -19,7 +19,7 @@ public class RoomController {
 
     @GetMapping()
     public List<Room> getRooms() {
-        return roomService.getRooms();
+        return roomService.getAll();
     }
 
     @PostMapping()
@@ -29,11 +29,11 @@ public class RoomController {
 //        Room return_val = roomService.createRoom(roomDto);
 //        return new ResponseEntity<Room>(return_val, HttpStatus.CREATED);
 
-        return roomService.createRoom(roomDto);
+        return roomService.create(roomDto);
     }
 
     @DeleteMapping("/{rid}")
     public void deleteRoom(@PathVariable String rid) {
-        roomService.deleteRoom(rid);
+        roomService.delete(rid);
     }
 }

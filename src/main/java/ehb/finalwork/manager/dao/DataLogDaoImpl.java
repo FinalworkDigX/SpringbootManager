@@ -22,7 +22,7 @@ public class DataLogDaoImpl implements DataLogDao {
     private RethinkDBConnectionFactory connectionFactory;
 
     @Override
-    public List<DataLog> getAllDataLogs() {
+    public List<DataLog> getAll() {
         return r.db("manager")
                 .table("dataLog")
                 .orderBy().optArg("index", r.desc("id"))
@@ -31,7 +31,7 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public DataLog getDataLogById(String id) {
+    public DataLog getById(String id) {
         return r.db("manager")
                 .table("dataLog")
                 .get(id)
@@ -39,7 +39,7 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public List<DataLog> getDataLogByItemId(String id) {
+    public List<DataLog> getByItemId(String id) {
         return r.db("manager")
                 .table("dataLog")
                 .filter(row -> row.g("item_id").eq(id))
@@ -47,7 +47,7 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public DataLog createDataLog(RethinkDataLogDto dataLogDto) {
+    public DataLog create(RethinkDataLogDto dataLogDto) {
         RethinkReturnObject returnObject = r.db("manager")
                 .table("dataLog")
                 .insert(dataLogDto)
@@ -64,12 +64,12 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public DataLog updateDataLog(DataLog dataLog) {
+    public DataLog update(DataLog dataLog) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void deleteDataLog(String id) {
+    public void delete(String id) {
         throw new NotImplementedException();
     }
 }

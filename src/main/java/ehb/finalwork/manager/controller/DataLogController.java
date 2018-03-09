@@ -17,21 +17,21 @@ public class DataLogController {
 
     @GetMapping()
     public List<DataLog> getDataLogs() {
-        return dataLogService.getDataLogs();
+        return dataLogService.getAll();
     }
 
     @GetMapping("/byId/{dlid}")
     public DataLog getDataLogById(@PathVariable String dlid) {
-        return dataLogService.getDataLog(dlid);
+        return dataLogService.getById(dlid);
     }
 
     @GetMapping("/byItemId/{iid}")
     public List<DataLog> getDataLogByItemId(@PathVariable String iid) {
-        return dataLogService.getDataLogByItem(iid);
+        return dataLogService.getByItemId(iid);
     }
 
     @PostMapping()
     public DataLog createDataLog(@RequestBody RethinkDataLogDto dataLogDto) {
-        return dataLogService.createDataLog(dataLogDto);
+        return dataLogService.create(dataLogDto);
     }
 }
