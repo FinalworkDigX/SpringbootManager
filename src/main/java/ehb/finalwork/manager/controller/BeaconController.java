@@ -24,7 +24,7 @@ public class BeaconController {
     public Beacon calibrate(@DestinationVariable String privateChannel, Beacon beacon) {
 
         log.warn(privateChannel);
-        return beaconService.calibrate(beacon);
+        return beaconService.calibrate(beacon.getId(), beacon.getCalibrationFactor());
     }
 
     @MessageMapping("/beacon/create")

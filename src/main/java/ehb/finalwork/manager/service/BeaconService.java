@@ -21,8 +21,10 @@ public class BeaconService {
         return beaconDao.getAll();
     }
 
-    public Beacon calibrate(Beacon beacon) {
-        return beaconDao.updateBeacon(beacon);
+    public Beacon calibrate(String id, Double factor) {
+        Beacon b = beaconDao.getById(id);
+        b.setCalibrationFactor(factor);
+        return beaconDao.update(b);
     }
 
     public Beacon create(RethinkBeaconDto beaconDto) {

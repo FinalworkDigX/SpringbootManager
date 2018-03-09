@@ -30,8 +30,11 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
-    public Beacon getBeaconById(String id) {
-        throw new NotImplementedException();
+    public Beacon getById(String id) {
+        return r.db("manager")
+                .table("beacon")
+                .get(id)
+                .run(connectionFactory.createConnection(), Beacon.class);
     }
 
     @Override
