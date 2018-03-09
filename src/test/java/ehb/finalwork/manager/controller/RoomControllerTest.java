@@ -61,7 +61,7 @@ public class RoomControllerTest {
         RethinkRoomDto create_val = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
         Room return_val = new Room("id", "test_1", "test_desc_1", "test_loc_1");
 
-        given(this.roomController.postRoom(create_val)).willReturn(return_val);
+        given(this.roomController.createRoom(create_val)).willReturn(return_val);
 
         this.mvc.perform(
                 post("/v1/room")

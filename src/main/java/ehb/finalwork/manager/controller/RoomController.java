@@ -4,6 +4,8 @@ import ehb.finalwork.manager.dto.RethinkRoomDto;
 import ehb.finalwork.manager.model.Room;
 import ehb.finalwork.manager.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,12 @@ public class RoomController {
     }
 
     @PostMapping()
-    public Room postRoom(@RequestBody RethinkRoomDto roomDto) {
+//    public ResponseEntity<Room> createRoom(@RequestBody RethinkRoomDto roomDto) {
+    public Room createRoom(@RequestBody RethinkRoomDto roomDto) {
+
+//        Room return_val = roomService.createRoom(roomDto);
+//        return new ResponseEntity<Room>(return_val, HttpStatus.CREATED);
+
         return roomService.createRoom(roomDto);
     }
 
