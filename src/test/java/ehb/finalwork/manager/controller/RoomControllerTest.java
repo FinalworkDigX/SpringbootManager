@@ -1,95 +1,131 @@
 package ehb.finalwork.manager.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ehb.finalwork.manager.controller.RoomController;
+import ehb.finalwork.manager.TestUtil;
 import ehb.finalwork.manager.dto.RethinkRoomDto;
-
 import ehb.finalwork.manager.model.Room;
-import org.junit.*;
-import org.junit.runner.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import ehb.finalwork.manager.service.RoomService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import static java.util.Collections.singletonList;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-
-import static org.assertj.core.api.Assertions.*;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(RoomController.class)
+@WebMvcTest(SpringJUnit4ClassRunner.class)
 public class RoomControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+    private Room room;
+    private RethinkRoomDto roomDto;
 
-    @MockBean
+    // Mock
+    private MockMvc mockMvc;
+
+    @Mock
+    private RoomService roomService;
+
+    @InjectMocks
     private RoomController roomController;
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(roomController).build();
+
+        room = new Room("id_1", "name_1", "desc_1", "loc_1");
+        roomDto = new RethinkRoomDto("name_1", "desc_1", "loc_1");
+    }
 
     @Test
     public void getRoomsTest() throws Exception {
 
-        Room r1 = new Room("1", "test_1", "test_desc_1", "test_loc_1");
-        Room r2 = new Room("2", "test_2", "test_desc_2", "test_loc_2");
+        List<Room> allRooms = singletonList(room);
 
-        List<Room> allRooms = new ArrayList<Room>();
-        allRooms.add(r1);
-        allRooms.add(r2);
+        when(roomService.getAll()).thenReturn(allRooms);
 
-        given(this.roomController.getRooms()).willReturn(allRooms);
+        mockMvc.perform(get("/v1/room"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 
-        this.mvc.perform(get("/v1/room").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(r1.getName())))
-                .andExpect(jsonPath("$[1].name", is(r2.getName())));
+               .andExpect(jsonPath("$", hasSize(1)))
+               .andExpect(jsonPath("$[0].id", is("id_1")))
+               .andExpect(jsonPath("$[0].name", is("name_1")))
+               .andExpect(jsonPath("$[0].description", is("desc_1")))
+               .andExpect(jsonPath("$[0].location", is("loc_1")));
+
+        verify(roomService, times(1)).getAll();
+        verifyNoMoreInteractions(roomService);
+    }
+
+    @Test
+    public void getRoomByIdTest() throws Exception {
+
+        when(roomService.getById(room.getId())).thenReturn(room);
+
+        mockMvc.perform(get("/v1/room/byId/" + room.getId()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+
+               .andExpect(jsonPath("$.id", is("id_1")))
+               .andExpect(jsonPath("$.name", is("name_1")))
+               .andExpect(jsonPath("$.description", is("desc_1")))
+               .andExpect(jsonPath("$.location", is("loc_1")));
+
+        verify(roomService, times(1)).getById(room.getId());
+        verifyNoMoreInteractions(roomService);
     }
 
     @Test
     public void addRoomTest() throws Exception {
 
-        RethinkRoomDto create_val = new RethinkRoomDto("test_1", "test_desc_1", "test_loc_1");
-        Room return_val = new Room("id", "test_1", "test_desc_1", "test_loc_1");
+        when(roomService.create(any(RethinkRoomDto.class))).thenReturn(room);
 
-        given(this.roomController.createRoom(create_val)).willReturn(return_val);
+        mockMvc.perform(post("/v1/room")
+                .content(TestUtil.convertObjectToJsonBytes(roomDto))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 
-        this.mvc.perform(
-                post("/v1/room")
-                        .content(asJsonString(create_val))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.name", is(r1.getName())));
+               .andExpect(jsonPath("$.id", is("id_1")))
+               .andExpect(jsonPath("$.name", is("name_1")))
+               .andExpect(jsonPath("$.description", is("desc_1")))
+               .andExpect(jsonPath("$.location", is("loc_1")));
+
+        ArgumentCaptor<RethinkRoomDto> dtoCaptor = ArgumentCaptor.forClass(RethinkRoomDto.class);
+        verify(roomService, times(1)).create(dtoCaptor.capture());
+        verifyNoMoreInteractions(roomService);
+
+        RethinkRoomDto dtoArgument = dtoCaptor.getValue();
+        assertThat(dtoArgument.getName(), is("name_1"));
+        assertThat(dtoArgument.getDescription(), is("desc_1"));
+        assertThat(dtoArgument.getLocation(), is("loc_1"));
     }
 
     @Test
     public void deleteRoomTest() throws Exception {
 
-        Room r1 = new Room("111", "test_1", "test_desc_1", "test_loc_1");
+        doNothing().when(roomService).delete(room.getId());
 
-        doNothing().when(this.roomController).deleteRoom(r1.getId());
-        this.mvc.perform(
-                delete("/v1/room/{rid}", r1.getId())
-                )
-                .andExpect(status().isOk());
-    }
+        mockMvc.perform(delete("/v1/room/{rid}", room.getId()))
+               .andExpect(status().isOk());
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        verify(roomService, times(1)).delete(room.getId());
+        verifyNoMoreInteractions(roomService);
     }
 }
