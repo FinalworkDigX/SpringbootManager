@@ -1,8 +1,14 @@
 package ehb.finalwork.manager.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.javafx.geom.Vec3d;
+import ehb.finalwork.manager.TestUtil;
+import ehb.finalwork.manager.dto.RethinkBeaconDto;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -37,8 +43,32 @@ public class BeaconTest {
         assertEquals("room_id", beacon.getRoomId());
         assertEquals("name", beacon.getName());
         assertEquals("desc", beacon.getDescription());
-        assertEquals((Double) 1.0, beacon.getCalibrationFactor());
+        assertEquals(1.0, beacon.getCalibrationFactor(), 0);
         assertSame(vec3, beacon.getLocation());
+        assertEquals("beacon", beacon.getTableName());
+    }
+
+    @Test
+    public void jsonInitTest() throws IOException {
+        Vec3d vec3 = new Vec3d(1.0, 2.0, 3.0);
+        HashMap<String, Object> json = new HashMap<String, Object>();
+        json.put("id", "id");
+        json.put("room_id", "room_id");
+        json.put("name", "name");
+        json.put("description", "desc");
+        json.put("calibration_factor", 1.0);
+        json.put("location", vec3);
+
+        beacon = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), Beacon.class);
+
+        assertEquals("id", beacon.getId());
+        assertEquals("room_id", beacon.getRoomId());
+        assertEquals("name", beacon.getName());
+        assertEquals("desc", beacon.getDescription());
+        assertEquals(1.0, beacon.getCalibrationFactor(), 0);
+        assertEquals(1.0, beacon.getLocation().x, 0);
+        assertEquals(2.0, beacon.getLocation().y, 0);
+        assertEquals(3.0, beacon.getLocation().z, 0);
         assertEquals("beacon", beacon.getTableName());
     }
 
@@ -69,7 +99,7 @@ public class BeaconTest {
     @Test
     public void calibrationFactorSetterAndGetterTest() {
         beacon.setCalibrationFactor(2.2);
-        assertEquals((Double) 2.2, beacon.getCalibrationFactor());
+        assertEquals(2.2, beacon.getCalibrationFactor(), 0);
     }
 
     @Test
