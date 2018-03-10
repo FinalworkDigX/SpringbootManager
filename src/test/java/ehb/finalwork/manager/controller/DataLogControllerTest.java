@@ -89,7 +89,7 @@ public class DataLogControllerTest {
 
         when(dataLogService.getById(dataLog.getId())).thenReturn(dataLog);
 
-        mockMvc.perform(get("/v1/dataLog/byId/" + dataLog.getId()))
+        mockMvc.perform(get("/v1/dataLog/byId/{id}", dataLog.getId()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 
@@ -112,7 +112,7 @@ public class DataLogControllerTest {
 
         when(dataLogService.getByItemId(dataLog.getItemId())).thenReturn(dataLogList);
 
-        mockMvc.perform(get("/v1/dataLog/byItemId/" + dataLog.getItemId()))
+        mockMvc.perform(get("/v1/dataLog/byItemId/{id}", dataLog.getItemId()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 

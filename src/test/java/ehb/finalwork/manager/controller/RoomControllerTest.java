@@ -77,7 +77,7 @@ public class RoomControllerTest {
 
         when(roomService.getById(room.getId())).thenReturn(room);
 
-        mockMvc.perform(get("/v1/room/byId/" + room.getId()))
+        mockMvc.perform(get("/v1/room/byId/{id}", room.getId()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 
