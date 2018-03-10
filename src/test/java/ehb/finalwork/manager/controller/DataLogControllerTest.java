@@ -85,6 +85,48 @@ public class DataLogControllerTest {
     }
 
     @Test
+    public void getDataLogByIdTest() throws Exception {
+
+        when(dataLogService.getById(dataLog.getId())).thenReturn(dataLog);
+
+        mockMvc.perform(get("/v1/dataLog/byId/" + dataLog.getId()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+
+               .andExpect(jsonPath("$.id", is("id_1")))
+               .andExpect(jsonPath("$.item_id", is("item_id_1")))
+               .andExpect(jsonPath("$.information", hasSize(2)))
+               .andExpect(jsonPath("$.information[0].name", is("name_1")))
+               .andExpect(jsonPath("$.information[0].data", is("data_1")))
+               .andExpect(jsonPath("$.information[0].index", is(1)))
+               .andExpect(jsonPath("$.timestamp", is(toIntExact(timestamp))));
+
+        verify(dataLogService, times(1)).getById(dataLog.getId());
+        verifyNoMoreInteractions(dataLogService);
+    }
+
+    @Test
+    public void getDataLogByItemIdTest() throws Exception {
+
+        List<DataLog> dataLogList = Collections.singletonList(dataLog);
+
+        when(dataLogService.getByItemId(dataLog.getItemId())).thenReturn(dataLogList);
+
+        mockMvc.perform(get("/v1/dataLog/byItemId/" + dataLog.getItemId()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+
+               .andExpect(jsonPath("$", hasSize(1)))
+               .andExpect(jsonPath("$[0].id", is("id_1")))
+               .andExpect(jsonPath("$[0].item_id", is("item_id_1")))
+               .andExpect(jsonPath("$[0].information", hasSize(2)))
+               .andExpect(jsonPath("$[0].timestamp", is(toIntExact(timestamp))));
+
+        verify(dataLogService, times(1)).getByItemId(dataLog.getItemId());
+        verifyNoMoreInteractions(dataLogService);
+    }
+
+    @Test
     public void addDataLogTest() throws Exception {
 
         when(dataLogService.create(any(RethinkDataLogDto.class))).thenReturn(dataLog);
@@ -109,7 +151,7 @@ public class DataLogControllerTest {
         verifyNoMoreInteractions(dataLogService);
 
         RethinkDataLogDto dtoArgument = dtoCaptor.getValue();
-        assertThat(dtoArgument.getItem_id(), is("item_id_1"));
+        assertThat(dtoArgument.getItemId(), is("item_id_1"));
         assertThat(dtoArgument.getTimestamp(), is(timestamp));
         assertThat(dtoArgument.getInformation(), hasSize(2));
         assertThat(dtoArgument.getInformation().get(0).getIndex(), is(1L));
