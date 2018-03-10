@@ -11,6 +11,7 @@ public class RethinkBeaconDto {
     private String roomId;
     private String name;
     private String description;
+    @JsonProperty("calibration_factor")
     private Double calibrationFactor;
     private Vec3d location;
 
@@ -51,10 +52,12 @@ public class RethinkBeaconDto {
         this.description = description;
     }
 
+    @JsonProperty("calibration_factor")
     public Double getCalibrationFactor() {
         return calibrationFactor;
     }
 
+    @JsonProperty("calibration_factor")
     public void setCalibrationFactor(Double calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
     }
