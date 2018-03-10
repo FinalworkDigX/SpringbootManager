@@ -9,7 +9,7 @@ public class AuthApiWrapperTest {
 
     @Test
     public void constructorAndGettersTest() {
-        AuthAPIWrapper apiWrapper = new AuthAPIWrapper("https://google.com/", anyString(), anyString(), "connection", "audience");
+        AuthAPIWrapper apiWrapper = new AuthAPIWrapper("https://google.com/", "", "", "connection", "audience");
 
         assertEquals("connection", apiWrapper.getConnection());
         assertEquals("audience", apiWrapper.getAudience());

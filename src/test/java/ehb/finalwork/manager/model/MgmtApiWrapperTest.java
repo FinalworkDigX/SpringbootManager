@@ -9,7 +9,7 @@ public class MgmtApiWrapperTest {
 
     @Test
     public void constructorAndGettersTest() {
-        MgmtAPIWrapper mgmtAPIWrapper = new MgmtAPIWrapper("https://google.com/", anyString(), "connection");
+        MgmtAPIWrapper mgmtAPIWrapper = new MgmtAPIWrapper("https://google.com/", "", "connection");
 
         assertEquals("connection", mgmtAPIWrapper.getConnection());
     }

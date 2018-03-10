@@ -14,5 +14,4 @@ cache:
   - $HOME/.m2
 
 script:
-  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - ./mvnw test -B -X
