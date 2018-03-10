@@ -122,7 +122,7 @@ public class DataLogControllerTest {
                .andExpect(jsonPath("$[0].information", hasSize(2)))
                .andExpect(jsonPath("$[0].timestamp", is(toIntExact(timestamp))));
 
-        verify(dataLogService, times(1)).getByItemId(dataLog.getItemId());
+        verify(dataLogService, times(1)).getByItemId(eq(dataLog.getItemId()));
         verifyNoMoreInteractions(dataLogService);
     }
 
