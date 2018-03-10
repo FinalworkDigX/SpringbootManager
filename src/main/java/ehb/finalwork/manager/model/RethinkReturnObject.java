@@ -3,7 +3,6 @@ package ehb.finalwork.manager.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +18,6 @@ public class RethinkReturnObject {
     private Long skipped;
     private Long errors;
     private Long deleted;
-//    private List<HashMap> changes;
-
     private List<RethinkChangesReturn> changes;
 
     public RethinkReturnObject() {
@@ -35,8 +32,6 @@ public class RethinkReturnObject {
         this.errors = errors;
         this.deleted = deleted;
         this.changes = changes;
-
-//        this.changes = new ArrayList<RethinkChangesReturn>();
     }
 
     public Long getInserted() {
@@ -91,26 +86,27 @@ public class RethinkReturnObject {
         return this.changes;
     }
 
-    public RethinkChangesReturn getFirstChange() {
-        return this.changes.get(0);
-    }
-
     public void setChanges(List<HashMap> changes) {
         // Receiving HashMap from RethinkDB...
-        for (HashMap map: changes) {
+        for (HashMap map : changes) {
             this.changes.add((RethinkChangesReturn) asMapped(map, new RethinkChangesReturn()));
         }
     }
 
+    public RethinkChangesReturn getFirstChange() {
+        return this.changes.get(0);
+    }
+
     public Object getFirstNewVal(final Object asObject) {
-        return this.asMapped(this.getFirstChange().getNew_val(), asObject);
+        return this.asMapped(this.getFirstChange().getNewVal(), asObject);
     }
 
     private Object asMapped(final HashMap map, final Object toObject) {
         try {
             log.info(toObject.getClass().toString());
             return new ObjectMapper().convertValue(map, toObject.getClass());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

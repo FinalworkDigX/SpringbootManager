@@ -1,10 +1,14 @@
 package ehb.finalwork.manager.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.javafx.geom.Vec3d;
 import ehb.finalwork.manager.model.Beacon;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RethinkBeaconDto {
-    private String room_id;
+    @JsonProperty("room_id")
+    private String roomId;
     private String name;
     private String description;
     private Double calibrationFactor;
@@ -13,20 +17,22 @@ public class RethinkBeaconDto {
     public RethinkBeaconDto() {
     }
 
-    public RethinkBeaconDto(String room_id, String name, String description, Double calibrationFactor, Vec3d location) {
-        this.room_id = room_id;
+    public RethinkBeaconDto(String roomId, String name, String description, Double calibrationFactor, Vec3d location) {
+        this.roomId = roomId;
         this.name = name;
         this.description = description;
         this.calibrationFactor = calibrationFactor;
         this.location = location;
     }
 
-    public String getRoom_id() {
-        return room_id;
+    @JsonProperty("room_id")
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setRoom_id(String room_id) {
-        this.room_id = room_id;
+    @JsonProperty("room_id")
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public String getName() {

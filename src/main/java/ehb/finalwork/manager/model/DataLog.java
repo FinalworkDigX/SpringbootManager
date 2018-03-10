@@ -1,29 +1,35 @@
 package ehb.finalwork.manager.model;
 
-import java.lang.reflect.Array;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-public class DataLog extends ModelTemplate{
-    private String item_id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DataLog extends ModelTemplate {
+    @JsonProperty("item_id")
+    private String itemId;
     private List<Information> information;
     private Long timestamp;
 
     public DataLog() {
     }
 
-    public DataLog(String id, String item_id, List<Information> information, Long timestamp) {
+    public DataLog(String id, String itemId, List<Information> information, Long timestamp) {
         this.id = id;
-        this.item_id = item_id;
+        this.itemId = itemId;
         this.information = information;
         this.timestamp = timestamp;
     }
 
-    public String getItem_id() {
-        return item_id;
+    @JsonProperty("item_id")
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setItem_id(String item_id) {
-        this.item_id = item_id;
+    @JsonProperty("item_id")
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public List<Information> getInformation() {
@@ -34,12 +40,12 @@ public class DataLog extends ModelTemplate{
         this.information = information;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
