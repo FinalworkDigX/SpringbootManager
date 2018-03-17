@@ -2,8 +2,7 @@ package ehb.finalwork.manager.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.javafx.geom.Vec3d;
-import ehb.finalwork.manager.model.Beacon;
+import ehb.finalwork.manager.model.Vector3;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RethinkBeaconDto {
@@ -13,12 +12,12 @@ public class RethinkBeaconDto {
     private String description;
     @JsonProperty("calibration_factor")
     private Double calibrationFactor;
-    private Vec3d location;
+    private Vector3 location;
 
     public RethinkBeaconDto() {
     }
 
-    public RethinkBeaconDto(String roomId, String name, String description, Double calibrationFactor, Vec3d location) {
+    public RethinkBeaconDto(String roomId, String name, String description, Double calibrationFactor, Vector3 location) {
         this.roomId = roomId;
         this.name = name;
         this.description = description;
@@ -62,11 +61,11 @@ public class RethinkBeaconDto {
         this.calibrationFactor = calibrationFactor;
     }
 
-    public Vec3d getLocation() {
+    public Vector3 getLocation() {
         return location;
     }
 
-    public void setLocation(Vec3d location) {
+    public void setLocation(Vector3 location) {
         this.location = location;
     }
 }

@@ -1,9 +1,7 @@
 package ehb.finalwork.manager.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.geom.Vec3d;
 import ehb.finalwork.manager.TestUtil;
-import ehb.finalwork.manager.dto.RethinkBeaconDto;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +34,7 @@ public class BeaconTest {
 
     @Test
     public void completedConstructorTest() {
-        Vec3d vec3 = new Vec3d(2.0, 2.0, 2.0);
+        Vector3 vec3 = new Vector3(2.0, 2.0, 2.0);
         beacon = new Beacon("id", "room_id", "name" , "desc", 1.0, vec3);
 
         assertEquals("id", beacon.getId());
@@ -50,7 +48,7 @@ public class BeaconTest {
 
     @Test
     public void jsonInitTest() throws IOException {
-        Vec3d vec3 = new Vec3d(1.0, 2.0, 3.0);
+        Vector3 vec3 = new Vector3(1.0, 2.0, 3.0);
         HashMap<String, Object> json = new HashMap<String, Object>();
         json.put("id", "id");
         json.put("room_id", "room_id");
@@ -104,7 +102,7 @@ public class BeaconTest {
 
     @Test
     public void locationFactorSetterAndGetterTest() {
-        Vec3d vec3 = new Vec3d(3.2, 3.3, 3.4);
+        Vector3 vec3 = new Vector3(3.2, 3.3, 3.4);
 
         beacon.setLocation(vec3);
         assertSame( vec3, beacon.getLocation());
