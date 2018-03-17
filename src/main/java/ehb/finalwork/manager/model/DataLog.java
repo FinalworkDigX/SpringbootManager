@@ -3,6 +3,7 @@ package ehb.finalwork.manager.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -51,6 +52,24 @@ public class DataLog extends ModelTemplate {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id", this.id);
+        hashMap.put("item_id", this.itemId);
+        hashMap.put("information", this.information);
+        hashMap.put("timestamp", this.timestamp);
+
+        if (this.information != null) {
+            hashMap.put("information", Information.listToHashMap(this.information));
+        }
+        else {
+            hashMap.put("information", null);
+        }
+
+        return hashMap;
     }
 
     @Override

@@ -43,7 +43,7 @@ public class RoomDaoImpl implements RoomDao {
 
         RethinkReturnObject returnObject = r.db("manager")
                 .table("room")
-                .insert(roomDto)
+                .insert(roomDto.toHashMap())
                 .optArg("return_changes", true)
                 .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 

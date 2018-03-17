@@ -44,7 +44,7 @@ public class BeaconDaoImpl implements BeaconDao {
     public Beacon create(RethinkBeaconDto beaconDto) {
         RethinkReturnObject returnObject = r.db("manager")
                 .table("beacon")
-                .insert(beaconDto)
+                .insert(beaconDto.toHashMap())
                 .optArg("return_changes", true)
                 .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 

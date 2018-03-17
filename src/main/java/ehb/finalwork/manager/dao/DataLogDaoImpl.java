@@ -48,9 +48,10 @@ public class DataLogDaoImpl implements DataLogDao {
 
     @Override
     public DataLog create(RethinkDataLogDto dataLogDto) {
+        log.info("datalog dao {}", dataLogDto.toHashMap());
         RethinkReturnObject returnObject = r.db("manager")
                 .table("dataLog")
-                .insert(dataLogDto)
+                .insert(dataLogDto.toHashMap())
                 .optArg("return_changes", true)
                 .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 

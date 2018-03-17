@@ -1,6 +1,10 @@
 package ehb.finalwork.manager.dto;
 
-public class RethinkRoomDto {
+import ehb.finalwork.manager.model.RethinkDBHashable;
+
+import java.util.HashMap;
+
+public class RethinkRoomDto implements RethinkDBHashable {
     private String name;
     private String description;
     private String location;
@@ -36,5 +40,15 @@ public class RethinkRoomDto {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("name", this.name);
+        hashMap.put("description", this.description);
+        hashMap.put("location", this.location);
+
+        return hashMap;
     }
 }

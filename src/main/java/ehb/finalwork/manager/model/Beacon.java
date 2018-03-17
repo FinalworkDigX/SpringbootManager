@@ -81,6 +81,7 @@ public class Beacon extends ModelTemplate {
         return "beacon";
     }
 
+    @Override
     public HashMap<String, Object> toHashMap() {
 
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
