@@ -150,7 +150,7 @@
         var test = {
             id: message,
             name: "test_beacon - " + message,
-            calibrationFactor: float
+            calibration_factor: float
         };
 
         stompClient.send("/beacon/calibrate/test-id", {priority: 9}, JSON.stringify(test));

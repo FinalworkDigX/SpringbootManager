@@ -3,6 +3,8 @@ package ehb.finalwork.manager.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Beacon extends ModelTemplate {
     @JsonProperty("room_id")
@@ -14,6 +16,7 @@ public class Beacon extends ModelTemplate {
     private Vector3 location;
 
     public Beacon() {
+        this.location = new Vector3();
     }
 
     public Beacon(String id, String roomId, String name, String description, Double calibrationFactor, Vector3 location) {
@@ -77,5 +80,23 @@ public class Beacon extends ModelTemplate {
     @Override
     public String getTableName() {
         return "beacon";
+    }
+
+    public HashMap<String, Object> toHashMap() {
+
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id", this.id);
+        hashMap.put("room_id", this.roomId);
+        hashMap.put("name", this.name);
+        hashMap.put("description", this.description);
+        hashMap.put("calibration_factor", this.calibrationFactor);
+        if (this.location != null) {
+            hashMap.put("location", this.location.toHashMap());
+        }
+        else {
+            hashMap.put("location", null);
+        }
+
+        return hashMap;
     }
 }

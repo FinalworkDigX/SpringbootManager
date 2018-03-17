@@ -23,7 +23,7 @@ public class BeaconController {
     @SendTo("/topic/beacon/calibrate/{privateChannel}")
     public Beacon calibrate(@DestinationVariable String privateChannel, Beacon beacon) {
 
-        log.warn(privateChannel);
+        log.warn(privateChannel + " - CF: " + beacon.getCalibrationFactor());
         return beaconService.calibrate(beacon.getId(), beacon.getCalibrationFactor());
     }
 

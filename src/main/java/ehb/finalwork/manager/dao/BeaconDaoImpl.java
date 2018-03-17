@@ -1,5 +1,6 @@
 package ehb.finalwork.manager.dao;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
@@ -11,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BeaconDaoImpl implements BeaconDao {
 
@@ -59,7 +62,7 @@ public class BeaconDaoImpl implements BeaconDao {
         RethinkReturnObject returnObject = r.db("manager")
                 .table("beacon")
                 .get(beacon.getId())
-                .update(beacon)
+                .update(beacon.toHashMap())
                 .optArg("return_changes", true)
                 .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 
