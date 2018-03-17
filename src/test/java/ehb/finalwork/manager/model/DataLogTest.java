@@ -28,7 +28,7 @@ public class DataLogTest {
         dataLog = new DataLog();
 
         assertNull(dataLog.getId());
-        assertNull(dataLog.getItemId());
+        assertNull(dataLog.getItem_id());
         assertNull(dataLog.getInformation());
         assertNull(dataLog.getTimestamp());
         assertEquals("dataLog", dataLog.getTableName());
@@ -40,7 +40,7 @@ public class DataLogTest {
         dataLog = new DataLog("id", "item_id", infoList , 1L);
 
         assertEquals("id", dataLog.getId());
-        assertEquals("item_id", dataLog.getItemId());
+        assertEquals("item_id", dataLog.getItem_id());
         assertSame(infoList, dataLog.getInformation());
         assertEquals((Long) 1L, dataLog.getTimestamp());
         assertEquals("dataLog", dataLog.getTableName());
@@ -58,7 +58,7 @@ public class DataLogTest {
         dataLog = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), DataLog.class);
 
         assertEquals("id", dataLog.getId());
-        assertEquals("item_id", dataLog.getItemId());
+        assertEquals("item_id", dataLog.getItem_id());
         assertEquals(1, dataLog.getInformation().size());
         assertEquals("info_name", dataLog.getInformation().get(0).getName());
         assertEquals("info_data", dataLog.getInformation().get(0).getData());
@@ -75,8 +75,8 @@ public class DataLogTest {
 
     @Test
     public void itemIdSetterAndGetterTest() {
-        dataLog.setItemId("item_id_1");
-        assertEquals("item_id_1", dataLog.getItemId());
+        dataLog.setItem_id("item_id_1");
+        assertEquals("item_id_1", dataLog.getItem_id());
     }
 
     @Test

@@ -68,6 +68,7 @@ public class ChangeListener {
             try {
                 ModelTemplate dl = cursor.next();
                 log.info("New " + this.model.getTableName() + ": {}", dl.getId());
+                log.warn("pom");
                 webSocket.convertAndSend("/topic/" + dl.getTableName(), dl);
             }
             catch (NullPointerException e) {

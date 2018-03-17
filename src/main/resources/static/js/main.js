@@ -11,6 +11,8 @@
             data += "[name: " + info[i].name + ", data:" + info[i].data+ ", index:" + info[i].index + "]";
         }
 
+        console.log("dl before print: " + JSON.stringify(dataLog));
+
         $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
             '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.item_id + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
@@ -51,8 +53,26 @@
 
         var dataLog = {item_id: $values.item_id, information: JSON.parse($values.information)};
 
+
+        console.log('datalog : ' + JSON.stringify(dataLog));
+
         myAjaxCalls(DATALOG_URL, 'POST', dataLog);
     });
+
+    function test() {
+        var dl = {
+            "item_id": "my_item_id",
+            "information": [
+                {
+                    "name": "info_name",
+                    "data": "info_data",
+                    "index": 1
+                }
+            ],
+            "timestamp": 315487
+        };
+        myAjaxCalls(DATALOG_URL, 'POST', dl);
+    }
 
     $(document).on('submit', '.create_room_form', function (e) {
         e.preventDefault();

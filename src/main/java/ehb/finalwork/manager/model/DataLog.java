@@ -9,28 +9,28 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataLog extends ModelTemplate {
     @JsonProperty("item_id")
-    private String itemId;
+    private String item_id;
     private List<Information> information;
     private Long timestamp;
 
     public DataLog() {
     }
 
-    public DataLog(String id, String itemId, List<Information> information, Long timestamp) {
+    public DataLog(String id, String item_id, List<Information> information, Long timestamp) {
         this.id = id;
-        this.itemId = itemId;
+        this.item_id = item_id;
         this.information = information;
         this.timestamp = timestamp;
     }
 
     @JsonProperty("item_id")
-    public String getItemId() {
-        return itemId;
+    public String getItem_id() {
+        return item_id;
     }
 
     @JsonProperty("item_id")
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
     }
 
     public List<Information> getInformation() {
@@ -58,7 +58,7 @@ public class DataLog extends ModelTemplate {
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("id", this.id);
-        hashMap.put("item_id", this.itemId);
+        hashMap.put("item_id", this.item_id);
         hashMap.put("information", this.information);
         hashMap.put("timestamp", this.timestamp);
 
