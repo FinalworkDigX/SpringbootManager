@@ -16,7 +16,6 @@ public class Beacon extends ModelTemplate {
     private Vector3 location;
 
     public Beacon() {
-        this.location = new Vector3();
     }
 
     public Beacon(String id, String roomId, String name, String description, Double calibrationFactor, Vector3 location) {
