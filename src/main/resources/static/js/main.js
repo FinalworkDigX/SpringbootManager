@@ -11,8 +11,6 @@
             data += "[name: " + info[i].name + ", data:" + info[i].data+ ", index:" + info[i].index + "]";
         }
 
-        console.log("dl before print: " + JSON.stringify(dataLog));
-
         $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
             '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.itemId + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
@@ -135,7 +133,9 @@
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/dataLog', onNewData, onError);
             stompClient.subscribe('/topic/room', onNewData, onError);
-            stompClient.subscribe('/topic/beacon/calibrate/test-id', onNewData, onError);
+            stompClient.subscribe('/topic/beacon/test-id/calibrate', onNewData, onError);
+            stompClient.subscribe('/topic/beacon/test-id/getByMajorMinor', onNewData, onError);
+            stompClient.subscribe('/topic/beacon', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -173,17 +173,27 @@
             calibrationFactor: float
         };
 
-        stompClient.send("/beacon/calibrate/test-id", {priority: 9}, JSON.stringify(test));
+        stompClient.send("/beacon/test-id/calibrate", {priority: 9}, JSON.stringify(test));
     }
 
-    function testBeaconCreate(message) {
+    function testBeaconCreate(message, major, minor) {
 
         var test = {
-            id: message,
-            name: "test_beacon - " + message
+            "id": message,
+            "name": "test_beacon - " + message,
+            "major": major,
+            "minor": minor
         };
 
         stompClient.send("/beacon/create", {priority: 9}, JSON.stringify(test));
+    }
+
+    function testBeaconGetAll() {
+        stompClient.send("/beacon/getAll", {priority: 9})
+    }
+
+    function testBeaconGetMajorMinor(major, minor) {
+        stompClient.send("/beacon/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
     }
 
     // <<<<< BEGIN: TestScript
