@@ -1,12 +1,15 @@
 package ehb.finalwork.manager.controller;
 
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
+import ehb.finalwork.manager.error.TooManyReturnValuesException;
 import ehb.finalwork.manager.model.DataLog;
 import ehb.finalwork.manager.service.DataLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.TooManyListenersException;
 
 @RestController
 @RequestMapping("/v1/dataLog")

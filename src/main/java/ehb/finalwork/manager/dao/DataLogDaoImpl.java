@@ -1,6 +1,7 @@
 package ehb.finalwork.manager.dao;
 
 import com.rethinkdb.RethinkDB;
+import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
 import ehb.finalwork.manager.model.DataLog;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+import java.util.TooManyListenersException;
 
 public class DataLogDaoImpl implements DataLogDao {
 
@@ -40,10 +42,13 @@ public class DataLogDaoImpl implements DataLogDao {
 
     @Override
     public List<DataLog> getByItemId(String id) {
-        return r.db("manager")
+
+        Cursor<DataLog> cursor = r.db("manager")
                 .table("dataLog")
-                .filter(row -> row.g("item_id").eq(id))
+                .filter(row -> row.g("itemId").match(id))
                 .run(connectionFactory.createConnection(), DataLog.class);
+
+        return cursor.toList();
     }
 
     @Override
