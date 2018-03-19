@@ -110,9 +110,9 @@ public class DataLogControllerTest {
 
         List<DataLog> dataLogList = Collections.singletonList(dataLog);
 
-        when(dataLogService.getByItemId(dataLog.getItem_id())).thenReturn(dataLogList);
+        when(dataLogService.getByItemId(dataLog.getItemId())).thenReturn(dataLogList);
 
-        mockMvc.perform(get("/v1/dataLog/byItemId/{id}", dataLog.getItem_id()))
+        mockMvc.perform(get("/v1/dataLog/byItemId/{id}", dataLog.getItemId()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 
@@ -122,7 +122,7 @@ public class DataLogControllerTest {
                .andExpect(jsonPath("$[0].information", hasSize(2)))
                .andExpect(jsonPath("$[0].timestamp", is(toIntExact(timestamp))));
 
-        verify(dataLogService, times(1)).getByItemId(eq(dataLog.getItem_id()));
+        verify(dataLogService, times(1)).getByItemId(eq(dataLog.getItemId()));
         verifyNoMoreInteractions(dataLogService);
     }
 

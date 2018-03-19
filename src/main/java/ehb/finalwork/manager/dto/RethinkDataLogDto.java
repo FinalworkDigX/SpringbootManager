@@ -53,7 +53,7 @@ public class RethinkDataLogDto implements RethinkDBHashable {
     @Override
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("item_id", this.itemId);
+        hashMap.put("itemId", this.itemId);
         hashMap.put("information", this.information);
         hashMap.put("timestamp", this.timestamp);
 
