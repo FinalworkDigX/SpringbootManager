@@ -36,11 +36,13 @@ public class RethinkBeaconDtoTest {
     @Test
     public void completedConstructorTest() {
         Vector3 vec3 = new Vector3(2.0, 2.0, 2.0);
-        beaconDto = new RethinkBeaconDto("room_id", "name" , "desc", 1.0, vec3);
+        beaconDto = new RethinkBeaconDto("room_id", "name" , "desc", 1L, 1L, 1.0, vec3);
 
         assertEquals("room_id", beaconDto.getRoomId());
         assertEquals("name", beaconDto.getName());
         assertEquals("desc", beaconDto.getDescription());
+        assertEquals(1, beaconDto.getMajor(),0);
+        assertEquals(1, beaconDto.getMinor(),0);
         assertEquals(1.0, beaconDto.getCalibrationFactor(),0);
         assertSame(vec3, beaconDto.getLocation());
     }

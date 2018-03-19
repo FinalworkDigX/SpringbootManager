@@ -35,12 +35,14 @@ public class BeaconTest {
     @Test
     public void completedConstructorTest() {
         Vector3 vec3 = new Vector3(2.0, 2.0, 2.0);
-        beacon = new Beacon("id", "room_id", "name" , "desc", 1.0, vec3);
+        beacon = new Beacon("id", "room_id", "name", "desc", 1L, 1L, 1.0, vec3);
 
         assertEquals("id", beacon.getId());
         assertEquals("room_id", beacon.getRoomId());
         assertEquals("name", beacon.getName());
         assertEquals("desc", beacon.getDescription());
+        assertEquals(1, beacon.getMajor(), 0);
+        assertEquals(1, beacon.getMinor(), 0);
         assertEquals(1.0, beacon.getCalibrationFactor(), 0);
         assertSame(vec3, beacon.getLocation());
         assertEquals("beacon", beacon.getTableName());
@@ -54,7 +56,7 @@ public class BeaconTest {
         json.put("roomId", "room_id");
         json.put("name", "name");
         json.put("description", "desc");
-        json.put("calibrationFactor", 1.0);
+        json.put("calibration_factor", 1.0);
         json.put("location", vec3);
 
         beacon = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), Beacon.class);

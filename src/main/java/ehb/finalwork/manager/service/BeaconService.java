@@ -2,6 +2,8 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dao.BeaconDao;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
+import ehb.finalwork.manager.error.TooManyReturnValuesException;
+import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,10 @@ public class BeaconService {
 
     public List<Beacon> getAll() {
         return beaconDao.getAll();
+    }
+
+    public Beacon getByMajorMinor(String major, String minor, String privateChannel) throws Exception {
+        return beaconDao.getByMajorMinor(major, minor, privateChannel);
     }
 
     public Beacon calibrate(String id, Double factor) {

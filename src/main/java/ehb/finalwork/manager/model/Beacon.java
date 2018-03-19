@@ -9,17 +9,21 @@ public class Beacon extends ModelTemplate {
     private String roomId;
     private String name;
     private String description;
+    private Long major;
+    private Long minor;
     private Double calibrationFactor;
     private Vector3 location;
 
     public Beacon() {
     }
 
-    public Beacon(String id, String roomId, String name, String description, Double calibrationFactor, Vector3 location) {
+    public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Double calibrationFactor, Vector3 location) {
         this.id = id;
         this.roomId = roomId;
         this.name = name;
         this.description = description;
+        this.major = major;
+        this.minor = minor;
         this.calibrationFactor = calibrationFactor;
         this.location = location;
     }
@@ -46,6 +50,22 @@ public class Beacon extends ModelTemplate {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getMajor() {
+        return major;
+    }
+
+    public void setMajor(Long major) {
+        this.major = major;
+    }
+
+    public Long getMinor() {
+        return minor;
+    }
+
+    public void setMinor(Long minor) {
+        this.minor = minor;
     }
 
     public Double getCalibrationFactor() {
@@ -82,6 +102,8 @@ public class Beacon extends ModelTemplate {
         hashMap.put("roomId", this.roomId);
         hashMap.put("name", this.name);
         hashMap.put("description", this.description);
+        hashMap.put("major", this.major);
+        hashMap.put("minor", this.minor);
         hashMap.put("calibrationFactor", this.calibrationFactor);
         if (this.location != null) {
             hashMap.put("location", this.location.toHashMap());

@@ -1,9 +1,12 @@
 package ehb.finalwork.manager.dao;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.RethinkDB;
+import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
+import ehb.finalwork.manager.error.CustomNotFoundWebSocketException;
+import ehb.finalwork.manager.error.TooManyReturnValuesException;
+import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
 import ehb.finalwork.manager.model.RethinkReturnObject;
 import ehb.finalwork.manager.service.RoomService;
@@ -12,9 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BeaconDaoImpl implements BeaconDao {
 
@@ -38,6 +39,27 @@ public class BeaconDaoImpl implements BeaconDao {
                 .table("beacon")
                 .get(id)
                 .run(connectionFactory.createConnection(), Beacon.class);
+    }
+
+    @Override
+    public Beacon getByMajorMinor(String major, String minor, String privateChannel) throws TooManyReturnValuesWebSocketException, CustomNotFoundWebSocketException {
+
+        Cursor<Beacon> cursor = r.db("manager")
+                .table("beacon")
+                .filter(
+                        row -> row.g("major").eq(Long.parseLong(major))
+                                  .and(row.g("minor").eq(Long.parseLong(minor)))
+                )
+                .run(connectionFactory.createConnection(), Beacon.class);
+
+        if (cursor.bufferedSize() == 1) {
+            return cursor.toList().get(0);
+        }
+        else if (cursor.bufferedSize() > 1) {
+            throw new TooManyReturnValuesWebSocketException("/beacon/" + privateChannel + "/getByMajorMinor", "Too Many Values");
+        }
+
+        throw new CustomNotFoundWebSocketException("/beacon/" + privateChannel + "/getByMajorMinor", "Not Found");
     }
 
     @Override
