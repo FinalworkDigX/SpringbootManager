@@ -15,7 +15,7 @@
 
         $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
-            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.item_id + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
+            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.itemId + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
             data + ', <br/>&nbsp;&nbsp;<strong>timestamp:</strong>' + dataLog.timestamp + '<br/>]' +
             '</div>'
         )
@@ -51,7 +51,7 @@
         //In the ghetto, in the ghettooooo
         setupDataLogFormData();
 
-        var dataLog = {item_id: $values.item_id, information: JSON.parse($values.information)};
+        var dataLog = {itemId: $values.item_id, information: JSON.parse($values.information)};
 
 
         console.log('datalog : ' + JSON.stringify(dataLog));
@@ -61,7 +61,7 @@
 
     function test() {
         var dl = {
-            "item_id": "my_item_id",
+            "itemId": "my_item_id",
             "information": [
                 {
                     "name": "info_name",
@@ -170,7 +170,7 @@
         var test = {
             id: message,
             name: "test_beacon - " + message,
-            calibration_factor: float
+            calibrationFactor: float
         };
 
         stompClient.send("/beacon/calibrate/test-id", {priority: 9}, JSON.stringify(test));
@@ -207,7 +207,7 @@
 
         dataLogScriptLoop = setInterval(function () {
             var info = randomDataForTest();
-            var dataLog = {item_id: "test_item", information: info};
+            var dataLog = {itemId: "test_item", information: info};
             myAjaxCalls('/dataLog', 'POST', dataLog);
         }, 1000);
     }

@@ -76,7 +76,7 @@ public class DataLogControllerTest {
 
                .andExpect(jsonPath("$", hasSize(1)))
                .andExpect(jsonPath("$[0].id", is("id_1")))
-               .andExpect(jsonPath("$[0].item_id", is("item_id_1")))
+               .andExpect(jsonPath("$[0].itemId", is("item_id_1")))
                .andExpect(jsonPath("$[0].information", hasSize(2)))
                .andExpect(jsonPath("$[0].timestamp", is(toIntExact(timestamp))));
 
@@ -94,7 +94,7 @@ public class DataLogControllerTest {
                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 
                .andExpect(jsonPath("$.id", is("id_1")))
-               .andExpect(jsonPath("$.item_id", is("item_id_1")))
+               .andExpect(jsonPath("$.itemId", is("item_id_1")))
                .andExpect(jsonPath("$.information", hasSize(2)))
                .andExpect(jsonPath("$.information[0].name", is("name_1")))
                .andExpect(jsonPath("$.information[0].data", is("data_1")))
@@ -118,7 +118,7 @@ public class DataLogControllerTest {
 
                .andExpect(jsonPath("$", hasSize(1)))
                .andExpect(jsonPath("$[0].id", is("id_1")))
-               .andExpect(jsonPath("$[0].item_id", is("item_id_1")))
+               .andExpect(jsonPath("$[0].itemId", is("item_id_1")))
                .andExpect(jsonPath("$[0].information", hasSize(2)))
                .andExpect(jsonPath("$[0].timestamp", is(toIntExact(timestamp))));
 
@@ -139,7 +139,7 @@ public class DataLogControllerTest {
                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 
                .andExpect(jsonPath("$.id", is("id_1")))
-               .andExpect(jsonPath("$.item_id", is("item_id_1")))
+               .andExpect(jsonPath("$.itemId", is("item_id_1")))
                .andExpect(jsonPath("$.information", hasSize(2)))
                .andExpect(jsonPath("$.information[0].name", is("name_1")))
                .andExpect(jsonPath("$.information[0].data", is("data_1")))

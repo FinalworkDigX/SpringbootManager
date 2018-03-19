@@ -1,14 +1,12 @@
 package ehb.finalwork.manager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataLog extends ModelTemplate {
-    @JsonProperty("item_id")
     private String itemId;
     private List<Information> information;
     private Long timestamp;
@@ -23,12 +21,10 @@ public class DataLog extends ModelTemplate {
         this.timestamp = timestamp;
     }
 
-    @JsonProperty("item_id")
     public String getItemId() {
         return itemId;
     }
 
-    @JsonProperty("item_id")
     public void setItemId(String itemId) {
         this.itemId = itemId;
     }

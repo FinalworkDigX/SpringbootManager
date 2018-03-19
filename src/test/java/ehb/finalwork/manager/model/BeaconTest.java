@@ -51,10 +51,10 @@ public class BeaconTest {
         Vector3 vec3 = new Vector3(1.0, 2.0, 3.0);
         HashMap<String, Object> json = new HashMap<String, Object>();
         json.put("id", "id");
-        json.put("room_id", "room_id");
+        json.put("roomId", "room_id");
         json.put("name", "name");
         json.put("description", "desc");
-        json.put("calibration_factor", 1.0);
+        json.put("calibrationFactor", 1.0);
         json.put("location", vec3);
 
         beacon = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), Beacon.class);

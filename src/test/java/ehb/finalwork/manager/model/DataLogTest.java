@@ -51,7 +51,7 @@ public class DataLogTest {
         List<Information> infoList = Collections.singletonList(new Information("info_name", "info_data", 1L));
         HashMap<String, Object> json = new HashMap<String, Object>();
         json.put("id", "id");
-        json.put("item_id", "item_id");
+        json.put("itemId", "item_id");
         json.put("information", infoList);
         json.put("timestamp", 123L);
 

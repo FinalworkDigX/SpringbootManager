@@ -49,7 +49,7 @@ public class RethinkDataLogDtoTest {
     public void jsonInitTest() throws IOException {
         List<Information> infoList = Collections.singletonList(new Information("info_name", "info_data", 1L));
         HashMap<String, Object> json = new HashMap<String, Object>();
-        json.put("item_id", "item_id");
+        json.put("itemId", "item_id");
         json.put("information", infoList);
         json.put("timestamp", 123L);
 
@@ -65,7 +65,7 @@ public class RethinkDataLogDtoTest {
 
     @Test
     public void itemIdSetterAndGetterTest() {
-        dataLogDto.setItemId("item_id_1");
+        dataLogDto.setItem_id("item_id_1");
         assertEquals("item_id_1", dataLogDto.getItemId());
     }
 

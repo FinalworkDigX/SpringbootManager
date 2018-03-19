@@ -9,11 +9,9 @@ import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RethinkBeaconDto implements RethinkDBHashable {
-    @JsonProperty("room_id")
     private String roomId;
     private String name;
     private String description;
-    @JsonProperty("calibration_factor")
     private Double calibrationFactor;
     private Vector3 location;
 
@@ -28,12 +26,10 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.location = location;
     }
 
-    @JsonProperty("room_id")
     public String getRoomId() {
         return roomId;
     }
 
-    @JsonProperty("room_id")
     public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
@@ -54,12 +50,10 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.description = description;
     }
 
-    @JsonProperty("calibration_factor")
     public Double getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    @JsonProperty("calibration_factor")
     public void setCalibrationFactor(Double calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
     }
@@ -76,10 +70,10 @@ public class RethinkBeaconDto implements RethinkDBHashable {
     public HashMap<String, Object> toHashMap() {
 
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("room_id", this.roomId);
+        hashMap.put("roomId", this.roomId);
         hashMap.put("name", this.name);
         hashMap.put("description", this.description);
-        hashMap.put("calibration_factor", this.calibrationFactor);
+        hashMap.put("calibrationFactor", this.calibrationFactor);
         if (this.location != null) {
             hashMap.put("location", this.location.toHashMap());
         }
