@@ -27,9 +27,11 @@ import java.util.List;
 class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
     private SimpMessagingTemplate webSocket;
+
+    public CustomRestExceptionHandler(SimpMessagingTemplate simpMessagingTemplate) {
+        webSocket = simpMessagingTemplate;
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
