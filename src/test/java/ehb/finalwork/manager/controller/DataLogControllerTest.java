@@ -5,6 +5,7 @@ import ehb.finalwork.manager.dto.RethinkDataLogDto;
 import ehb.finalwork.manager.model.DataLog;
 import ehb.finalwork.manager.model.Information;
 import ehb.finalwork.manager.service.DataLogService;
+import ehb.finalwork.manager.websockets.WebSocketConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = WebSocketConfig.class)
 public class DataLogControllerTest {
 
     private List<Information> infoList;
