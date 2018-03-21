@@ -29,7 +29,7 @@ public class BeaconDaoImpl implements BeaconDao {
     public List<Beacon> getAll() {
         return r.db("manager")
                 .table("beacon")
-                .getAll()
+                .orderBy("major", r.asc("minor"))
                 .run(connectionFactory.createConnection(), Beacon.class);
     }
 

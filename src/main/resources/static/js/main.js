@@ -176,13 +176,15 @@
         stompClient.send("/beacon/test-id/calibrate", {priority: 9}, JSON.stringify(test));
     }
 
-    function testBeaconCreate(message, major, minor) {
+    function testBeaconCreate(message, major, minor, cf) {
 
         var test = {
             "id": message,
             "name": "test_beacon - " + message,
+            "roomId": "test_room",
             "major": major,
-            "minor": minor
+            "minor": minor,
+            "calibrationFactor": cf
         };
 
         stompClient.send("/beacon/create", {priority: 9}, JSON.stringify(test));

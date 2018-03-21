@@ -12,12 +12,15 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/v1/beacon")
 public class BeaconController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -44,8 +47,7 @@ public class BeaconController {
         return beaconService.create(beaconDto);
     }
 
-    @MessageMapping("/beacon/getAll")
-    @SendTo("/topic/beacon")
+    @GetMapping
     public List<Beacon> create() {
         return beaconService.getAll();
     }
