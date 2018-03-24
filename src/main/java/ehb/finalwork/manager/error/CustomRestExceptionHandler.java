@@ -108,6 +108,18 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
+    @ExceptionHandler(value = LoginException.class)
+    public ResponseEntity<Object> handleLoginException(Exception exception) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(), (exception.getMessage() == null)? exception.getMessage():"");
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler(value = SignupException.class)
+    public ResponseEntity<Object> handleSignupException(Exception exception) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(), (exception.getMessage() == null)? exception.getMessage():"");
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
     // Custom WebSocket Exceptions
     @MessageExceptionHandler(value = TooManyReturnValuesWebSocketException.class)
     public void handleTooManyReturnValuesWebSocketException(TooManyReturnValuesWebSocketException exception) {
