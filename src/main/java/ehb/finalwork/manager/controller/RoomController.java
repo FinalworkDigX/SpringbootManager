@@ -23,17 +23,12 @@ public class RoomController {
     }
 
     @GetMapping("/byId/{rid}")
-    public Room getRoomById(@PathVariable String rid) {
+    public Room getRoomById(@PathVariable String rid) throws Exception {
         return roomService.getById(rid);
     }
 
     @PostMapping()
-//    public ResponseEntity<Room> createRoom(@RequestBody RethinkRoomDto roomDto) {
     public Room createRoom(@RequestBody RethinkRoomDto roomDto) {
-
-//        Room return_val = roomService.createRoom(roomDto);
-//        return new ResponseEntity<Room>(return_val, HttpStatus.CREATED);
-
         return roomService.create(roomDto);
     }
 

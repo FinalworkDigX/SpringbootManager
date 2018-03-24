@@ -21,7 +21,7 @@ public class RoomService {
         return roomDao.getAll();
     }
 
-    public Room getById(String id) {
+    public Room getById(String id) throws Exception {
         return roomDao.getById(id);
     }
 

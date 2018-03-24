@@ -3,6 +3,7 @@ package ehb.finalwork.manager.dao;
 import com.rethinkdb.RethinkDB;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkRoomDto;
+import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.model.RethinkReturnObject;
 import ehb.finalwork.manager.model.Room;
 import ehb.finalwork.manager.service.RoomService;
@@ -31,11 +32,16 @@ public class RoomDaoImpl implements RoomDao {
     }
 
     @Override
-    public Room getById(String id) {
-        return r.db("manager")
+    public Room getById(String id) throws CustomNotFoundException{
+        Room rm = r.db("manager")
                 .table("room")
                 .get(id)
                 .run(connectionFactory.createConnection(), Room.class);
+
+        if (rm != null) {
+            return rm;
+        }
+        throw new CustomNotFoundException("Room with id: '" + id + "' not found.");
     }
 
     @Override
