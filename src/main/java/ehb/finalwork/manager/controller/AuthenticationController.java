@@ -19,17 +19,17 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public CreatedUser signup(@RequestBody Auth0LoginDto auth0LoginDto) {
+    public CreatedUser signup(@RequestBody Auth0LoginDto auth0LoginDto) throws Exception {
         return authenticationService.signup(auth0LoginDto);
     }
 
     @PostMapping("/login")
-    public TokenHolder login(@RequestBody Auth0LoginDto auth0LoginDto) {
+    public TokenHolder login(@RequestBody Auth0LoginDto auth0LoginDto) throws Exception {
         return authenticationService.login(auth0LoginDto);
     }
 
     @PostMapping("/reset-password")
-    public CreatedUser resetPassword(@RequestBody Auth0LoginDto auth0LoginDto) {
-        return authenticationService.resetPassword(auth0LoginDto);
+    public void resetPassword(@RequestBody Auth0LoginDto auth0LoginDto) {
+        authenticationService.resetPassword(auth0LoginDto);
     }
 }

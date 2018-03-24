@@ -7,6 +7,10 @@ import com.auth0.net.AuthRequest;
 import com.auth0.net.Request;
 import com.auth0.net.SignUpRequest;
 import ehb.finalwork.manager.dto.*;
+import ehb.finalwork.manager.error.CustomNotFoundException;
+import ehb.finalwork.manager.error.HiddenException;
+import ehb.finalwork.manager.error.LoginException;
+import ehb.finalwork.manager.error.SignupException;
 import ehb.finalwork.manager.model.AuthAPIWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +29,7 @@ public class AuthenticationService {
     @Autowired
     private AuthAPIWrapper auth;
 
-    public CreatedUser signup(Auth0LoginDto auth0LoginDto) {
+    public CreatedUser signup(Auth0LoginDto auth0LoginDto) throws SignupException {
 
         Map<String, String> fields = new HashMap<>();
         fields.put("channel", UUID.randomUUID().toString());
@@ -35,11 +39,11 @@ public class AuthenticationService {
             return request.execute();
         } catch (Auth0Exception exception) {
             log.error(exception.getMessage());
+            throw new SignupException("username or password is invalid");
         }
-        return new Auth0CreateUserDto("username or password is invalid");
     }
 
-    public TokenHolder login(Auth0LoginDto auth0LoginDto) {
+    public TokenHolder login(Auth0LoginDto auth0LoginDto) throws LoginException {
         // Check if app user of admin account
         String scope = "openid scope:admin";
 
@@ -51,11 +55,11 @@ public class AuthenticationService {
         }
         catch (Auth0Exception exception) {
             log.error(exception.getMessage());
+            throw new LoginException("Username or password invalid");
         }
-        return new Auth0TokenHolder("username or password is invalid");
     }
 
-    public Auth0CreateUserDto resetPassword(Auth0LoginDto auth0LoginDto) {
+    public void resetPassword(Auth0LoginDto auth0LoginDto) {
         Request request = auth.resetPassword(auth0LoginDto.getEmail(), auth.getConnection());
         try {
             request.execute();
@@ -63,6 +67,5 @@ public class AuthenticationService {
         catch (Auth0Exception exception) {
             log.error(exception.getMessage());
         }
-        return new Auth0CreateUserDto("A reset email has been sent to the email address");
     }
 }
