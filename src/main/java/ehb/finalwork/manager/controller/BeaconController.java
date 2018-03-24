@@ -47,8 +47,9 @@ public class BeaconController {
         return beaconService.create(beaconDto);
     }
 
-    @GetMapping
-    public List<Beacon> create() {
+    @MessageMapping("/beacon")
+    @SendTo("/topic/beacon")
+    public List<Beacon> getAll() {
         return beaconService.getAll();
     }
 }
