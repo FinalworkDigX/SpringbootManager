@@ -8,10 +8,10 @@ import ehb.finalwork.manager.model.Beacon;
 import java.util.List;
 
 public interface BeaconDao {
-    public List<Beacon> getAll();
-    public Beacon getById(String id);
-    public Beacon getByMajorMinor(String major, String minor, String privateChannel) throws Exception;
-    public Beacon create(RethinkBeaconDto beaconDto);
-    public Beacon update(Beacon beacon);
-    public void delete(String id);
+    List<Beacon> getAll();
+    Beacon getById(String id);
+    Beacon getByMajorMinor(String major, String minor, String privateChannel) throws Exception;
+    Beacon create(RethinkBeaconDto beaconDto);
+    Beacon update(Beacon beacon);
+    void delete(String id);
 }
