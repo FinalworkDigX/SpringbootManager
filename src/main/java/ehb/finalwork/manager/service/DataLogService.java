@@ -15,8 +15,11 @@ import java.util.List;
 public class DataLogService {
     private final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
-    @Autowired
     private DataLogDao dataLogDao;
+
+    public DataLogService(DataLogDao dataLogDao) {
+        this.dataLogDao = dataLogDao;
+    }
 
     public List<DataLog> getAll() {
         return dataLogDao.getAll();

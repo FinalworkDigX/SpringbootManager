@@ -16,8 +16,11 @@ import java.util.List;
 public class BeaconService {
     private final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
-    @Autowired
     private BeaconDao beaconDao;
+
+    public BeaconService(BeaconDao beaconDao) {
+        this.beaconDao = beaconDao;
+    }
 
     public List<Beacon> getAll() {
         return beaconDao.getAll();

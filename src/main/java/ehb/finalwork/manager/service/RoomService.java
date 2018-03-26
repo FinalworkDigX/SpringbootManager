@@ -14,8 +14,11 @@ import java.util.List;
 public class RoomService {
     private final Logger log = LoggerFactory.getLogger(RoomService.class);
 
-    @Autowired
     private RoomDao roomDao;
+
+    private RoomService(RoomDao roomDao) {
+        this.roomDao = roomDao;
+    }
 
     public List<Room> getAll() {
         return roomDao.getAll();
