@@ -126,7 +126,7 @@
     var stompClient;
     // Connect to WS
     function connectManagerWebSocket() {
-        var socket = new SockJS('/managerWS');
+        var socket = new SockJS('https://fw.ludovicmarchand.be/managerWS');
         stompClient = Stomp.over(socket);
         //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
@@ -187,15 +187,15 @@
             "calibrationFactor": cf
         };
 
-        stompClient.send("/beacon/create", {priority: 9}, JSON.stringify(test));
+        stompClient.send("/app/beacon/create", {priority: 9}, JSON.stringify(test));
     }
 
     function testBeaconGetAll() {
-        stompClient.send("/beacon/getAll", {priority: 9})
+        stompClient.send("/app/beacon", {priority: 9})
     }
 
     function testBeaconGetMajorMinor(major, minor) {
-        stompClient.send("/beacon/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
+        stompClient.send("/app/beacon/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
     }
 
     // <<<<< BEGIN: TestScript

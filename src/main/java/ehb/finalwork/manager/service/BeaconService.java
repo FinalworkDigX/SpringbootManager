@@ -30,6 +30,7 @@ public class BeaconService {
     public Beacon calibrate(String id, Double factor) {
         Beacon b = beaconDao.getById(id);
         b.setCalibrationFactor(factor);
+        b.setLastUpdated();
         return beaconDao.update(b);
     }
 

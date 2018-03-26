@@ -2,6 +2,8 @@ package ehb.finalwork.manager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.sql.Time;
+import java.time.Instant;
 import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,8 +15,10 @@ public class Beacon extends ModelTemplate {
     private Long minor;
     private Double calibrationFactor;
     private Vector3 location;
+    private Long lastUpdated;
 
     public Beacon() {
+        this.lastUpdated = Instant.now().getEpochSecond();
     }
 
     public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Double calibrationFactor, Vector3 location) {
@@ -26,6 +30,7 @@ public class Beacon extends ModelTemplate {
         this.minor = minor;
         this.calibrationFactor = calibrationFactor;
         this.location = location;
+        this.lastUpdated = Instant.now().getEpochSecond();
     }
 
     public String getRoomId() {
@@ -84,6 +89,18 @@ public class Beacon extends ModelTemplate {
         this.location = location;
     }
 
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated() {
+        this.lastUpdated = Instant.now().getEpochSecond();
+    }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     @Override
     public void setId(String id) {
         this.id = id;
@@ -111,6 +128,7 @@ public class Beacon extends ModelTemplate {
         else {
             hashMap.put("location", null);
         }
+        hashMap.put("lastUpdated", this.lastUpdated);
 
         return hashMap;
     }

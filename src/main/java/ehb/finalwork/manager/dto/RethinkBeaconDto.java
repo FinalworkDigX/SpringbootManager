@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ehb.finalwork.manager.model.RethinkDBHashable;
 import ehb.finalwork.manager.model.Vector3;
 
+import java.time.Instant;
 import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,8 +17,11 @@ public class RethinkBeaconDto implements RethinkDBHashable {
     private Long minor;
     private Double calibrationFactor;
     private Vector3 location;
+    private Long lastUpdated;
+
 
     public RethinkBeaconDto() {
+        this.lastUpdated = Instant.now().getEpochSecond();
     }
 
     public RethinkBeaconDto(String roomId, String name, String description, Long major, Long minor, Double calibrationFactor, Vector3 location) {
@@ -28,6 +32,7 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.minor = minor;
         this.calibrationFactor = calibrationFactor;
         this.location = location;
+        this.lastUpdated = Instant.now().getEpochSecond();
     }
 
     public String getRoomId() {
@@ -86,6 +91,18 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.location = location;
     }
 
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated() {
+        this.lastUpdated = Instant.now().getEpochSecond();
+    }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     @Override
     public HashMap<String, Object> toHashMap() {
 
@@ -102,6 +119,7 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         else {
             hashMap.put("location", null);
         }
+        hashMap.put("lastUpdated", this.lastUpdated);
 
         return hashMap;
     }

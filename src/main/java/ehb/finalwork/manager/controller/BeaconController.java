@@ -1,8 +1,6 @@
 package ehb.finalwork.manager.controller;
 
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
-import ehb.finalwork.manager.error.TooManyReturnValuesException;
-import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
 import ehb.finalwork.manager.service.BeaconService;
 import org.slf4j.Logger;
@@ -11,16 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/beacon")
 public class BeaconController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -50,6 +43,9 @@ public class BeaconController {
     @MessageMapping("/beacon")
     @SendTo("/topic/beacon")
     public List<Beacon> getAll() {
-        return beaconService.getAll();
+        log.info("get beacons");
+        List<Beacon> lb = beaconService.getAll();
+        log.info("{}", lb);
+        return lb;
     }
 }
