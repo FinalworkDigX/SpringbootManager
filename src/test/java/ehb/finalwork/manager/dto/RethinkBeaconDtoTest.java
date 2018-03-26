@@ -30,7 +30,7 @@ public class RethinkBeaconDtoTest {
         assertNull(beaconDto.getName());
         assertNull(beaconDto.getDescription());
         assertNull(beaconDto.getCalibrationFactor());
-        assertNull(beaconDto.getLocation());
+        assertNull(beaconDto.getPosition());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class RethinkBeaconDtoTest {
         assertEquals(1, beaconDto.getMajor(),0);
         assertEquals(1, beaconDto.getMinor(),0);
         assertEquals(1.0, beaconDto.getCalibrationFactor(),0);
-        assertSame(vec3, beaconDto.getLocation());
+        assertSame(vec3, beaconDto.getPosition());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class RethinkBeaconDtoTest {
         json.put("name", "name");
         json.put("description", "desc");
         json.put("calibrationFactor", 1.0);
-        json.put("location", vec3);
+        json.put("position", vec3);
 
         beaconDto = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), RethinkBeaconDto.class);
 
@@ -63,9 +63,9 @@ public class RethinkBeaconDtoTest {
         assertEquals("name", beaconDto.getName());
         assertEquals("desc", beaconDto.getDescription());
         assertEquals(1.0, beaconDto.getCalibrationFactor(), 0);
-        assertEquals(1.0, beaconDto.getLocation().x, 0);
-        assertEquals(2.0, beaconDto.getLocation().y, 0);
-        assertEquals(3.0, beaconDto.getLocation().z, 0);
+        assertEquals(1.0, beaconDto.getPosition().x, 0);
+        assertEquals(2.0, beaconDto.getPosition().y, 0);
+        assertEquals(3.0, beaconDto.getPosition().z, 0);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class RethinkBeaconDtoTest {
     public void locationFactorSetterAndGetterTest() {
         Vector3 vec3 = new Vector3(3.2, 3.3, 3.4);
 
-        beaconDto.setLocation(vec3);
-        assertSame( vec3, beaconDto.getLocation());
+        beaconDto.setPosition(vec3);
+        assertSame( vec3, beaconDto.getPosition());
     }
 }

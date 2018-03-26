@@ -28,7 +28,7 @@ public class BeaconTest {
         assertNull(beacon.getName());
         assertNull(beacon.getDescription());
         assertNull(beacon.getCalibrationFactor());
-        assertNull(beacon.getLocation());
+        assertNull(beacon.getPosition());
         assertEquals("beacon", beacon.getTableName());
     }
 
@@ -44,7 +44,7 @@ public class BeaconTest {
         assertEquals(1, beacon.getMajor(), 0);
         assertEquals(1, beacon.getMinor(), 0);
         assertEquals(1.0, beacon.getCalibrationFactor(), 0);
-        assertSame(vec3, beacon.getLocation());
+        assertSame(vec3, beacon.getPosition());
         assertEquals("beacon", beacon.getTableName());
     }
 
@@ -57,7 +57,7 @@ public class BeaconTest {
         json.put("name", "name");
         json.put("description", "desc");
         json.put("calibrationFactor", 1.0);
-        json.put("location", vec3);
+        json.put("position", vec3);
 
         beacon = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), Beacon.class);
 
@@ -66,9 +66,9 @@ public class BeaconTest {
         assertEquals("name", beacon.getName());
         assertEquals("desc", beacon.getDescription());
         assertEquals(1.0, beacon.getCalibrationFactor(), 0);
-        assertEquals(1.0, beacon.getLocation().x, 0);
-        assertEquals(2.0, beacon.getLocation().y, 0);
-        assertEquals(3.0, beacon.getLocation().z, 0);
+        assertEquals(1.0, beacon.getPosition().x, 0);
+        assertEquals(2.0, beacon.getPosition().y, 0);
+        assertEquals(3.0, beacon.getPosition().z, 0);
         assertEquals("beacon", beacon.getTableName());
     }
 
@@ -106,8 +106,8 @@ public class BeaconTest {
     public void locationFactorSetterAndGetterTest() {
         Vector3 vec3 = new Vector3(3.2, 3.3, 3.4);
 
-        beacon.setLocation(vec3);
-        assertSame( vec3, beacon.getLocation());
+        beacon.setPosition(vec3);
+        assertSame( vec3, beacon.getPosition());
     }
 
     @Test
