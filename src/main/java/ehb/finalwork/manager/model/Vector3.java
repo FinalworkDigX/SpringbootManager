@@ -19,15 +19,15 @@ public class Vector3 {
     // Setters needed by RethinkDB...
     // Needs to be 'Object' -> Double & Long have same signature...
     public void setX(Object x) {
-        this.x = (Double) x;
+        this.x = transformObject(x);
     }
 
     public void setY(Object y) {
-        this.y = (Double) y;
+        this.y = transformObject(y);
     }
 
     public void setZ(Object z) {
-        this.z = (Double) z;
+        this.z = transformObject(z);
     }
 
     public HashMap<String, Object> toHashMap() {
@@ -38,5 +38,18 @@ public class Vector3 {
         hashMap.put("z", this.z);
 
         return hashMap;
+    }
+
+    private Double transformObject(Object o) {
+        if (o instanceof Double) {
+            return (Double) o;
+        }
+        else if (o instanceof Integer) {
+            return ((Integer) o).doubleValue();
+        }
+        else if( o instanceof Long) {
+            return ((Long) o).doubleValue();
+        }
+        return 0.0;
     }
 }
