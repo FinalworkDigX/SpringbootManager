@@ -70,8 +70,8 @@ public class DBInitializer implements InitializingBean {
         if (!tables.contains("beacon")) {
             r.db(database).tableCreate("beacon").run(con);
         }
-        if (!tables.contains("item")) {
-            r.db(database).tableCreate("item").run(con);
+        if (!tables.contains("dataItem")) {
+            r.db(database).tableCreate("dataItem").run(con);
         }
         if (!tables.contains("dataLog")) {
             r.db(database).tableCreate("dataLog").run(con);

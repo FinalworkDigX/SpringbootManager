@@ -1,0 +1,68 @@
+package ehb.finalwork.manager.model;
+
+import java.util.HashMap;
+
+public class DataItem extends ModelTemplate {
+    private String name;
+    private Vector3 location;
+    private String roomId;
+
+    public DataItem() { }
+
+    public DataItem(String id, String name, Vector3 location, String roomId) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.roomId = roomId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Vector3 getLocation() {
+        return location;
+    }
+
+    public void setLocation(Vector3 location) {
+        this.location = location;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    @Override
+    public String getTableName() {
+        return "dataItem";
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id", this.id);
+        hashMap.put("roomId", this.roomId);
+
+        if (this.location != null) {
+            hashMap.put("location", this.location.toHashMap());
+        }
+        else {
+            hashMap.put("location", new Vector3().toHashMap());
+        }
+
+        return hashMap;
+    }
+}
