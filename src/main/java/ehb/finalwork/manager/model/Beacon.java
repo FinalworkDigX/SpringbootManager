@@ -13,15 +13,14 @@ public class Beacon extends ModelTemplate {
     private String description;
     private Long major;
     private Long minor;
-    private Double calibrationFactor;
-    private Vector3 position;
+    private Integer calibrationFactor;
     private Long lastUpdated;
 
     public Beacon() {
         this.lastUpdated = Instant.now().getEpochSecond();
     }
 
-    public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Double calibrationFactor, Vector3 position) {
+    public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Integer calibrationFactor) {
         this.id = id;
         this.roomId = roomId;
         this.name = name;
@@ -29,7 +28,6 @@ public class Beacon extends ModelTemplate {
         this.major = major;
         this.minor = minor;
         this.calibrationFactor = calibrationFactor;
-        this.position = position;
         this.lastUpdated = Instant.now().getEpochSecond();
     }
 
@@ -73,20 +71,12 @@ public class Beacon extends ModelTemplate {
         this.minor = minor;
     }
 
-    public Double getCalibrationFactor() {
+    public Integer getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    public void setCalibrationFactor(Double calibrationFactor) {
+    public void setCalibrationFactor(Integer calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
-    }
-
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector3 position) {
-        this.position = position;
     }
 
     public Long getLastUpdated() {
@@ -122,12 +112,6 @@ public class Beacon extends ModelTemplate {
         hashMap.put("major", this.major);
         hashMap.put("minor", this.minor);
         hashMap.put("calibrationFactor", this.calibrationFactor);
-        if (this.position != null) {
-            hashMap.put("position", this.position.toHashMap());
-        }
-        else {
-            hashMap.put("position", null);
-        }
         hashMap.put("lastUpdated", this.lastUpdated);
 
         return hashMap;

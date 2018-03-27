@@ -1,8 +1,6 @@
 package ehb.finalwork.manager.dao;
 
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
-import ehb.finalwork.manager.error.TooManyReturnValuesException;
-import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
 
 import java.util.List;

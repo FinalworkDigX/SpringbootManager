@@ -5,7 +5,6 @@ import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
 import ehb.finalwork.manager.error.CustomNotFoundWebSocketException;
-import ehb.finalwork.manager.error.TooManyReturnValuesException;
 import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
 import ehb.finalwork.manager.model.RethinkReturnObject;

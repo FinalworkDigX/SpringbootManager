@@ -2,12 +2,9 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dao.BeaconDao;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
-import ehb.finalwork.manager.error.TooManyReturnValuesException;
-import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +27,7 @@ public class BeaconService {
         return beaconDao.getByMajorMinor(major, minor, privateChannel);
     }
 
-    public Beacon calibrate(String id, Double factor) {
+    public Beacon calibrate(String id, Integer factor) {
         Beacon b = beaconDao.getById(id);
         b.setCalibrationFactor(factor);
         b.setLastUpdated();

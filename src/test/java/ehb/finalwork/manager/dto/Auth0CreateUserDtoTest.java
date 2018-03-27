@@ -1,6 +1,5 @@
 package ehb.finalwork.manager.dto;
 
-import ehb.finalwork.manager.model.OauthToken;
 import org.junit.Before;
 import org.junit.Test;
 

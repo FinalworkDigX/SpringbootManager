@@ -15,8 +15,7 @@ public class RethinkBeaconDto implements RethinkDBHashable {
     private String description;
     private Long major;
     private Long minor;
-    private Double calibrationFactor;
-    private Vector3 position;
+    private Integer calibrationFactor;
     private Long lastUpdated;
 
 
@@ -24,14 +23,13 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.lastUpdated = Instant.now().getEpochSecond();
     }
 
-    public RethinkBeaconDto(String roomId, String name, String description, Long major, Long minor, Double calibrationFactor, Vector3 position) {
+    public RethinkBeaconDto(String roomId, String name, String description, Long major, Long minor, Integer calibrationFactor) {
         this.roomId = roomId;
         this.name = name;
         this.description = description;
         this.major = major;
         this.minor = minor;
         this.calibrationFactor = calibrationFactor;
-        this.position = position;
         this.lastUpdated = Instant.now().getEpochSecond();
     }
 
@@ -75,20 +73,12 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.minor = minor;
     }
 
-    public Double getCalibrationFactor() {
+    public Integer getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    public void setCalibrationFactor(Double calibrationFactor) {
+    public void setCalibrationFactor(Integer calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
-    }
-
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector3 position) {
-        this.position = position;
     }
 
     public Long getLastUpdated() {
@@ -113,12 +103,6 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         hashMap.put("minor", this.minor);
         hashMap.put("description", this.description);
         hashMap.put("calibrationFactor", this.calibrationFactor);
-        if (this.position != null) {
-            hashMap.put("position", this.position.toHashMap());
-        }
-        else {
-            hashMap.put("position", null);
-        }
         hashMap.put("lastUpdated", this.lastUpdated);
 
         return hashMap;

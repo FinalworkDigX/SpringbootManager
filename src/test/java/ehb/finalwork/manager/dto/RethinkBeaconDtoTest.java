@@ -30,32 +30,27 @@ public class RethinkBeaconDtoTest {
         assertNull(beaconDto.getName());
         assertNull(beaconDto.getDescription());
         assertNull(beaconDto.getCalibrationFactor());
-        assertNull(beaconDto.getPosition());
     }
 
     @Test
     public void completedConstructorTest() {
-        Vector3 vec3 = new Vector3(2.0, 2.0, 2.0);
-        beaconDto = new RethinkBeaconDto("room_id", "name" , "desc", 1L, 1L, 1.0, vec3);
+        beaconDto = new RethinkBeaconDto("room_id", "name" , "desc", 1L, 1L, 1);
 
         assertEquals("room_id", beaconDto.getRoomId());
         assertEquals("name", beaconDto.getName());
         assertEquals("desc", beaconDto.getDescription());
         assertEquals(1, beaconDto.getMajor(),0);
         assertEquals(1, beaconDto.getMinor(),0);
-        assertEquals(1.0, beaconDto.getCalibrationFactor(),0);
-        assertSame(vec3, beaconDto.getPosition());
+        assertEquals(1, beaconDto.getCalibrationFactor(),0);
     }
 
     @Test
     public void jsonInitTest() throws IOException {
-        Vector3 vec3 = new Vector3(1.0, 2.0, 3.0);
         HashMap<String, Object> json = new HashMap<String, Object>();
         json.put("roomId", "room_id");
         json.put("name", "name");
         json.put("description", "desc");
         json.put("calibrationFactor", 1.0);
-        json.put("position", vec3);
 
         beaconDto = new ObjectMapper().readValue(TestUtil.convertObjectToJsonString(json), RethinkBeaconDto.class);
 
@@ -63,9 +58,6 @@ public class RethinkBeaconDtoTest {
         assertEquals("name", beaconDto.getName());
         assertEquals("desc", beaconDto.getDescription());
         assertEquals(1.0, beaconDto.getCalibrationFactor(), 0);
-        assertEquals(1.0, beaconDto.getPosition().x, 0);
-        assertEquals(2.0, beaconDto.getPosition().y, 0);
-        assertEquals(3.0, beaconDto.getPosition().z, 0);
     }
 
     @Test
@@ -88,15 +80,7 @@ public class RethinkBeaconDtoTest {
 
     @Test
     public void calibrationFactorSetterAndGetterTest() {
-        beaconDto.setCalibrationFactor(2.2);
-        assertEquals(2.2, beaconDto.getCalibrationFactor(),0);
-    }
-
-    @Test
-    public void locationFactorSetterAndGetterTest() {
-        Vector3 vec3 = new Vector3(3.2, 3.3, 3.4);
-
-        beaconDto.setPosition(vec3);
-        assertSame( vec3, beaconDto.getPosition());
+        beaconDto.setCalibrationFactor(2);
+        assertEquals(2, beaconDto.getCalibrationFactor(),0);
     }
 }
