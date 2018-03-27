@@ -136,6 +136,7 @@
             stompClient.subscribe('/topic/beacon/test-id/calibrate', onNewData, onError);
             stompClient.subscribe('/topic/beacon/test-id/getByMajorMinor', onNewData, onError);
             stompClient.subscribe('/topic/beacon', onNewData, onError);
+            stompClient.subscribe('/topic/room/test-id', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -175,8 +176,18 @@
 
         stompClient.send("/beacon/test-id/calibrate", {priority: 9}, JSON.stringify(test));
     }
-    function testBeaconGenerate() {
-        stompClient.send("/app/beacon/generate", {priority: 9});
+    function testRoomForRa(room_id) {
+        //8f85bc69-fdcc-43fc-aaa9-c9563d42ae6e
+
+        var test = {
+            roomLocation: {
+                x: 1.3,
+                y: 1.4,
+                z: 1.5
+            }
+        };
+
+        stompClient.send("/app/room/test-id/" + room_id, {priority: 9}, JSON.stringify(test));
     }
 
     function testBeaconCreate(message, major, minor, cf) {
