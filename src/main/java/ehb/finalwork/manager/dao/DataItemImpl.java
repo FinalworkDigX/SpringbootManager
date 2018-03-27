@@ -22,9 +22,11 @@ public class DataItemImpl implements DataItemDao {
 
     @Override
     public List<DataItem> getAll() {
-        return r.db("manager")
+        Cursor<DataItem> cursor = r.db("manager")
                 .table("dataItem")
                 .run(connectionFactory.createConnection(), DataItem.class);
+
+        return cursor.toList();
     }
 
     @Override

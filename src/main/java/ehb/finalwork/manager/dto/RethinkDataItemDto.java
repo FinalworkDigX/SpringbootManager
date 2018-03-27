@@ -1,10 +1,12 @@
 package ehb.finalwork.manager.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ehb.finalwork.manager.model.RethinkDBHashable;
 import ehb.finalwork.manager.model.Vector3;
 
 import java.util.HashMap;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RethinkDataItemDto implements RethinkDBHashable {
     private String name;
     private Vector3 location;
@@ -45,6 +47,7 @@ public class RethinkDataItemDto implements RethinkDBHashable {
     @Override
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("name", this.name);
         hashMap.put("roomId", this.roomId);
 
         if (this.location != null) {

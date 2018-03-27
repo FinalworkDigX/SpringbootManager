@@ -55,6 +55,7 @@ public class DataItem extends ModelTemplate {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("id", this.id);
         hashMap.put("roomId", this.roomId);
+        hashMap.put("name", this.name);
 
         if (this.location != null) {
             hashMap.put("location", this.location.toHashMap());
