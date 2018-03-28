@@ -45,7 +45,7 @@
         var $this = $(this);
 
         var $values = getCleanInputs($this);
-        $this.trigger('reset');
+        //$this.trigger('reset');
         //In the ghetto, in the ghettooooo
         setupDataLogFormData();
 
@@ -56,21 +56,6 @@
 
         myAjaxCalls(DATALOG_URL, 'POST', dataLog);
     });
-
-    function test() {
-        var dl = {
-            "itemId": "my_item_id",
-            "information": [
-                {
-                    "name": "info_name",
-                    "data": "info_data",
-                    "index": 1
-                }
-            ],
-            "timestamp": 315487
-        };
-        myAjaxCalls(DATALOG_URL, 'POST', dl);
-    }
 
     $(document).on('submit', '.create_room_form', function (e) {
         e.preventDefault();
@@ -220,7 +205,8 @@
         console.log("in script");
         dataLogScript = !dataLogScript;
         if (dataLogScript) {
-            makeDataLogScript();
+            var dlid = $('#item_id').val();
+            makeDataLogScript(dlid);
             $(".create_dataLog_script").html("Stop");
         }
         else {
@@ -229,12 +215,12 @@
         }
     });
 
-    function makeDataLogScript() {
+    function makeDataLogScript(itemId) {
 
         dataLogScriptLoop = setInterval(function () {
             var info = randomDataForTest();
-            var dataLog = {itemId: "test_item", information: info};
-            myAjaxCalls('/dataLog', 'POST', dataLog);
+            var dataLog = {itemId: itemId, information: info};
+            myAjaxCalls('/v1/dataLog', 'POST', dataLog);
         }, 1000);
     }
 

@@ -47,15 +47,15 @@ public class DebugController {
     }
 
     // $@GetMapping("/generate/room")
-    public Room generateRoom() {
+    private Room generateRoom() {
         RethinkRoomDto r1 = new RethinkRoomDto("test_room", "room_desc_1", "Lokaal a201");
 
         return roomService.create(r1);
 
     }
 
-    public List<DataItem> generateDataItems(String roomId) throws Exception {
-        Vector3 v1 = new Vector3(0.1, 0.2, 0.3);
+    private List<DataItem> generateDataItems(String roomId) throws Exception {
+        Vector3 v1 = new Vector3(0.0, 0.0, 0.0);
         RethinkDataItemDto di1 = new RethinkDataItemDto("Screen 1", v1, roomId);
 
         dataItemService.create(di1);
@@ -64,7 +64,7 @@ public class DebugController {
     }
 
     // @GetMapping("/generate/beacon")
-    public List<Beacon> generateBeacons(String roomId) {
+    private List<Beacon> generateBeacons(String roomId) {
         RethinkBeaconDto b1 = new RethinkBeaconDto(roomId, "beacon_1_1", "Lokaal a201 pos.1", 1L, 1L, 61);
         RethinkBeaconDto b2 = new RethinkBeaconDto(roomId, "beacon_1_2", "Lokaal a201 pos.2", 1L, 2L, 61);
         RethinkBeaconDto b3 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 3L, 61);
