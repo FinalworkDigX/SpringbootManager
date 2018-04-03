@@ -1,6 +1,6 @@
 
-    const DATALOG_URL = "/v1/dataLog";
-    const ROOM_URL = "/v1/room";
+    const DATALOG_URL = "/api/v1/dataLog";
+    const ROOM_URL = "/api/v1/room";
 
     // Append functions
     function appendDataLog(dataLog) {
@@ -111,7 +111,7 @@
     var stompClient;
     // Connect to WS
     function connectManagerWebSocket() {
-        var socket = new SockJS('https://fw.ludovicmarchand.be/managerWS');
+        var socket = new SockJS('/api/managerWS');
         stompClient = Stomp.over(socket);
         //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
