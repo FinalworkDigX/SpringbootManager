@@ -17,6 +17,11 @@ public class DaoConfiguration {
     }
 
     @Bean
+    public DataItemDao dataItemDao() {
+        return new DataItemImpl();
+    }
+
+    @Bean
     public BeaconDao beaconDao() {
         return new BeaconDaoImpl();
     }

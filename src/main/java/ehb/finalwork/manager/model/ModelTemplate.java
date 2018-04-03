@@ -2,7 +2,7 @@ package ehb.finalwork.manager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public abstract class ModelTemplate {
+public abstract class ModelTemplate implements RethinkDBHashable {
 
         protected String id;
 

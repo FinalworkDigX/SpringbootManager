@@ -1,12 +1,15 @@
 package ehb.finalwork.manager.controller;
 
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
+import ehb.finalwork.manager.error.TooManyReturnValuesException;
 import ehb.finalwork.manager.model.DataLog;
 import ehb.finalwork.manager.service.DataLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.TooManyListenersException;
 
 @RestController
 @RequestMapping("/v1/dataLog")
@@ -17,21 +20,21 @@ public class DataLogController {
 
     @GetMapping()
     public List<DataLog> getDataLogs() {
-        return dataLogService.getDataLogs();
+        return dataLogService.getAll();
     }
 
     @GetMapping("/byId/{dlid}")
     public DataLog getDataLogById(@PathVariable String dlid) {
-        return dataLogService.getDataLog(dlid);
+        return dataLogService.getById(dlid);
     }
 
     @GetMapping("/byItemId/{iid}")
     public List<DataLog> getDataLogByItemId(@PathVariable String iid) {
-        return dataLogService.getDataLogByItem(iid);
+        return dataLogService.getByItemId(iid);
     }
 
     @PostMapping()
     public DataLog createDataLog(@RequestBody RethinkDataLogDto dataLogDto) {
-        return dataLogService.createDataLog(dataLogDto);
+        return dataLogService.create(dataLogDto);
     }
 }

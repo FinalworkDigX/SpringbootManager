@@ -1,6 +1,7 @@
 package ehb.finalwork.manager.dao;
 
 import com.rethinkdb.RethinkDB;
+import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
 import ehb.finalwork.manager.model.DataLog;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+import java.util.TooManyListenersException;
 
 public class DataLogDaoImpl implements DataLogDao {
 
@@ -22,7 +24,7 @@ public class DataLogDaoImpl implements DataLogDao {
     private RethinkDBConnectionFactory connectionFactory;
 
     @Override
-    public List<DataLog> getAllDataLogs() {
+    public List<DataLog> getAll() {
         return r.db("manager")
                 .table("dataLog")
                 .orderBy().optArg("index", r.desc("id"))
@@ -31,7 +33,7 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public DataLog getDataLogById(String id) {
+    public DataLog getById(String id) {
         return r.db("manager")
                 .table("dataLog")
                 .get(id)
@@ -39,18 +41,22 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public List<DataLog> getDataLogByItemId(String id) {
-        return r.db("manager")
+    public List<DataLog> getByItemId(String id) {
+
+        Cursor<DataLog> cursor = r.db("manager")
                 .table("dataLog")
-                .filter(row -> row.g("item_id").eq(id))
+                .filter(row -> row.g("itemId").match(id))
                 .run(connectionFactory.createConnection(), DataLog.class);
+
+        return cursor.toList();
     }
 
     @Override
-    public DataLog createDataLog(RethinkDataLogDto dataLogDto) {
+    public DataLog create(RethinkDataLogDto dataLogDto) {
+        log.info("datalog dao {}", dataLogDto.toHashMap());
         RethinkReturnObject returnObject = r.db("manager")
                 .table("dataLog")
-                .insert(dataLogDto)
+                .insert(dataLogDto.toHashMap())
                 .optArg("return_changes", true)
                 .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 
@@ -64,12 +70,12 @@ public class DataLogDaoImpl implements DataLogDao {
     }
 
     @Override
-    public DataLog updateDataLog(DataLog dataLog) {
+    public DataLog update(DataLog dataLog) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void deleteDataLog(String id) {
+    public void delete(String id) {
         throw new NotImplementedException();
     }
 }

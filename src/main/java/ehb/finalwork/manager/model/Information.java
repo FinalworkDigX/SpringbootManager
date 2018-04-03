@@ -1,6 +1,10 @@
 package ehb.finalwork.manager.model;
 
-public class Information {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class Information implements RethinkDBHashable {
     private String name;
     private String data;
     private Long index;
@@ -36,5 +40,25 @@ public class Information {
 
     public void setIndex(Long index) {
         this.index = index;
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("name", this.name);
+        hashMap.put("data", this.data);
+        hashMap.put("index", this.index);
+
+        return hashMap;
+    }
+
+    public static ArrayList<HashMap<String, Object>> listToHashMap(List<Information> informationList) {
+
+        ArrayList<HashMap<String, Object>> returnList = new ArrayList<HashMap<String, Object>>();
+        for (Information info: informationList) {
+            returnList.add(info.toHashMap());
+        }
+
+        return returnList;
     }
 }

@@ -1,8 +1,10 @@
 package ehb.finalwork.manager.model;
 
+import java.util.HashMap;
+
 public class Room extends ModelTemplate{
     private String name;
-    private String Description;
+    private String description;
     private String location;
 
     public Room() {
@@ -11,7 +13,7 @@ public class Room extends ModelTemplate{
     public Room(String id, String name, String description, String location) {
         this.id = id;
         this.name = name;
-        Description = description;
+        this.description = description;
         this.location = location;
     }
 
@@ -24,11 +26,11 @@ public class Room extends ModelTemplate{
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getLocation() {
@@ -47,5 +49,16 @@ public class Room extends ModelTemplate{
     @Override
     public String getTableName() {
         return "room";
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id", this.id);
+        hashMap.put("name", this.name);
+        hashMap.put("description", this.description);
+        hashMap.put("location", this.location);
+
+        return hashMap;
     }
 }

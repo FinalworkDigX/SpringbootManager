@@ -1,35 +1,48 @@
 package ehb.finalwork.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 
+@JsonIgnoreProperties(
+        ignoreUnknown = true
+)
 public class RethinkChangesReturn {
 
     private int deleted;
 
-    private HashMap new_val;
-    private HashMap old_val;
+    @JsonProperty("new_val")
+    private HashMap newVal;
+
+    @JsonProperty("old_val")
+    private HashMap oldVal;
 
     public RethinkChangesReturn() {
     }
 
-    public RethinkChangesReturn(HashMap new_val, HashMap old_val) {
-        this.new_val = new_val;
-        this.old_val = old_val;
+    public RethinkChangesReturn(HashMap newVal, HashMap oldVal) {
+        this.newVal = newVal;
+        this.oldVal = oldVal;
     }
 
-    public HashMap getNew_val() {
-        return new_val;
+    @JsonProperty("new_val")
+    public HashMap getNewVal() {
+        return newVal;
     }
 
-    public void setNew_val(HashMap new_val) {
-        this.new_val = new_val;
+    @JsonProperty("new_val")
+    public void setNewVal(HashMap newVal) {
+        this.newVal = newVal;
     }
 
-    public HashMap getOld_val() {
-        return old_val;
+    @JsonProperty("old_val")
+    public HashMap getOldVal() {
+        return oldVal;
     }
 
-    public void setOld_val(HashMap old_val) {
-        this.old_val = old_val;
+    @JsonProperty("old_val")
+    public void setOldVal(HashMap oldVal) {
+        this.oldVal = oldVal;
     }
 }

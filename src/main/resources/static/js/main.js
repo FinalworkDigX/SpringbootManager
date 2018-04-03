@@ -1,6 +1,6 @@
 
-    const DATALOG_URL = "/v1/dataLog";
-    const ROOM_URL = "/v1/room";
+    const DATALOG_URL = "/api/v1/dataLog";
+    const ROOM_URL = "/api/v1/room";
 
     // Append functions
     function appendDataLog(dataLog) {
@@ -13,7 +13,7 @@
 
         $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
-            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.item_id + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
+            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.itemId + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
             data + ', <br/>&nbsp;&nbsp;<strong>timestamp:</strong>' + dataLog.timestamp + '<br/>]' +
             '</div>'
         )
@@ -45,11 +45,14 @@
         var $this = $(this);
 
         var $values = getCleanInputs($this);
-        $this.trigger('reset');
+        //$this.trigger('reset');
         //In the ghetto, in the ghettooooo
         setupDataLogFormData();
 
-        var dataLog = {item_id: $values.item_id, information: JSON.parse($values.information)};
+        var dataLog = {itemId: $values.item_id, information: JSON.parse($values.information)};
+
+
+        console.log('datalog : ' + JSON.stringify(dataLog));
 
         myAjaxCalls(DATALOG_URL, 'POST', dataLog);
     });
@@ -108,14 +111,17 @@
     var stompClient;
     // Connect to WS
     function connectManagerWebSocket() {
-        var socket = new SockJS('/managerWS');
+        var socket = new SockJS('/api/managerWS');
         stompClient = Stomp.over(socket);
         //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/dataLog', onNewData, onError);
             stompClient.subscribe('/topic/room', onNewData, onError);
-            stompClient.subscribe('/topic/beacon/calibrate/test-id', onNewData, onError);
+            stompClient.subscribe('/topic/beacon/test-id/calibrate', onNewData, onError);
+            stompClient.subscribe('/topic/beacon/test-id/getByMajorMinor', onNewData, onError);
+            stompClient.subscribe('/topic/beacon', onNewData, onError);
+            stompClient.subscribe('/topic/room/test-id', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -153,17 +159,42 @@
             calibrationFactor: float
         };
 
-        stompClient.send("/beacon/calibrate/test-id", {priority: 9}, JSON.stringify(test));
+        stompClient.send("/beacon/test-id/calibrate", {priority: 9}, JSON.stringify(test));
     }
-
-    function testBeaconCreate(message) {
+    function testRoomForRa(room_id) {
+        //8f85bc69-fdcc-43fc-aaa9-c9563d42ae6e
 
         var test = {
-            id: message,
-            name: "test_beacon - " + message
+            roomLocation: {
+                x: 1.3,
+                y: 1.4,
+                z: 1.5
+            }
         };
 
-        stompClient.send("/beacon/create", {priority: 9}, JSON.stringify(test));
+        stompClient.send("/app/room/test-id/" + room_id, {priority: 9}, JSON.stringify(test));
+    }
+
+    function testBeaconCreate(message, major, minor, cf) {
+
+        var test = {
+            "id": message,
+            "name": "test_beacon - " + message,
+            "roomId": "test_room",
+            "major": major,
+            "minor": minor,
+            "calibrationFactor": cf
+        };
+
+        stompClient.send("/app/beacon/create", {priority: 9}, JSON.stringify(test));
+    }
+
+    function testBeaconGetAll() {
+        stompClient.send("/app/beacon", {priority: 9})
+    }
+
+    function testBeaconGetMajorMinor(major, minor) {
+        stompClient.send("/app/beacon/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
     }
 
     // <<<<< BEGIN: TestScript
@@ -174,7 +205,8 @@
         console.log("in script");
         dataLogScript = !dataLogScript;
         if (dataLogScript) {
-            makeDataLogScript();
+            var dlid = $('#item_id').val();
+            makeDataLogScript(dlid);
             $(".create_dataLog_script").html("Stop");
         }
         else {
@@ -183,12 +215,12 @@
         }
     });
 
-    function makeDataLogScript() {
+    function makeDataLogScript(itemId) {
 
         dataLogScriptLoop = setInterval(function () {
             var info = randomDataForTest();
-            var dataLog = {item_id: "test_item", information: info};
-            myAjaxCalls('/dataLog', 'POST', dataLog);
+            var dataLog = {itemId: itemId, information: info};
+            myAjaxCalls('/v1/dataLog', 'POST', dataLog);
         }, 1000);
     }
 

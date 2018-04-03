@@ -15,23 +15,26 @@ import java.util.List;
 public class DataLogService {
     private final Logger log = LoggerFactory.getLogger(DataLogService.class);
 
-    @Autowired
     private DataLogDao dataLogDao;
 
-    public List<DataLog> getDataLogs() {
-        return dataLogDao.getAllDataLogs();
+    public DataLogService(DataLogDao dataLogDao) {
+        this.dataLogDao = dataLogDao;
     }
 
-    public DataLog getDataLog(String id) {
-        return dataLogDao.getDataLogById(id);
+    public List<DataLog> getAll() {
+        return dataLogDao.getAll();
     }
 
-    public List<DataLog> getDataLogByItem(String id) {
-        return dataLogDao.getDataLogByItemId(id);
+    public DataLog getById(String id) {
+        return dataLogDao.getById(id);
     }
 
-    public DataLog createDataLog(RethinkDataLogDto dataLogDto) {
+    public List<DataLog> getByItemId(String id) {
+        return dataLogDao.getByItemId(id);
+    }
+
+    public DataLog create(RethinkDataLogDto dataLogDto) {
         dataLogDto.setTimestamp(Instant.now().getEpochSecond());
-        return dataLogDao.createDataLog(dataLogDto);
+        return dataLogDao.create(dataLogDto);
     }
 }

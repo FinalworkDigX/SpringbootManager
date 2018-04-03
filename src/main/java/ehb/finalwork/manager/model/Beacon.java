@@ -1,32 +1,42 @@
 package ehb.finalwork.manager.model;
 
-import com.sun.javafx.geom.Vec3d;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class Beacon extends ModelTemplate{
-    private String room_id;
+import java.sql.Time;
+import java.time.Instant;
+import java.util.HashMap;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Beacon extends ModelTemplate {
+    private String roomId;
     private String name;
     private String description;
-    private Double calibrationFactor;
-    private Vec3d location;
+    private Long major;
+    private Long minor;
+    private Integer calibrationFactor;
+    private Long lastUpdated;
 
     public Beacon() {
+        this.lastUpdated = Instant.now().getEpochSecond();
     }
 
-    public Beacon(String id, String room_id, String name, String description, Double calibrationFactor, Vec3d location) {
+    public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Integer calibrationFactor) {
         this.id = id;
-        this.room_id = room_id;
+        this.roomId = roomId;
         this.name = name;
         this.description = description;
+        this.major = major;
+        this.minor = minor;
         this.calibrationFactor = calibrationFactor;
-        this.location = location;
+        this.lastUpdated = Instant.now().getEpochSecond();
     }
 
-    public String getRoom_id() {
-        return room_id;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setRoom_id(String room_id) {
-        this.room_id = room_id;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public String getName() {
@@ -45,20 +55,40 @@ public class Beacon extends ModelTemplate{
         this.description = description;
     }
 
-    public Double getCalibrationFactor() {
+    public Long getMajor() {
+        return major;
+    }
+
+    public void setMajor(Long major) {
+        this.major = major;
+    }
+
+    public Long getMinor() {
+        return minor;
+    }
+
+    public void setMinor(Long minor) {
+        this.minor = minor;
+    }
+
+    public Integer getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    public void setCalibrationFactor(Double calibrationFactor) {
+    public void setCalibrationFactor(Integer calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
     }
 
-    public Vec3d getLocation() {
-        return location;
+    public Long getLastUpdated() {
+        return lastUpdated;
     }
 
-    public void setLocation(Vec3d location) {
-        this.location = location;
+    public void setLastUpdated() {
+        this.lastUpdated = Instant.now().getEpochSecond();
+    }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     @Override
@@ -69,5 +99,21 @@ public class Beacon extends ModelTemplate{
     @Override
     public String getTableName() {
         return "beacon";
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id", this.id);
+        hashMap.put("roomId", this.roomId);
+        hashMap.put("name", this.name);
+        hashMap.put("description", this.description);
+        hashMap.put("major", this.major);
+        hashMap.put("minor", this.minor);
+        hashMap.put("calibrationFactor", this.calibrationFactor);
+        hashMap.put("lastUpdated", this.lastUpdated);
+
+        return hashMap;
     }
 }

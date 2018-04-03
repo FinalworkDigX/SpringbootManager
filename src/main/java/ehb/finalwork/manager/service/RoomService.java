@@ -14,18 +14,25 @@ import java.util.List;
 public class RoomService {
     private final Logger log = LoggerFactory.getLogger(RoomService.class);
 
-    @Autowired
     private RoomDao roomDao;
 
-    public List<Room> getRooms() {
-        return roomDao.getAllRooms();
+    private RoomService(RoomDao roomDao) {
+        this.roomDao = roomDao;
     }
 
-    public Room createRoom(RethinkRoomDto roomDto) {
-        return roomDao.createRoom(roomDto);
+    public List<Room> getAll() {
+        return roomDao.getAll();
     }
 
-    public void deleteRoom(String id) {
-        roomDao.deleteRoom(id);
+    public Room getById(String id) throws Exception {
+        return roomDao.getById(id);
+    }
+
+    public Room create(RethinkRoomDto roomDto) {
+        return roomDao.create(roomDto);
+    }
+
+    public void delete(String id) {
+        roomDao.delete(id);
     }
 }
