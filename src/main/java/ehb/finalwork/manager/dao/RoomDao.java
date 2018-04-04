@@ -11,5 +11,5 @@ public interface RoomDao {
     Room getById(String id) throws CustomNotFoundException;
     Room create(RethinkRoomDto roomDto);
     Room update(Room room);
-    void delete(String id);
+    void delete(String id) throws CustomNotFoundException;
 }

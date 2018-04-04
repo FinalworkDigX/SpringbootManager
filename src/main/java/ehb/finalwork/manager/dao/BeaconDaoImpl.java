@@ -4,6 +4,7 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
+import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.error.CustomNotFoundWebSocketException;
 import ehb.finalwork.manager.error.TooManyReturnValuesWebSocketException;
 import ehb.finalwork.manager.model.Beacon;
@@ -12,7 +13,6 @@ import ehb.finalwork.manager.service.RoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -96,7 +96,17 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
-    public void delete(String id) {
-        throw new NotImplementedException();
+    public void delete(String id) throws CustomNotFoundException {
+        RethinkReturnObject returnObject = r.db("manager")
+                                            .table("beacon")
+                                            .get(id)
+                                            .delete().optArg("return_changes", true)
+                                            .run(connectionFactory.createConnection(), RethinkReturnObject.class);
+
+        log.info("Delete {}", returnObject);
+        log.info("Delete id {}", id);
+        if (returnObject.getDeleted() == 0) {
+            throw new CustomNotFoundException("Beacon with id: " + id + ": Not Found");
+        }
     }
 }

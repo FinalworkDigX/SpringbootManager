@@ -19,22 +19,22 @@ public class DataLogController {
     private DataLogService dataLogService;
 
     @GetMapping()
-    public List<DataLog> getDataLogs() {
+    public List<DataLog> getAll() {
         return dataLogService.getAll();
     }
 
     @GetMapping("/byId/{dlid}")
-    public DataLog getDataLogById(@PathVariable String dlid) {
+    public DataLog getById(@PathVariable String dlid) {
         return dataLogService.getById(dlid);
     }
 
     @GetMapping("/byItemId/{iid}")
-    public List<DataLog> getDataLogByItemId(@PathVariable String iid) {
+    public List<DataLog> getByItemId(@PathVariable String iid) {
         return dataLogService.getByItemId(iid);
     }
 
     @PostMapping()
-    public DataLog createDataLog(@RequestBody RethinkDataLogDto dataLogDto) {
+    public DataLog create(@RequestBody RethinkDataLogDto dataLogDto) {
         return dataLogService.create(dataLogDto);
     }
 }

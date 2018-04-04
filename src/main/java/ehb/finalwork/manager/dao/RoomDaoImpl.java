@@ -10,7 +10,6 @@ import ehb.finalwork.manager.service.RoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -64,13 +63,33 @@ public class RoomDaoImpl implements RoomDao {
 
     @Override
     public Room update(Room room) {
-        throw new NotImplementedException();
+        RethinkReturnObject returnObject = r.db("manager")
+                                            .table("room")
+                                            .get(room.getId())
+                                            .update(room.toHashMap())
+                                            .optArg("return_changes", true)
+                                            .run(connectionFactory.createConnection(), RethinkReturnObject.class);
+
+        if (returnObject.getReplaced() != 0) {
+            room = (Room) returnObject.getFirstNewVal(room);
+        }
+
+        log.info("Beacon calibrated: {}", returnObject.toString());
+        return room;
     }
 
     @Override
-    public void delete(String id) {
-        Object run = r.db("manager").table("room").get(id).delete().optArg("return_changes", true).run(connectionFactory.createConnection());
-        log.info("Delete {}", run);
+    public void delete(String id) throws CustomNotFoundException {
+        RethinkReturnObject returnObject = r.db("manager")
+                                            .table("room")
+                                            .get(id)
+                                            .delete().optArg("return_changes", true)
+                                            .run(connectionFactory.createConnection(), RethinkReturnObject.class);
+
+        log.info("Delete {}", returnObject);
         log.info("Delete id {}", id);
+        if (returnObject.getDeleted() == 0) {
+            throw new CustomNotFoundException("Room with id: " + id + ": Not Found");
+        }
     }
 }

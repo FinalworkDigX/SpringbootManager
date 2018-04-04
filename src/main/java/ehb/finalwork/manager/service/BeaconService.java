@@ -2,6 +2,7 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dao.BeaconDao;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
+import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.model.Beacon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,5 +37,13 @@ public class BeaconService {
 
     public Beacon create(RethinkBeaconDto beaconDto) {
         return beaconDao.create(beaconDto);
+    }
+
+    public Beacon update(Beacon beacon) {
+        return beaconDao.update(beacon);
+    }
+
+    public void delete(String bid) throws CustomNotFoundException {
+        beaconDao.delete(bid);
     }
 }

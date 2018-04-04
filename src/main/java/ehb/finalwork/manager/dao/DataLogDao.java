@@ -10,6 +10,4 @@ public interface DataLogDao {
     DataLog getById(String id);
     List<DataLog> getByItemId(String id);
     DataLog create(RethinkDataLogDto dataLogDto);
-    DataLog update(DataLog dataLog);
-    void delete(String id);
 }

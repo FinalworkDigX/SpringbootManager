@@ -10,7 +10,6 @@ import ehb.finalwork.manager.service.RoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.TooManyListenersException;
@@ -67,15 +66,5 @@ public class DataLogDaoImpl implements DataLogDao {
 
         log.info("DataLog Insert: {}", returnObject.toString());
         return dataLog;
-    }
-
-    @Override
-    public DataLog update(DataLog dataLog) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public void delete(String id) {
-        throw new NotImplementedException();
     }
 }
