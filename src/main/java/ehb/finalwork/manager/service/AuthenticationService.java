@@ -70,11 +70,11 @@ public class AuthenticationService {
             if (idToken.getClaim("https://finalwork.be/type").asString().equals(type)) {
                 return th;
             }
-            throw new LoginException("Username or password invalid");
+            throw new LoginException();
         }
         catch (Auth0Exception exception) {
             log.error(exception.getMessage());
-            throw new LoginException("Username or password invalid");
+            throw new LoginException();
         }
     }
 
