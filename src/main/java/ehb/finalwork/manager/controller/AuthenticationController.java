@@ -23,9 +23,9 @@ public class AuthenticationController {
         return authenticationService.signup(auth0LoginDto);
     }
 
-    @PostMapping("/login")
-    public TokenHolder login(@RequestBody Auth0LoginDto auth0LoginDto) throws Exception {
-        return authenticationService.login(auth0LoginDto);
+    @PostMapping("{type}/login")
+    public TokenHolder login(@PathVariable String type, @RequestBody Auth0LoginDto auth0LoginDto) throws Exception {
+        return authenticationService.login(type, auth0LoginDto);
     }
 
     @PostMapping("/reset-password")
