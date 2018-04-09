@@ -34,6 +34,7 @@ public class AuthenticationService {
 
         Map<String, String> fields = new HashMap<>();
         fields.put("channel", UUID.randomUUID().toString());
+        fields.put("type", "user");
 
         SignUpRequest request = auth.signUp(auth0LoginDto.getEmail(), auth0LoginDto.getPassword(), auth.getConnection()).setCustomFields(fields);
         try {
@@ -75,6 +76,17 @@ public class AuthenticationService {
         catch (Auth0Exception exception) {
             log.error(exception.getMessage());
             throw new LoginException();
+        }
+    }
+
+    public void logout(String token) throws Exception {
+        Request<Void> logoutRequest = auth.revokeToken(token);
+        try {
+            logoutRequest.execute();
+        }
+        catch (Auth0Exception exception) {
+            log.error(exception.getMessage());
+            throw new Exception("logout exception not yet implemented");
         }
     }
 
