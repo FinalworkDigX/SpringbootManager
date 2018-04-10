@@ -34,6 +34,7 @@ public class Auth0ManagementService {
 
     public User createUser(User user) {
         // Set defaults
+        user.setConnection(mgmt.getConnection());
         user = this.setDefaults(user);
 
         Request<User> request = mgmt.users().create(user);
@@ -44,7 +45,12 @@ public class Auth0ManagementService {
         // Set defaults
         user = this.setDefaults(user);
 
-        Request<User> request = mgmt.users().update(user.getId(), user);
+        User u = new User();
+        u.setEmail(user.getEmail());
+        u.setAppMetadata(user.getAppMetadata());
+        u.setUserMetadata(user.getUserMetadata());
+
+        Request<User> request = mgmt.users().update(user.getId(), u);
         return (User) executeQuery(request, true);
     }
 
@@ -70,8 +76,6 @@ public class Auth0ManagementService {
     }
 
     private User setDefaults(User user) {
-        user.setConnection(mgmt.getConnection());
-
         Map<String, Object> userMeta = user.getUserMetadata();
         if (userMeta == null) {
             userMeta = new HashMap<>();
