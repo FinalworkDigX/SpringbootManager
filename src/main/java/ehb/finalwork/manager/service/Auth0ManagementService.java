@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @Service
 public class Auth0ManagementService {
 
@@ -22,7 +26,7 @@ public class Auth0ManagementService {
 
     public User createUser(User user) {
         // Set defaults
-        user.setConnection(mgmt.getConnection());
+        user = this.setDefaults(user);
 
         Request<User> request = mgmt.users().create(user);
         return (User) executeQuery(request, true);
@@ -30,7 +34,7 @@ public class Auth0ManagementService {
 
     public User updateUser(User user) {
         // Set defaults
-        user.setConnection(mgmt.getConnection());
+        user = this.setDefaults(user);
 
         Request<User> request = mgmt.users().update(user.getId(), user);
         return (User) executeQuery(request, true);
@@ -61,5 +65,24 @@ public class Auth0ManagementService {
             log.error(e.getMessage());
             return new Auth0UserDto(e.getMessage().split(": ")[1]);
         }
+    }
+
+    private User setDefaults(User user) {
+        user.setConnection(mgmt.getConnection());
+
+        Map<String, Object> userMeta = user.getUserMetadata();
+        if (userMeta == null) {
+            userMeta = new HashMap<>();
+        }
+
+        if (!userMeta.containsKey("channel")) {
+            userMeta.put("channel", UUID.randomUUID().toString());
+        }
+        if (!userMeta.containsKey("type")) {
+            userMeta.put("type", "user");
+        }
+        user.setUserMetadata(userMeta);
+
+        return user;
     }
 }

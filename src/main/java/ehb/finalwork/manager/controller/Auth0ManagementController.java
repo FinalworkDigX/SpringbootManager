@@ -7,28 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/management")
+@RequestMapping("/v1/management/user")
 public class Auth0ManagementController {
 
     @Autowired
     private Auth0ManagementService managementService;
 
-    @GetMapping("/users")
+    @GetMapping()
     public UsersPage getAll() {
         return managementService.getUsers();
     }
 
-    @PostMapping("/user")
+    @PostMapping()
     public User create(@RequestBody User user) {
         return managementService.createUser(user);
     }
 
-    @PutMapping("/user")
+    @PutMapping()
     public User update(@RequestBody User user) {
         return managementService.updateUser(user);
     }
 
-    @DeleteMapping("/user/{uid}")
+    @DeleteMapping("/{uid}")
     public User delete(@PathVariable String uid) {
         return managementService.deleteUser(uid);
     }
