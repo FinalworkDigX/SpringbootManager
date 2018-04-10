@@ -6,6 +6,8 @@ import ehb.finalwork.manager.service.Auth0ManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/management/user")
 public class Auth0ManagementController {
@@ -14,7 +16,7 @@ public class Auth0ManagementController {
     private Auth0ManagementService managementService;
 
     @GetMapping()
-    public UsersPage getAll() {
+    public List<User> getAll() {
         return managementService.getUsers();
     }
 

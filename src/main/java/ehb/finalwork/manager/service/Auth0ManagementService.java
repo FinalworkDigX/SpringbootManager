@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,6 +24,13 @@ public class Auth0ManagementService {
 
     @Autowired
     MgmtAPIWrapper mgmt;
+
+    public List<User> getUsers() {
+        UserFilter userFilter = new UserFilter();
+        Request request = mgmt.users().list(userFilter);
+        UsersPage up = (UsersPage) executeQuery(request, true);
+        return up.getItems();
+    }
 
     public User createUser(User user) {
         // Set defaults
@@ -43,12 +51,6 @@ public class Auth0ManagementService {
     public Auth0UserDto deleteUser(String uid) {
         Request request = mgmt.users().delete(uid);
         return (Auth0UserDto) executeQuery(request, false);
-    }
-
-    public UsersPage getUsers() {
-        UserFilter userFilter = new UserFilter();
-        Request request = mgmt.users().list(userFilter);
-        return (UsersPage) executeQuery(request, true);
     }
 
     private Object executeQuery(Request request, Boolean hasReturn) {
