@@ -31,4 +31,10 @@ public class DaoConfiguration {
     public DataSourceDao dataSourceDao() {
         return new DataSourceDaoImpl(new DataSource());
     }
+
+    @Bean
+    public DataConversionDao dataConversionDao() {
+        return new DataConversionDaoImpl(new DataConversion());
+    }
+
 }
