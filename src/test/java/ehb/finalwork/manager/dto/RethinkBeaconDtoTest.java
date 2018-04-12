@@ -34,7 +34,7 @@ public class RethinkBeaconDtoTest {
 
     @Test
     public void completedConstructorTest() {
-        beaconDto = new RethinkBeaconDto("room_id", "name" , "desc", 1L, 1L, 1);
+        beaconDto = new RethinkBeaconDto("room_id", "name" , "desc", 1L, 1L, 1L);
 
         assertEquals("room_id", beaconDto.getRoomId());
         assertEquals("name", beaconDto.getName());
@@ -80,7 +80,7 @@ public class RethinkBeaconDtoTest {
 
     @Test
     public void calibrationFactorSetterAndGetterTest() {
-        beaconDto.setCalibrationFactor(2);
+        beaconDto.setCalibrationFactor(2L);
         assertEquals(2, beaconDto.getCalibrationFactor(),0);
     }
 }

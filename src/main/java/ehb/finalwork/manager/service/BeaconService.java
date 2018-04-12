@@ -28,7 +28,7 @@ public class BeaconService {
         return beaconDao.getByMajorMinor(major, minor, privateChannel);
     }
 
-    public Beacon calibrate(String id, Integer factor) throws CustomNotFoundException {
+    public Beacon calibrate(String id, Long factor) throws CustomNotFoundException {
         Beacon b = beaconDao.getById(id);
         b.setCalibrationFactor(factor);
         b.setLastUpdated();

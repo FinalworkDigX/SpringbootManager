@@ -15,7 +15,7 @@ public class RethinkBeaconDto implements RethinkDBHashable {
     private String description;
     private Long major;
     private Long minor;
-    private Integer calibrationFactor;
+    private Long calibrationFactor;
     private Long lastUpdated;
 
 
@@ -23,7 +23,7 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.lastUpdated = Instant.now().getEpochSecond();
     }
 
-    public RethinkBeaconDto(String roomId, String name, String description, Long major, Long minor, Integer calibrationFactor) {
+    public RethinkBeaconDto(String roomId, String name, String description, Long major, Long minor, Long calibrationFactor) {
         this.roomId = roomId;
         this.name = name;
         this.description = description;
@@ -73,11 +73,11 @@ public class RethinkBeaconDto implements RethinkDBHashable {
         this.minor = minor;
     }
 
-    public Integer getCalibrationFactor() {
+    public Long getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    public void setCalibrationFactor(Integer calibrationFactor) {
+    public void setCalibrationFactor(Long calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
     }
 
