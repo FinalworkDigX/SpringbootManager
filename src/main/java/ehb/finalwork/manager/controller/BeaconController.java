@@ -34,14 +34,14 @@ public class BeaconController {
 
     @MessageMapping("/beacon/{privateChannel}/calibrate")
     @SendTo("/topic/beacon/{privateChannel}/calibrate")
-    public Beacon calibrateWS(@DestinationVariable String privateChannel, Beacon beacon) {
+    public Beacon calibrateWS(@DestinationVariable String privateChannel, Beacon beacon) throws CustomNotFoundException {
         log.info(privateChannel + " - CF: " + beacon.getCalibrationFactor());
         return beaconService.calibrate(beacon.getId(), beacon.getCalibrationFactor());
     }
 
     @MessageMapping("/beacon/create")
     @SendTo("/topic/beacon/create")
-    public Beacon createWS(@RequestBody RethinkBeaconDto beaconDto) {
+    public Beacon createWS(@RequestBody RethinkBeaconDto beaconDto) throws Exception {
         return beaconService.create(beaconDto);
     }
 
@@ -61,7 +61,7 @@ public class BeaconController {
     }
 
     @PostMapping()
-    public Beacon create(@RequestBody RethinkBeaconDto beaconDto) {
+    public Beacon create(@RequestBody RethinkBeaconDto beaconDto) throws Exception {
         return beaconService.create(beaconDto);
     }
 

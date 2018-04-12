@@ -82,7 +82,7 @@ public class DebugController {
     }
 
     // @GetMapping("/generate/beacon")
-    private List<Beacon> generateBeacons(String roomId) {
+    private List<Beacon> generateBeacons(String roomId) throws Exception {
         RethinkBeaconDto b1 = new RethinkBeaconDto(roomId, "beacon_1_1", "Lokaal a201 pos.1", 1L, 1L, 61);
         RethinkBeaconDto b2 = new RethinkBeaconDto(roomId, "beacon_1_2", "Lokaal a201 pos.2", 1L, 2L, 61);
         RethinkBeaconDto b3 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 3L, 61);
