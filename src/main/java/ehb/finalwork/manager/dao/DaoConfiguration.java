@@ -28,7 +28,7 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public BeaconDao beaconDao() {
-        return new BeaconDaoImpl();
+    public DataSourceDao dataSourceDao() {
+        return new DataSourceDaoImpl(new DataSource());
     }
 }

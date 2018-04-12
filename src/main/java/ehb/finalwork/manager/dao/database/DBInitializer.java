@@ -72,6 +72,9 @@ public class DBInitializer implements InitializingBean {
             r.db(database).tableCreate("dataLog").run(con);
             r.db(database).table("dataLog").indexCreate("item_id").run(con);
         }
+        if (!tables.contains("dataSource")) {
+            r.db(database).tableCreate("dataSource").run(con);
+        }
         /* Verify / Create tables for each object? // 1 table with all info? */
     }
 }
