@@ -1,13 +1,13 @@
 package ehb.finalwork.manager.websockets;
 
-import com.sun.org.apache.xpath.internal.operations.String;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.simp.stomp.*;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class SessionHandler extends StompSessionHandlerAdapter {
@@ -30,12 +30,23 @@ public class SessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public Type getPayloadType(StompHeaders headers) {
-        return Object.class;
+        return byte[].class;
     }
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-        // Need to change class as to recieve json
-        log.info("Received: {}", payload);
+        try {
+            byte[] jsonBytes = (byte[]) payload;
+            HashMap<String, Object> hm = testJackson(jsonBytes);
+        }
+        catch (IOException e) {
+            log.error("handleFrame error: {}", e);
+        }
+    }
+
+    private HashMap<String, Object> testJackson(byte[] o) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {};
+        return mapper.readValue(o, typeRef);
     }
 }
