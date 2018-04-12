@@ -65,7 +65,7 @@ public class DebugController {
 
 
     // $@GetMapping("/generate/room")
-    private Room generateRoom() {
+    private Room generateRoom() throws Exception{
         RethinkRoomDto r1 = new RethinkRoomDto("test_room", "room_desc_1", "Lokaal a201");
 
         return roomService.create(r1);

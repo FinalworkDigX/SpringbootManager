@@ -9,7 +9,8 @@ public class DaoConfiguration {
 
     @Bean
     public RoomDao roomDao() {
-        return new RoomDaoImpl();
+        return new RoomDaoImpl(new Room());
+    }
 
     @Bean
     public BeaconDao beaconDao() {

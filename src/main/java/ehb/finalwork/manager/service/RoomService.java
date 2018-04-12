@@ -29,7 +29,7 @@ public class RoomService {
         return roomDao.getById(id);
     }
 
-    public Room create(RethinkRoomDto roomDto) {
+    public Room create(RethinkRoomDto roomDto) throws Exception {
         return roomDao.create(roomDto);
     }
 

@@ -59,7 +59,7 @@ public class RoomController {
     }
 
     @PostMapping()
-    public Room create(@RequestBody RethinkRoomDto roomDto) {
+    public Room create(@RequestBody RethinkRoomDto roomDto) throws Exception {
         return roomService.create(roomDto);
     }
 
