@@ -1,5 +1,6 @@
 
-    const remote = "/api";
+    const remote = "";
+    console.log('url prefix ="' + remote + '"');
 
     const DATALOG_URL = remote + "/v1/dataLog";
     const WS_URL = remote + "/managerWS";
