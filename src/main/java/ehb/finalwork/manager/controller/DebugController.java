@@ -11,11 +11,15 @@ import ehb.finalwork.manager.service.BeaconService;
 import ehb.finalwork.manager.service.DataItemService;
 import ehb.finalwork.manager.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -31,6 +35,19 @@ public class DebugController {
     @Autowired
     DataItemService dataItemService;
 
+    // ===================== //
+    //      Web Sockets
+    // ===================== //
+    @MessageMapping("/echo")
+    @SendTo("/topic/echo")
+    public HashMap<String, Object> echo(@RequestBody HashMap<String, Object> json) {
+        return json;
+    }
+
+
+    // ===================== //
+    //      REST api
+    // ===================== //
     @GetMapping("/generate")
     public List<String> generateAll() throws Exception {
 
@@ -45,6 +62,7 @@ public class DebugController {
 
         return dataItemsIds;
     }
+
 
     // $@GetMapping("/generate/room")
     private Room generateRoom() {
