@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class RethinkReturnObjectTest {
 
-    private RethinkReturnObject<?> returnObject;
+    private RethinkReturnObject returnObject;
     private List<RethinkChangesReturn> changes;
 
     @Before

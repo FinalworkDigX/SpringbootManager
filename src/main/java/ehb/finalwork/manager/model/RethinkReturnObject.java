@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RethinkReturnObject<T> {
+public class RethinkReturnObject {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    T entity;
 
     private Long inserted;
     private Long replaced;
@@ -101,8 +100,8 @@ public class RethinkReturnObject<T> {
         return this.asMapped(this.getFirstChange().getNewVal(), asObject.getClass());
     }
 
-    public Object getFirstNewVal() {
-        return this.asMapped(this.getFirstChange().getNewVal(), this.entity.getClass());
+    public Object getFirstNewVal(final Class clazz) {
+        return this.asMapped(this.getFirstChange().getNewVal(), clazz);
     }
 
     private Object asMapped(final HashMap map, final Class clazz) {

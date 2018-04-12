@@ -51,14 +51,14 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
 
     @Override
     public T create(U entityDto) throws Exception {
-        RethinkReturnObject<T> returnObject = r.db("manager")
+        RethinkReturnObject returnObject = r.db("manager")
                                             .table(entity.getTableName())
                                             .insert(entityDto.toHashMap())
                                             .optArg("return_changes", true)
-                                            .run(connectionFactory.createConnection(), entity.getClass());
+                                            .run(connectionFactory.createConnection(),RethinkReturnObject.class);
 
         if (returnObject.getInserted() != 0) {
-            return (T) returnObject.getFirstNewVal();
+            return (T) returnObject.getFirstNewVal(this.entity.getClass());
         }
         // Create custom exception
         throw new Exception();
@@ -66,7 +66,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
 
     @Override
     public T update(T entity) {
-        RethinkReturnObject<T> returnObject = r.db("manager")
+        RethinkReturnObject returnObject = r.db("manager")
                                             .table(entity.getTableName())
                                             .get(entity.getId())
                                             .update(entity.toHashMap())
@@ -74,7 +74,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
                                             .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 
         if (returnObject.getReplaced() != 0) {
-            entity = (T) returnObject.getFirstNewVal();
+            entity = (T) returnObject.getFirstNewVal(this.entity.getClass());
         }
         else {
             log.error("DataItemNotUpdated: {}", returnObject);
@@ -85,7 +85,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
 
     @Override
     public void delete(String id) throws CustomNotFoundException {
-        RethinkReturnObject<T> returnObject = r.db("manager")
+        RethinkReturnObject returnObject = r.db("manager")
                                             .table(entity.getTableName())
                                             .get(id)
                                             .delete().optArg("return_changes", true)
