@@ -24,7 +24,7 @@ public class DaoConfiguration {
 
     @Bean
     public DataItemDao dataItemDao() {
-        return new DataItemImpl();
+        return new DataItemImpl(new DataItem());
     }
 
     @Bean

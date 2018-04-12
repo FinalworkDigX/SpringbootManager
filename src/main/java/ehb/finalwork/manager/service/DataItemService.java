@@ -25,7 +25,7 @@ public class DataItemService {
         return dataItemDao.getByRoomId(rid);
     }
 
-    public DataItem getById(String id) {
+    public DataItem getById(String id) throws CustomNotFoundException {
         return dataItemDao.getById(id);
     }
 

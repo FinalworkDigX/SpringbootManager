@@ -27,7 +27,7 @@ public class DataItemController {
     }
 
     @GetMapping("/byId/{id}")
-    public DataItem getById(@PathVariable String id) {
+    public DataItem getById(@PathVariable String id) throws CustomNotFoundException {
         return dataItemService.getById(id);
     }
 
