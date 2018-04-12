@@ -19,7 +19,7 @@ public class DaoConfiguration {
 
     @Bean
     public DataLogDao dataLogDao() {
-        return new DataLogDaoImpl();
+        return new DataLogDaoImpl(new DataLog());
     }
 
     @Bean

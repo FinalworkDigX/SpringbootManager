@@ -5,9 +5,6 @@ import ehb.finalwork.manager.model.DataLog;
 
 import java.util.List;
 
-public interface DataLogDao {
-    List<DataLog> getAll();
-    DataLog getById(String id);
+public interface DataLogDao extends BaseDao<DataLog, RethinkDataLogDto> {
     List<DataLog> getByItemId(String id);
-    DataLog create(RethinkDataLogDto dataLogDto);
 }

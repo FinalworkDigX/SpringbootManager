@@ -1,6 +1,7 @@
 package ehb.finalwork.manager.controller;
 
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
+import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.error.TooManyReturnValuesException;
 import ehb.finalwork.manager.model.DataLog;
 import ehb.finalwork.manager.service.DataLogService;
@@ -24,7 +25,7 @@ public class DataLogController {
     }
 
     @GetMapping("/byId/{dlid}")
-    public DataLog getById(@PathVariable String dlid) {
+    public DataLog getById(@PathVariable String dlid) throws CustomNotFoundException {
         return dataLogService.getById(dlid);
     }
 
@@ -34,7 +35,7 @@ public class DataLogController {
     }
 
     @PostMapping()
-    public DataLog create(@RequestBody RethinkDataLogDto dataLogDto) {
+    public DataLog create(@RequestBody RethinkDataLogDto dataLogDto) throws Exception {
         return dataLogService.create(dataLogDto);
     }
 }
