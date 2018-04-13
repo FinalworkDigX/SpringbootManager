@@ -3,18 +3,32 @@ package ehb.finalwork.manager.websockets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ehb.finalwork.manager.model.DataDestination;
+import ehb.finalwork.manager.service.DataConversionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.stomp.*;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
+@Component
 public class SessionHandler extends StompSessionHandlerAdapter {
     private Logger log = LoggerFactory.getLogger(getClass());
     private List<DataDestination> destinations;
+
+    // Autowire doesn't work (Because of StompClientService eventListener?)
+    // Workaround
+    private static DataConversionService dataConversionService;
+
+    public SessionHandler() {
+        if (dataConversionService == null) {
+            dataConversionService = new DataConversionService();
+        }
+    }
 
     public SessionHandler(List<DataDestination> destinations) {
         this.destinations = destinations;
@@ -45,13 +59,16 @@ public class SessionHandler extends StompSessionHandlerAdapter {
         try {
             byte[] jsonBytes = (byte[]) payload;
             HashMap<String, Object> hm = testJackson(jsonBytes);
+            String headerDestination = headers.getDestination();
 
-            switch (headers.getDestination()) {
-                case "/topic/echo":
-                    log.info("Payload from ECHO: {}", hm);
-                    break;
-                default:
-                    log.error("Header destination not listed: {}", headers.getDestination());
+            Optional<DataDestination> destinationOptional = this.destinations.stream().filter(d -> d.getDestination().equals(headerDestination)).findFirst();
+
+            if (destinationOptional.isPresent()) {
+                DataDestination dd = destinationOptional.get();
+                dataConversionService.convertData(hm, dd.getConversionScheme());
+            }
+            else {
+                log.error("Headers not found! :{}", headerDestination);
             }
         }
         catch (IOException e) {
