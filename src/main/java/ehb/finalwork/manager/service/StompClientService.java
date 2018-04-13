@@ -1,5 +1,9 @@
 package ehb.finalwork.manager.service;
 
+import ehb.finalwork.manager.dto.InformationConversionDto;
+import ehb.finalwork.manager.model.DataDestination;
+import ehb.finalwork.manager.model.Information;
+import ehb.finalwork.manager.model.StompClient;
 import ehb.finalwork.manager.websockets.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,36 +18,41 @@ import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 import org.springframework.web.socket.sockjs.frame.Jackson2SockJsMessageCodec;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class StompClientService {
     private final Logger log = LoggerFactory.getLogger(RoomService.class);
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void startStompClient() {
-        Transport webSocketTransport = new WebSocketTransport(new StandardWebSocketClient());
-        List<Transport> transports = Collections.singletonList(webSocketTransport);
-        SockJsClient sockJsClient = new SockJsClient(transports);
-        sockJsClient.setMessageCodec(new Jackson2SockJsMessageCodec());
-        WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
+    private List<StompClient> stompClients;
 
-
-        String url = "ws://127.0.0.1:9000/managerWS";
-        StompSessionHandler sessionHandler = new SessionHandler();
-        stompClient.connect(url, sessionHandler);
-        log.warn("connection");
+    StompClientService() {
+        stompClients = new ArrayList<>();
     }
 
-//    public void startStompClient() throws ExecutionException, InterruptedException {
-//        ServiceClient serviceClient = new ServiceClient();
-//
-//        ListenableFuture<StompSession> f = serviceClient.connect();
-//        log.warn("after f");
-//        StompSession stompSession = f.get();
-//        log.warn("after f.get");
-//
-//        serviceClient.subscribeToChannels(stompSession);
-//    }
+    @EventListener(ApplicationReadyEvent.class)
+    public void startStompClient() {
+
+        HashMap<String, Object> tempMap = new HashMap<>();
+        tempMap.put("id", "id");
+        tempMap.put("type", new InformationConversionDto("Kind: ", 1L));
+        tempMap.put("use_info.on_time", new InformationConversionDto("On: ", 2L));
+        tempMap.put("use_info.temp", new InformationConversionDto("Temp: ", 3L));
+
+
+        List<DataDestination> tempList = new ArrayList<>();
+        tempList.add(new DataDestination("/topic/echo", tempMap));
+
+        // Get url from Rethink
+        StompClient sc = new StompClient("ws://127.0.0.1:9000/managerWS", tempList);
+        sc.connect();
+        stompClients.add(sc);
+    }
+
+    public List<StompClient> getStompClients() {
+        return stompClients;
+    }
 }

@@ -6,16 +6,16 @@ import java.util.List;
 
 public class DataSource extends ModelTemplate {
     private String url;
-    private List<String> channels;
+    private List<DataDestination> destinations;
 
     public DataSource() {
-        this.channels = new ArrayList<>();
+        this.destinations = new ArrayList<>();
     }
 
-    public DataSource(String id, String url, List<String> channels) {
+    public DataSource(String id, String url, List<DataDestination> destinations) {
         this.id = id;
         this.url = url;
-        this.channels = channels;
+        this.destinations = destinations;
     }
 
     public String getUrl() {
@@ -26,12 +26,12 @@ public class DataSource extends ModelTemplate {
         this.url = url;
     }
 
-    public List<String> getChannels() {
-        return channels;
+    public List<DataDestination> getDestination() {
+        return destinations;
     }
 
-    public void setChannels(List<String> channels) {
-        this.channels = channels;
+    public void setDestination(List<DataDestination> destinations) {
+        this.destinations = destinations;
     }
 
     @Override
@@ -46,6 +46,17 @@ public class DataSource extends ModelTemplate {
 
     @Override
     public HashMap<String, Object> toHashMap() {
-        return null;
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", this.id);
+        hashMap.put("url", this.url);
+
+        if (this.destinations != null) {
+            hashMap.put("destinations", DataDestination.listToHashMap(this.destinations));
+        }
+        else {
+            hashMap.put("destinations", null);
+        }
+
+        return hashMap;
     }
 }
