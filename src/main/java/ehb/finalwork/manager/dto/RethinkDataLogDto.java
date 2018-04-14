@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ehb.finalwork.manager.model.Information;
 import ehb.finalwork.manager.model.RethinkDBHashable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class RethinkDataLogDto implements RethinkDBHashable {
     private Long timestamp;
 
     public RethinkDataLogDto() {
+        this.information = new ArrayList<>();
     }
 
     public RethinkDataLogDto(String itemId, List<Information> information, Long timestamp) {
@@ -26,7 +28,7 @@ public class RethinkDataLogDto implements RethinkDBHashable {
         return itemId;
     }
 
-    public void setItem_id(String itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
@@ -36,6 +38,10 @@ public class RethinkDataLogDto implements RethinkDBHashable {
 
     public void setInformation(List<Information> information) {
         this.information = information;
+    }
+
+    public void addInformation(Information information) {
+        this.information.add(information);
     }
 
     public Long getTimestamp() {

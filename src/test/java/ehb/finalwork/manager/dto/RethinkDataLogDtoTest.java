@@ -65,7 +65,7 @@ public class RethinkDataLogDtoTest {
 
     @Test
     public void itemIdSetterAndGetterTest() {
-        dataLogDto.setItem_id("item_id_1");
+        dataLogDto.setItemId("item_id_1");
         assertEquals("item_id_1", dataLogDto.getItemId());
     }
 

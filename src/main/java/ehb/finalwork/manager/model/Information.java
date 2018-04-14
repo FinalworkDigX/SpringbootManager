@@ -1,5 +1,7 @@
 package ehb.finalwork.manager.model;
 
+import ehb.finalwork.manager.dto.InformationConversionDto;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,11 @@ public class Information implements RethinkDBHashable {
         this.name = name;
         this.data = data;
         this.index = index;
+    }
+
+    public Information(InformationConversionDto informationConversionDto) {
+        this.name = informationConversionDto.getName();
+        this.index = informationConversionDto.getIndex();
     }
 
     public String getName() {

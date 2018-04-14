@@ -37,7 +37,7 @@ public class StompClientService {
     public void startStompClient() {
 
         HashMap<String, Object> tempMap = new HashMap<>();
-        tempMap.put("id", "id");
+        tempMap.put("id", "item_id");
         tempMap.put("type", new InformationConversionDto("Kind: ", 1L));
         tempMap.put("use_info.on_time", new InformationConversionDto("On: ", 2L));
         tempMap.put("use_info.temp", new InformationConversionDto("Temp: ", 3L));
