@@ -6,11 +6,14 @@ import ehb.finalwork.manager.model.DataDestination;
 import ehb.finalwork.manager.service.DataConversionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +25,14 @@ public class SessionHandler extends StompSessionHandlerAdapter {
 
     // Autowire doesn't work (Because of StompClientService eventListener?)
     // Workaround
-    private static DataConversionService dataConversionService;
+    @Autowired
+    private DataConversionService dataConversionService;
 
     public SessionHandler() {
-        if (dataConversionService == null) {
-            dataConversionService = new DataConversionService();
-        }
+        log.info("====================================================================");
     }
 
-    public SessionHandler(List<DataDestination> destinations) {
+    public void setDestinations(List<DataDestination> destinations) {
         this.destinations = destinations;
     }
 

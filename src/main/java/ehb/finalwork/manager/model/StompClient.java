@@ -48,7 +48,8 @@ public class StompClient {
     }
 
     public void connect() {
-        StompSessionHandler sessionHandler = new SessionHandler(destinations);
-        stompClient.connect(url, sessionHandler);
+        log.info("================ STOMPCLIENT ================");
+//        StompSessionHandler sessionHandler = new SessionHandler(destinations);
+//        stompClient.connect(url, sessionHandler);
     }
 }

@@ -2,14 +2,10 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dto.InformationConversionDto;
 import ehb.finalwork.manager.model.DataDestination;
-import ehb.finalwork.manager.model.Information;
-import ehb.finalwork.manager.model.StompClient;
 import ehb.finalwork.manager.websockets.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -27,32 +23,46 @@ import java.util.List;
 public class StompClientService {
     private final Logger log = LoggerFactory.getLogger(RoomService.class);
 
-    private List<StompClient> stompClients;
+    @Autowired
+    SessionHandler sessionHandler;
 
-    StompClientService() {
+//    private List<StompClient> stompClients;
+    private List<WebSocketStompClient> stompClients;
+    private final String testUrl = "ws://127.0.0.1:9000/managerWS";
+
+
+    public StompClientService() {
         stompClients = new ArrayList<>();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
     public void startStompClient() {
 
+        // Setup convertScheme
         HashMap<String, Object> tempMap = new HashMap<>();
         tempMap.put("id", "item_id");
         tempMap.put("type", new InformationConversionDto("Kind: ", 1L));
         tempMap.put("use_info.on_time", new InformationConversionDto("On: ", 2L));
         tempMap.put("use_info.temp", new InformationConversionDto("Temp: ", 3L));
 
-
+        // Setup dataSources
         List<DataDestination> tempList = new ArrayList<>();
         tempList.add(new DataDestination("/topic/echo", tempMap));
 
-        // Get url from Rethink
-        StompClient sc = new StompClient("ws://127.0.0.1:9000/managerWS", tempList);
-        sc.connect();
-        stompClients.add(sc);
+
+        // SetupClient
+        Transport webSocketTransport = new WebSocketTransport(new StandardWebSocketClient());
+        List<Transport> transports = Collections.singletonList(webSocketTransport);
+        SockJsClient sockJsClient = new SockJsClient(transports);
+        sockJsClient.setMessageCodec(new Jackson2SockJsMessageCodec());
+        WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
+
+        // Start client
+        sessionHandler.setDestinations(tempList);
+        stompClient.connect(testUrl, sessionHandler);
+
+
+        
     }
 
-    public List<StompClient> getStompClients() {
-        return stompClients;
-    }
+
 }
