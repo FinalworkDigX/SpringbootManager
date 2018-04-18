@@ -29,7 +29,7 @@ public class DataLogTest {
 
         assertNull(dataLog.getId());
         assertNull(dataLog.getItemId());
-        assertNull(dataLog.getInformation());
+        assertTrue(dataLog.getInformation().isEmpty());
         assertNull(dataLog.getTimestamp());
         assertEquals("dataLog", dataLog.getTableName());
     }
