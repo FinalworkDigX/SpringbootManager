@@ -28,7 +28,6 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
 
     @Override
     public List<T> getAll() {
-        log.error("{}", entity);
         Cursor<T> cursor = r.db("manager")
                             .table(this.entity.getTableName())
                             .run(connectionFactory.createConnection(), entity.getClass());

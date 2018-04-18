@@ -23,8 +23,6 @@ public class SessionHandler extends StompSessionHandlerAdapter {
     private Logger log = LoggerFactory.getLogger(getClass());
     private List<DataDestination> destinations;
 
-    // Autowire doesn't work (Because of StompClientService eventListener?)
-    // Workaround
     @Autowired
     private DataConversionService dataConversionService;
 
