@@ -25,7 +25,7 @@ import java.util.UUID;
 @Service
 public class AuthenticationService {
 
-    private final Logger log = LoggerFactory.getLogger(DataLogService.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private AuthAPIWrapper auth;
@@ -74,8 +74,9 @@ public class AuthenticationService {
             throw new LoginException();
         }
         catch (Auth0Exception exception) {
-            log.error(exception.getMessage());
-            throw new LoginException();
+            String message = exception.getMessage();
+            String subStr = message.substring(message.indexOf(": ") + 2, message.length());
+            throw new LoginException(subStr.trim());
         }
     }
 
