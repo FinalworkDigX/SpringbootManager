@@ -27,7 +27,6 @@ public class SessionHandler extends StompSessionHandlerAdapter {
     private DataConversionService dataConversionService;
 
     public SessionHandler() {
-        log.info("====================================================================");
     }
 
     public void setDestinations(List<DataDestination> destinations) {
@@ -36,10 +35,20 @@ public class SessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        log.info("StompClient listening");
+        for (Object dd : this.destinations) {
+            DataDestination dest = new DataDestination();
+            if (dd instanceof DataDestination) {
+                dest = (DataDestination) dd;
+                log.info("Destination added: " + dest.getDestination());
+            }
+            else if (dd instanceof HashMap) {
+                dest = new DataDestination((HashMap<String, Object>) dd);
+                destinations.remove(dd);
+                destinations.add(dest);
 
-        for (DataDestination dd : this.destinations) {
-            session.subscribe(dd.getDestination(), this);
+                log.warn("Destination ReQL issue => List<DataDestination> filled with HashMaps....?");
+            }
+            session.subscribe(dest.getDestination(), this);
         }
     }
 

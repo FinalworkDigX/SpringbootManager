@@ -1,5 +1,8 @@
 package ehb.finalwork.manager.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +12,7 @@ public class DataSource extends ModelTemplate {
     private List<DataDestination> destinations;
 
     public DataSource() {
-        this.destinations = new ArrayList<>();
+        this.destinations = new ArrayList<DataDestination>();
     }
 
     public DataSource(String id, String url, List<DataDestination> destinations) {
@@ -26,11 +29,11 @@ public class DataSource extends ModelTemplate {
         this.url = url;
     }
 
-    public List<DataDestination> getDestination() {
+    public List<DataDestination> getDestinations() {
         return destinations;
     }
 
-    public void setDestination(List<DataDestination> destinations) {
+    public void setDestinations(List<DataDestination> destinations) {
         this.destinations = destinations;
     }
 

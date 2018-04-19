@@ -54,7 +54,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
                                             .table(entity.getTableName())
                                             .insert(entityDto.toHashMap())
                                             .optArg("return_changes", true)
-                                            .run(connectionFactory.createConnection(),RethinkReturnObject.class);
+                                            .run(connectionFactory.createConnection(), RethinkReturnObject.class);
 
         if (returnObject.getInserted() != 0) {
             return (T) returnObject.getFirstNewVal(this.entity.getClass());

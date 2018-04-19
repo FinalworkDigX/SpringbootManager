@@ -10,6 +10,8 @@ import ehb.finalwork.manager.model.Vector3;
 import ehb.finalwork.manager.service.BeaconService;
 import ehb.finalwork.manager.service.DataItemService;
 import ehb.finalwork.manager.service.RoomService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -26,6 +28,8 @@ import java.util.List;
 @RequestMapping("/v1/debug")
 public class DebugController {
 
+    private Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     RoomService roomService;
 
@@ -41,6 +45,7 @@ public class DebugController {
     @MessageMapping("/echo")
     @SendTo("/topic/echo")
     public HashMap<String, Object> echo(@RequestBody HashMap<String, Object> json) {
+        log.info("in echo");
         return json;
     }
 

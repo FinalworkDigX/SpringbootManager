@@ -17,6 +17,12 @@ public class DataDestination implements RethinkDBHashable {
         this.conversionScheme = conversion;
     }
 
+    // Issues with ReQL driver
+    public DataDestination(HashMap<String, Object> destinationHash) {
+        this.destination = (String) destinationHash.get("destination");
+        this.conversionScheme = (HashMap<String, Object>) destinationHash.get("conversionScheme");
+    }
+
     public String getDestination() {
         return destination;
     }

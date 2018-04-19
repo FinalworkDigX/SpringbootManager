@@ -2,6 +2,7 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dto.InformationConversionDto;
 import ehb.finalwork.manager.model.DataDestination;
+import ehb.finalwork.manager.model.DataSource;
 import ehb.finalwork.manager.websockets.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,42 +27,42 @@ public class StompClientService {
     @Autowired
     SessionHandler sessionHandler;
 
-//    private List<StompClient> stompClients;
-    private List<WebSocketStompClient> stompClients;
-    private final String testUrl = "ws://127.0.0.1:9000/managerWS";
+    @Autowired
+    DataSourceService dataSourceService;
 
+    private WebSocketStompClient stompClient;
 
-    public StompClientService() {
-        stompClients = new ArrayList<>();
-    }
+    public StompClientService() { }
 
     public void startStompClient() {
 
-        // Setup convertScheme
-        HashMap<String, Object> tempMap = new HashMap<>();
-        tempMap.put("id", "item_id");
-        tempMap.put("type", new InformationConversionDto("Kind: ", 1L));
-        tempMap.put("use_info.on_time", new InformationConversionDto("On: ", 2L));
-        tempMap.put("use_info.temp", new InformationConversionDto("Temp: ", 3L));
+        try {
+            List<DataSource> dataSourceList = dataSourceService.getAll();
 
-        // Setup dataSources
-        List<DataDestination> tempList = new ArrayList<>();
-        tempList.add(new DataDestination("/topic/echo", tempMap));
+            for (DataSource dataSource : dataSourceList) {
+                sessionHandler.setDestinations(dataSource.getDestinations());
+                stompClient = createNewStompClient();
+                stompClient.connect(dataSource.getUrl(), sessionHandler);
+            }
+        }
+        catch (Exception e) {
+            log.error("StartStompClient error: {}", e);
+        }
+        
+    }
 
+    public void addStompClient(DataSource dataSource) {
+        sessionHandler.setDestinations(dataSource.getDestinations());
+        stompClient = createNewStompClient();
+        stompClient.connect(dataSource.getUrl(), sessionHandler);
+    }
 
-        // SetupClient
+    private WebSocketStompClient createNewStompClient() {
         Transport webSocketTransport = new WebSocketTransport(new StandardWebSocketClient());
         List<Transport> transports = Collections.singletonList(webSocketTransport);
         SockJsClient sockJsClient = new SockJsClient(transports);
         sockJsClient.setMessageCodec(new Jackson2SockJsMessageCodec());
-        WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
-
-        // Start client
-        sessionHandler.setDestinations(tempList);
-        stompClient.connect(testUrl, sessionHandler);
-
-
-        
+        return new WebSocketStompClient(sockJsClient);
     }
 
 

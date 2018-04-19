@@ -38,6 +38,16 @@ public class RethinkDataSourceDto implements RethinkDBHashable {
 
     @Override
     public HashMap<String, Object> toHashMap() {
-        return null;
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("url", this.url);
+
+        if (this.destinations != null) {
+            hashMap.put("destinations", DataDestination.listToHashMap(this.destinations));
+        }
+        else {
+            hashMap.put("destinations", null);
+        }
+
+        return hashMap;
     }
 }

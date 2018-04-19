@@ -1,12 +1,13 @@
 
-    const remote = "";
+    const remote = "/api";
     console.log('url prefix ="' + remote + '"');
 
     const DATALOG_URL = remote + "/v1/dataLog";
     const WS_URL = remote + "/managerWS";
-    const WS_ECHO = remote + "/app/echo";
-    const WS_BEACON = remote + '/app/beacon';
-    const WS_ROOM = remote + '/app/room';
+    // WS does NOT require prefix.
+    const WS_ECHO = "/app/echo";
+    const WS_BEACON = '/app/beacon';
+    const WS_ROOM = '/app/room';
 
     // Append functions
     function appendDataLog(dataLog) {
@@ -215,6 +216,23 @@
         };
 
         stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
+    }
+
+    var testMessage = {
+        id: "qnix-qx2710led-999",
+        type: "screen",
+        use_info: {
+            on_time: new Date().getSeconds(),
+            temp: randomInt(25, 27)
+        },
+        item_info: {
+            purchased: 1288323623006,
+            warranty: 5
+        }
+    };
+
+    function testSendMessage(url, message) {
+        stompClient.send(url, message)
     }
 
     // ---------------------------- //
