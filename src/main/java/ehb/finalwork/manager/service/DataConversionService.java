@@ -29,19 +29,27 @@ public class DataConversionService {
 
         scheme.forEach((key, value) -> {
             String dlKey = "";
+            // Payload keys here
+
+            ArrayList<String> payloadKeys = new ArrayList<>(Arrays.asList(key.split("\\.")));
+            Object data = getPayloadData(payloadKeys, payload);
+
+            // insert value in ifs
             if (value instanceof String) {
                 if (value.equals("item_id")) {
-                    dataLogDto.setItemId((String) payload.get(key));
+                    dataLogDto.setItemId((String) data);
                 }
                 else {
                     log.error("Unrecognized value item: {}", value);
                 }
             }
             else if (value instanceof InformationConversionDto) {
-                ArrayList<String> payloadKeys = new ArrayList<>(Arrays.asList(key.split("\\.")));
-
-                Object data = getPayloadData(payloadKeys, payload);
                 Information dlInfo = new Information((InformationConversionDto) value);
+                dlInfo.setData(data.toString());
+                dataLogDto.addInformation(dlInfo);
+            }
+            else if (value instanceof HashMap) {
+                Information dlInfo = new Information(((HashMap) value));
                 dlInfo.setData(data.toString());
                 dataLogDto.addInformation(dlInfo);
             }

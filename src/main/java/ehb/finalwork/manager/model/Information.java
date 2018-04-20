@@ -25,6 +25,11 @@ public class Information implements RethinkDBHashable {
         this.index = informationConversionDto.getIndex();
     }
 
+    public Information(HashMap<String, Object> hm) {
+        this.name = (String) hm.get("name");
+        this.index = (Long) hm.get("index");
+    }
+
     public String getName() {
         return name;
     }

@@ -1,5 +1,6 @@
 package ehb.finalwork.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,12 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DataSource extends ModelTemplate {
     private String url;
     private List<DataDestination> destinations;
 
     public DataSource() {
-        this.destinations = new ArrayList<DataDestination>();
+        this.destinations = new ArrayList<>();
     }
 
     public DataSource(String id, String url, List<DataDestination> destinations) {
