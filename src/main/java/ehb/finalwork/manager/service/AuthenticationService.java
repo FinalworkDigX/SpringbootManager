@@ -68,7 +68,7 @@ public class AuthenticationService {
 
             DecodedJWT idToken = JWT.decode(th.getIdToken());
             log.info(idToken.getClaim("https://finalwork.be/type").asString());
-            if (idToken.getClaim("https://finalwork.be/type").asString().equals(type)) {
+            if (type.equals("user") || idToken.getClaim("https://finalwork.be/type").asString().equals(type)) {
                 return th;
             }
             throw new LoginException();
