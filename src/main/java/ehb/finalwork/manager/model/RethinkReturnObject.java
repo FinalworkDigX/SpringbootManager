@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RethinkReturnObject {
-
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private Long inserted;
@@ -89,7 +88,7 @@ public class RethinkReturnObject {
     public void setChanges(List<HashMap> changes) {
         // Receiving HashMap from RethinkDB...
         for (HashMap map : changes) {
-            this.changes.add((RethinkChangesReturn) asMapped(map, new RethinkChangesReturn()));
+            this.changes.add((RethinkChangesReturn) asMapped(map, new RethinkChangesReturn().getClass()));
         }
     }
 
@@ -98,13 +97,17 @@ public class RethinkReturnObject {
     }
 
     public Object getFirstNewVal(final Object asObject) {
-        return this.asMapped(this.getFirstChange().getNewVal(), asObject);
+        return this.asMapped(this.getFirstChange().getNewVal(), asObject.getClass());
     }
 
-    private Object asMapped(final HashMap map, final Object toObject) {
+    public Object getFirstNewVal(final Class clazz) {
+        return this.asMapped(this.getFirstChange().getNewVal(), clazz);
+    }
+
+    private Object asMapped(final HashMap map, final Class clazz) {
         try {
-            log.info(toObject.getClass().toString());
-            return new ObjectMapper().convertValue(map, toObject.getClass());
+//            log.info(toObject.getClass().toString());
+            return new ObjectMapper().convertValue(map, clazz);
         }
         catch (Exception e) {
             throw new RuntimeException(e);

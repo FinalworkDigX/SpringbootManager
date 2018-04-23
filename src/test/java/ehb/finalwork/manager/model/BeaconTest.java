@@ -33,7 +33,7 @@ public class BeaconTest {
 
     @Test
     public void completedConstructorTest() {
-        beacon = new Beacon("id", "room_id", "name", "desc", 1L, 1L, 1);
+        beacon = new Beacon("id", "room_id", "name", "desc", 1L, 1L, 1L);
 
         assertEquals("id", beacon.getId());
         assertEquals("room_id", beacon.getRoomId());
@@ -90,7 +90,7 @@ public class BeaconTest {
 
     @Test
     public void calibrationFactorSetterAndGetterTest() {
-        beacon.setCalibrationFactor(2);
+        beacon.setCalibrationFactor(2L);
         assertEquals(2, beacon.getCalibrationFactor(), 0);
     }
 

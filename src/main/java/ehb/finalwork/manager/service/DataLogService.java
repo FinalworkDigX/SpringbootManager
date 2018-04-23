@@ -2,6 +2,7 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dao.DataLogDao;
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
+import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.model.DataLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class DataLogService {
         return dataLogDao.getAll();
     }
 
-    public DataLog getById(String id) {
+    public DataLog getById(String id) throws CustomNotFoundException {
         return dataLogDao.getById(id);
     }
 
@@ -33,7 +34,7 @@ public class DataLogService {
         return dataLogDao.getByItemId(id);
     }
 
-    public DataLog create(RethinkDataLogDto dataLogDto) {
+    public DataLog create(RethinkDataLogDto dataLogDto) throws Exception {
         dataLogDto.setTimestamp(Instant.now().getEpochSecond());
         return dataLogDao.create(dataLogDto);
     }

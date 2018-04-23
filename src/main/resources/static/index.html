@@ -23,51 +23,36 @@
 
         .display_info {
             max-height: 500px;
-            overflow: scroll;
-            overflow-x: hidden;
+            overflow: hidden;
         }
     </style>
     <body>
-        <div id="room">
-            <h2>Rooms</h2>
-            <form method="get" class="create_room_form">
-                <label>
-                    Name:
-                    <input type="text" name="name"/>
-                </label>
-                <label>
-                    Desc:
-                    <input type="text" name="description"/>
-                </label>
-                <label>
-                    Loc:
-                    <input type="text" name="location"/>
-                </label>
-                <button type="submit">Send</button>
-            </form>
-            <div id="displayRooms" class="display_info"></div>
+        <div>
+            <h1>All actions should be done using the manager <strong>>>><a href="https://fw.ludovicmarchand.be">MANAGER</a><<<</strong></h1>
         </div>
-        <!-------------------------------------------------------->
-        <br/>
+        <div id="ws_simulator">
+            <h2>Simulate external ws..</h2>
+            <p>This script uses a simple echo that can be used for testing subscription for incoming data in our app</p>
+            <label>
+                Using internal service
+                <button type="button" id="simulate_external_ws_script">Start</button>
+            </label>
+        </div>
+
         <div id="dataLog">
-            <h2>DataLogs</h2>
-            <form method="get" class="create_dataLog_form">
+            <h2>DataLog</h2>
+            <form method="get" id="create_dataLog_form">
                 <label>
                     ItemId:
                     <input type="text" id="item_id" name="item_id" value="test_item"/>
                 </label>
-                <br/>
-                <label>
-                    Info: <span class="info_input_display"></span>
-                    <input type="hidden" name="information" value="">
-                </label>
-                <br/>
+                <input type="hidden" name="information" value="">
                 <button type="submit">Send</button>
             </form>
             <div class="create_dataLog_script_div">
                 <label>
-                    TestScript:
-                    <button type="button" class="create_dataLog_script">Start</button>
+                    DataLog TestScript:
+                    <button type="button" id="create_dataLog_script">Start</button>
                 </label>
             </div>
             <div id="displayDataLogs" class="display_info"></div>

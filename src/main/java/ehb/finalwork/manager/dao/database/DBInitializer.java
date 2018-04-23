@@ -48,14 +48,9 @@ public class DBInitializer implements InitializingBean {
         if (!dbList.contains("manager")) {
             r.dbCreate("manager").run(con);
         }
-        if (!dbList.contains("test")) {
-            r.dbCreate("test").run(con);
-        }
 
         // Verify / Create tables
         this.initDatabase("manager", con);
-        this.initDatabase("test", con);
-
     }
 
     private void initDatabase(String database, Connection con) {
@@ -76,6 +71,9 @@ public class DBInitializer implements InitializingBean {
         if (!tables.contains("dataLog")) {
             r.db(database).tableCreate("dataLog").run(con);
             r.db(database).table("dataLog").indexCreate("item_id").run(con);
+        }
+        if (!tables.contains("dataSource")) {
+            r.db(database).tableCreate("dataSource").run(con);
         }
         /* Verify / Create tables for each object? // 1 table with all info? */
     }

@@ -7,6 +7,7 @@ import ehb.finalwork.manager.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,9 +24,14 @@ public class AuthenticationController {
         return authenticationService.signup(auth0LoginDto);
     }
 
-    @PostMapping("/login")
-    public TokenHolder login(@RequestBody Auth0LoginDto auth0LoginDto) throws Exception {
-        return authenticationService.login(auth0LoginDto);
+    @PostMapping("{type}/login")
+    public TokenHolder login(@PathVariable String type, @RequestBody Auth0LoginDto auth0LoginDto) throws Exception {
+        return authenticationService.login(type, auth0LoginDto);
+    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestHeader("authorization") String authorization) throws Exception {
+        authenticationService.logout(authorization.split(" ")[1]);
     }
 
     @PostMapping("/reset-password")

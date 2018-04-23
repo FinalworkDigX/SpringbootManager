@@ -2,6 +2,7 @@ package ehb.finalwork.manager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class DataLog extends ModelTemplate {
     private Long timestamp;
 
     public DataLog() {
+        information = new ArrayList<>();
     }
 
     public DataLog(String id, String itemId, List<Information> information, Long timestamp) {
@@ -35,6 +37,10 @@ public class DataLog extends ModelTemplate {
 
     public void setInformation(List<Information> information) {
         this.information = information;
+    }
+
+    public void addInformation(Information information) {
+        this.information.add(information);
     }
 
     public Long getTimestamp() {

@@ -1,6 +1,13 @@
 
-    const DATALOG_URL = "/api/v1/dataLog";
-    const ROOM_URL = "/api/v1/room";
+    const remote = "/api";
+    console.log('url prefix ="' + remote + '"');
+
+    const DATALOG_URL = remote + "/v1/dataLog";
+    const WS_URL = remote + "/managerWS";
+    // WS does NOT require prefix.
+    const WS_ECHO = "/app/echo";
+    const WS_BEACON = '/app/beacon';
+    const WS_ROOM = '/app/room';
 
     // Append functions
     function appendDataLog(dataLog) {
@@ -13,19 +20,9 @@
 
         $('#displayDataLogs').prepend(
             '<div class="dataLog">' +
-            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>item_id:</strong> ' + dataLog.itemId + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
+            '[<br/>&nbsp;&nbsp;<strong>id:</strong> ' + dataLog.id + ', <br/>&nbsp;&nbsp;<strong>itemId:</strong> ' + dataLog.itemId + ', <br/>&nbsp;&nbsp;<strong>information:</strong> ' +
             data + ', <br/>&nbsp;&nbsp;<strong>timestamp:</strong>' + dataLog.timestamp + '<br/>]' +
             '</div>'
-        )
-    }
-
-    function appendRoom(room) {
-        $('#displayRooms').prepend(
-            '<form class="delete_room_form">' +
-            '[<strong>id:</strong> ' + room.id + ', <strong>name:</strong> ' + room.name + ', <strong>desc:</strong> ' + room.description + ', <strong>loc:</strong>' + room.location + ']' +
-            '<input type="hidden" name="id" value="' + room.id + '">' +
-            '<button type="submit" class="delete_room_button">Delete</button>' +
-            '</form>'
         )
     }
 
@@ -34,13 +31,10 @@
         $.get(DATALOG_URL).done(
             dataLogs => dataLogs.forEach(appendDataLog)
         );
-        $.get(ROOM_URL).done(
-            rooms => rooms.forEach(appendRoom)
-        );
     }
 
     // Submit triggers
-    $(document).on('submit', '.create_dataLog_form', function (e) {
+    $(document).on('submit', '#create_dataLog_form', function (e) {
         e.preventDefault();
         var $this = $(this);
 
@@ -57,35 +51,6 @@
         myAjaxCalls(DATALOG_URL, 'POST', dataLog);
     });
 
-    $(document).on('submit', '.create_room_form', function (e) {
-        e.preventDefault();
-        var $this = $(this);
-
-        var $values = getCleanInputs($this);
-        $this.trigger('reset');
-
-        var room = {name: $values.name, description: $values.description, location: $values.location};
-
-        myAjaxCalls(ROOM_URL, 'POST', room);
-    });
-
-    $(document).on('submit', '.delete_dataLog_form', function (e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $values = getCleanInputs($this);
-
-        myAjaxCalls(DATALOG_URL + "/" + $values.id, 'DELETE', null);
-        $this.remove();
-    });
-
-    $(document).on('submit', '.delete_room_form', function (e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $values = getCleanInputs($this);
-
-        myAjaxCalls(ROOM_URL + "/" + $values.id, 'DELETE', null);
-        $this.remove();
-    });
 
     // New data
     function onNewData(result) {
@@ -96,9 +61,6 @@
         switch (source) {
             case 'dataLog':
                 appendDataLog(dataLog);
-                break;
-            case 'room':
-                appendRoom(dataLog);
                 break;
             default:
                 console.log("onNewData: unknown source:" + source);
@@ -111,7 +73,7 @@
     var stompClient;
     // Connect to WS
     function connectManagerWebSocket() {
-        var socket = new SockJS('/api/managerWS');
+        var socket = new SockJS(WS_URL);
         stompClient = Stomp.over(socket);
         //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
@@ -122,6 +84,7 @@
             stompClient.subscribe('/topic/beacon/test-id/getByMajorMinor', onNewData, onError);
             stompClient.subscribe('/topic/beacon', onNewData, onError);
             stompClient.subscribe('/topic/room/test-id', onNewData, onError);
+            stompClient.subscribe('/topic/echo', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -149,60 +112,36 @@
         })
     }
 
-    // <<<<< send message using STOMP
 
-    function testCalibrate(message, float) {
+    // ==================================== //
+    //                                      //
+    //       TEST / DEBUG - FUNCTIONS       //
+    //                                      //
+    // ==================================== //
 
-        var test = {
-            id: message,
-            name: "test_beacon - " + message,
-            calibrationFactor: float
-        };
-
-        stompClient.send("/beacon/test-id/calibrate", {priority: 9}, JSON.stringify(test));
-    }
-    function testRoomForRa(room_id) {
-        //8f85bc69-fdcc-43fc-aaa9-c9563d42ae6e
-
-        var test = {
-            roomLocation: {
-                x: 1.3,
-                y: 1.4,
-                z: 1.5
-            }
-        };
-
-        stompClient.send("/app/room/test-id/" + room_id, {priority: 9}, JSON.stringify(test));
+    // Default values
+    function randomInt(min = 0, max = 100) {
+        return Math.random() * (max - min) + min;
     }
 
-    function testBeaconCreate(message, major, minor, cf) {
-
-        var test = {
-            "id": message,
-            "name": "test_beacon - " + message,
-            "roomId": "test_room",
-            "major": major,
-            "minor": minor,
-            "calibrationFactor": cf
-        };
-
-        stompClient.send("/app/beacon/create", {priority: 9}, JSON.stringify(test));
+    function randomString() {
+        return Math.random().toString(36).substr(2, 5);
     }
 
-    function testBeaconGetAll() {
-        stompClient.send("/app/beacon", {priority: 9})
+    function setupDataLogFormData() {
+        var randomData = JSON.stringify(randomDataForTest());
+        $('input[name="information"]').val(randomData);
+        $('.info_input_display').html(randomData);
     }
 
-    function testBeaconGetMajorMinor(major, minor) {
-        stompClient.send("/app/beacon/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
-    }
-
-    // <<<<< BEGIN: TestScript
+    // ---------------------------- //
+    //    DataLog test functions    //
+    // ---------------------------- //
     var dataLogScript = false;
     var dataLogScriptLoop;
 
-    $(".create_dataLog_script").on('click', function () {
-        console.log("in script");
+    $("#create_dataLog_script").on('click', function () {
+        console.log("in DataLog script");
         dataLogScript = !dataLogScript;
         if (dataLogScript) {
             var dlid = $('#item_id').val();
@@ -220,7 +159,7 @@
         dataLogScriptLoop = setInterval(function () {
             var info = randomDataForTest();
             var dataLog = {itemId: itemId, information: info};
-            myAjaxCalls('/v1/dataLog', 'POST', dataLog);
+            myAjaxCalls(DATALOG_URL, 'POST', dataLog);
         }, 1000);
     }
 
@@ -228,16 +167,125 @@
         return [{name: "first_row", data: randomString(), index: 1}, {name: "second_row", data: randomString(), index: 2}, {name: "third_row", data: randomString(), index: 3}];
     }
 
-    function randomString() {
-        return Math.random().toString(36).substr(2, 5);
+    // ---------------------------- //
+    //   WebSocket test functions   //
+    // ---------------------------- //
+    var externalWSScript = false;
+    var externalWSScriptLoop;
+
+    $("#simulate_external_ws_script").on('click', function () {
+        console.log("in Simulate External WS script");
+        externalWSScript = !externalWSScript;
+        if (externalWSScript) {
+            simulateExternalWSScript();
+            $("#simulate_external_ws_script").html("Stop");
+        }
+        else {
+            clearInterval(externalWSScriptLoop);
+            $("#simulate_external_ws_script").html("Start");
+        }
+    });
+
+    function simulateExternalWSScript() {
+
+        externalWSScriptLoop = setInterval(function () {
+            testExternalWSSimulation();
+        }, 1000);
     }
 
-    function setupDataLogFormData() {
-        var randomData = JSON.stringify(randomDataForTest());
-        $('input[name="information"]').val(randomData);
-        $('.info_input_display').html(randomData);
+    var alternateItems = false;
+    function testExternalWSSimulation() {
+
+        var variation = '1';
+        if (alternateItems) {
+            variation = '2';
+        }
+        alternateItems = !alternateItems;
+
+        var test = {
+            id: "qnix-qx2710led-" + variation,
+            type: "screen",
+            use_info: {
+                on_time: new Date().getSeconds(),
+                temp: randomInt(25, 27)
+            },
+            item_info: {
+                purchased: 1288323623006,
+                warranty: 5
+            }
+        };
+
+        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
     }
-    // >>>>>> END: TestScript
+
+    var testMessage = {
+        id: "qnix-qx2710led-999",
+        type: "screen",
+        use_info: {
+            on_time: new Date().getSeconds(),
+            temp: randomInt(25, 27)
+        },
+        item_info: {
+            purchased: 1288323623006,
+            warranty: 5
+        }
+    };
+
+    function testSendMessage(url, message) {
+        stompClient.send(url, message)
+    }
+
+    // ---------------------------- //
+    //    Beacon test functions     //
+    // ---------------------------- //
+    function testBeaconGetAll() {
+        stompClient.send(WS_BEACON, {priority: 9})
+    }
+
+    function testBeaconGetMajorMinor(major, minor) {
+        stompClient.send(WS_BEACON + "/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
+    }
+
+    function testBeaconCreate(message, major, minor, cf) {
+
+        var test = {
+            "id": message,
+            "name": "test_beacon - " + message,
+            "roomId": "test_room",
+            "major": major,
+            "minor": minor,
+            "calibrationFactor": cf
+        };
+
+        stompClient.send(WS_BEACON + "/create", {priority: 9}, JSON.stringify(test));
+    }
+
+    function testCalibrate(message, float) {
+
+        var test = {
+            id: message,
+            name: "test_beacon - " + message,
+            calibrationFactor: float
+        };
+
+        stompClient.send(WS_BEACON + "/test-id/calibrate", {priority: 9}, JSON.stringify(test));
+    }
+
+    // ---------------------------- //
+    //     Room test functions      //
+    // ---------------------------- //
+    function testRoomForRa(room_id) {
+        //8f85bc69-fdcc-43fc-aaa9-c9563d42ae6e
+        var test = {
+            roomLocation: {
+                x: 1.3,
+                y: 1.4,
+                z: 1.5
+            }
+        };
+
+        stompClient.send(WS_ROOM + "/test-id/" + room_id, {priority: 9}, JSON.stringify(test));
+    }
 
     // Init test page
     getPreviousData();

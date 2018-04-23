@@ -13,14 +13,14 @@ public class Beacon extends ModelTemplate {
     private String description;
     private Long major;
     private Long minor;
-    private Integer calibrationFactor;
+    private Long calibrationFactor;
     private Long lastUpdated;
 
     public Beacon() {
         this.lastUpdated = Instant.now().getEpochSecond();
     }
 
-    public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Integer calibrationFactor) {
+    public Beacon(String id, String roomId, String name, String description, Long major, Long minor, Long calibrationFactor) {
         this.id = id;
         this.roomId = roomId;
         this.name = name;
@@ -71,11 +71,11 @@ public class Beacon extends ModelTemplate {
         this.minor = minor;
     }
 
-    public Integer getCalibrationFactor() {
+    public Long getCalibrationFactor() {
         return calibrationFactor;
     }
 
-    public void setCalibrationFactor(Integer calibrationFactor) {
+    public void setCalibrationFactor(Long calibrationFactor) {
         this.calibrationFactor = calibrationFactor;
     }
 

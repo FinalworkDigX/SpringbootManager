@@ -5,9 +5,6 @@ import ehb.finalwork.manager.model.DataItem;
 
 import java.util.List;
 
-public interface DataItemDao {
-    List<DataItem> getAll();
+public interface DataItemDao extends BaseDao<DataItem, RethinkDataItemDto> {
     List<DataItem> getByRoomId(String rid);
-    DataItem getById(String id);
-    DataItem create(RethinkDataItemDto dataItemDto) throws Exception ;
 }

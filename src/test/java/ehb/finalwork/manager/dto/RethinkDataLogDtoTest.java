@@ -13,9 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 public class RethinkDataLogDtoTest {
 
@@ -31,7 +29,7 @@ public class RethinkDataLogDtoTest {
         dataLogDto = new RethinkDataLogDto();
 
         assertNull(dataLogDto.getItemId());
-        assertNull(dataLogDto.getInformation());
+        assertTrue(dataLogDto.getInformation().isEmpty());
         assertNull(dataLogDto.getTimestamp());
     }
 
@@ -65,7 +63,7 @@ public class RethinkDataLogDtoTest {
 
     @Test
     public void itemIdSetterAndGetterTest() {
-        dataLogDto.setItem_id("item_id_1");
+        dataLogDto.setItemId("item_id_1");
         assertEquals("item_id_1", dataLogDto.getItemId());
     }
 

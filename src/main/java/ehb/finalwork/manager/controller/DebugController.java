@@ -10,17 +10,25 @@ import ehb.finalwork.manager.model.Vector3;
 import ehb.finalwork.manager.service.BeaconService;
 import ehb.finalwork.manager.service.DataItemService;
 import ehb.finalwork.manager.service.RoomService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/debug")
 public class DebugController {
+
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     RoomService roomService;
@@ -31,6 +39,20 @@ public class DebugController {
     @Autowired
     DataItemService dataItemService;
 
+    // ===================== //
+    //      Web Sockets
+    // ===================== //
+    @MessageMapping("/echo")
+    @SendTo("/topic/echo")
+    public HashMap<String, Object> echo(@RequestBody HashMap<String, Object> json) {
+        log.info("in echo");
+        return json;
+    }
+
+
+    // ===================== //
+    //      REST api
+    // ===================== //
     @GetMapping("/generate")
     public List<String> generateAll() throws Exception {
 
@@ -46,8 +68,9 @@ public class DebugController {
         return dataItemsIds;
     }
 
+
     // $@GetMapping("/generate/room")
-    private Room generateRoom() {
+    private Room generateRoom() throws Exception{
         RethinkRoomDto r1 = new RethinkRoomDto("test_room", "room_desc_1", "Lokaal a201");
 
         return roomService.create(r1);
@@ -64,12 +87,12 @@ public class DebugController {
     }
 
     // @GetMapping("/generate/beacon")
-    private List<Beacon> generateBeacons(String roomId) {
-        RethinkBeaconDto b1 = new RethinkBeaconDto(roomId, "beacon_1_1", "Lokaal a201 pos.1", 1L, 1L, 61);
-        RethinkBeaconDto b2 = new RethinkBeaconDto(roomId, "beacon_1_2", "Lokaal a201 pos.2", 1L, 2L, 61);
-        RethinkBeaconDto b3 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 3L, 61);
-        RethinkBeaconDto b4 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 4L, 61);
-        RethinkBeaconDto b5 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 5L, 61);
+    private List<Beacon> generateBeacons(String roomId) throws Exception {
+        RethinkBeaconDto b1 = new RethinkBeaconDto(roomId, "beacon_1_1", "Lokaal a201 pos.1", 1L, 1L, 61L);
+        RethinkBeaconDto b2 = new RethinkBeaconDto(roomId, "beacon_1_2", "Lokaal a201 pos.2", 1L, 2L, 61L);
+        RethinkBeaconDto b3 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 3L, 61L);
+        RethinkBeaconDto b4 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 4L, 61L);
+        RethinkBeaconDto b5 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 5L, 61L);
 
         beaconService.create(b1);
         beaconService.create(b2);
