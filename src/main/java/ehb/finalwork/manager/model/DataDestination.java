@@ -1,18 +1,25 @@
 package ehb.finalwork.manager.model;
 
+import ehb.finalwork.manager.dto.InformationConversionDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataDestination implements RethinkDBHashable {
     private String destination;
-    private HashMap<String, Object> conversionScheme;
+    private List<ConversionSchemeEntry> conversionScheme;
+
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     public DataDestination() {
-        conversionScheme = new HashMap<>();
+        conversionScheme = new ArrayList<>();
     }
 
-    public DataDestination(String destination, HashMap<String, Object> conversion) {
+    public DataDestination(String destination, List<ConversionSchemeEntry> conversion) {
         this.destination = destination;
         this.conversionScheme = conversion;
     }
@@ -20,7 +27,33 @@ public class DataDestination implements RethinkDBHashable {
     // Issues with ReQL driver
     public DataDestination(HashMap<String, Object> destinationHash) {
         this.destination = (String) destinationHash.get("destination");
-        this.conversionScheme = (HashMap<String, Object>) destinationHash.get("conversionScheme");
+        this.conversionScheme = new ArrayList<>();
+
+        Object conversionSchemeObj = destinationHash.get("conversionScheme");
+        if (conversionSchemeObj instanceof List) {
+            if (((List) conversionSchemeObj).size() > 0) {
+                Object testObj = ((List) conversionSchemeObj).get(0);
+
+                if (testObj instanceof InformationConversionDto) {
+                    this.conversionScheme = (List<ConversionSchemeEntry>) conversionSchemeObj;
+                }
+                if (testObj instanceof HashMap) {
+                    List<HashMap<String, Object>> hmList = (List<HashMap<String, Object>>) conversionSchemeObj;
+
+                    for (HashMap<String, Object> schemeEntry : hmList) {
+                        this.conversionScheme.add(new ConversionSchemeEntry(schemeEntry));
+                    }
+
+
+
+//                    HashMap<String, Object> schemeHM = (HashMap<String, Object>) conversionSchemeObj;
+//
+//                    for (String incomingDataKey : schemeHM.keySet()) {
+//                        this.conversionScheme.add(new ConversionSchemeEntry(incomingDataKey, schemeHM.get(incomingDataKey)));
+//                    }
+                }
+            }
+        }
     }
 
     public String getDestination() {
@@ -31,11 +64,11 @@ public class DataDestination implements RethinkDBHashable {
         this.destination = destination;
     }
 
-    public HashMap<String, Object> getConversionScheme() {
+    public List<ConversionSchemeEntry> getConversionScheme() {
         return conversionScheme;
     }
 
-    public void setConversionScheme(HashMap<String, Object> conversionScheme) {
+    public void setConversionScheme(List<ConversionSchemeEntry> conversionScheme) {
         this.conversionScheme = conversionScheme;
     }
 

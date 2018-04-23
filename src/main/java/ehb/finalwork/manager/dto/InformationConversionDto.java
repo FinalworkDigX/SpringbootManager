@@ -18,6 +18,11 @@ public class InformationConversionDto implements RethinkDBHashable {
         this.index = index;
     }
 
+    public InformationConversionDto(HashMap<String, Object> dataLogData) {
+        this.name = (String) dataLogData.get("name");
+        this.index = (Long) dataLogData.get("index");
+    }
+
     public String getName() {
         return name;
     }

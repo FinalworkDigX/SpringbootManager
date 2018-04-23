@@ -2,6 +2,7 @@ package ehb.finalwork.manager.service;
 
 import ehb.finalwork.manager.dto.InformationConversionDto;
 import ehb.finalwork.manager.dto.RethinkDataLogDto;
+import ehb.finalwork.manager.model.ConversionSchemeEntry;
 import ehb.finalwork.manager.model.DataLog;
 import ehb.finalwork.manager.model.Information;
 import org.slf4j.Logger;
@@ -21,36 +22,44 @@ public class DataConversionService {
     @Autowired
     DataLogService dataLogService;
 
-    public void convertData(HashMap<String, Object> payload, HashMap<String, Object> scheme) {
+    public void convertData(HashMap<String, Object> payload, List<ConversionSchemeEntry> scheme) {
         log.info("PAYLOAD__: {}", payload);
         log.info("SCHEME__: {}", scheme);
 
         RethinkDataLogDto dataLogDto = new RethinkDataLogDto();
 
-        scheme.forEach((key, value) -> {
-            String dlKey = "";
-            // Payload keys here
+        scheme.forEach((schemeEntry) -> {
+            // Get Scheme entry info for shorter code
+            String incomingDataKey = schemeEntry.getIncomingDataKey();
+            Object dataLogData = schemeEntry.getDataLogData();
 
-            ArrayList<String> payloadKeys = new ArrayList<>(Arrays.asList(key.split("\\.")));
-            Object data = getPayloadData(payloadKeys, payload);
 
-            // insert value in ifs
-            if (value instanceof String) {
-                if (value.equals("item_id")) {
-                    dataLogDto.setItemId((String) data);
+            // Get Conversion keys
+            ArrayList<String> incomingDataKeys = new ArrayList<>(
+                    Arrays.asList(
+                            incomingDataKey.split("\\.")
+                    )
+            );
+            Object payloadData = getPayloadData(incomingDataKeys, payload);
+
+            // Convert data
+            if (dataLogData instanceof String) {
+                if (dataLogData.equals("item_id")) {
+                    dataLogDto.setItemId((String) payloadData);
                 }
                 else {
-                    log.error("Unrecognized value item: {}", value);
+                    log.error("Unrecognized value item: {}", dataLogData);
                 }
             }
-            else if (value instanceof InformationConversionDto) {
-                Information dlInfo = new Information((InformationConversionDto) value);
-                dlInfo.setData(data.toString());
+            // What it should be if RethinkDB works like it should..
+            else if (dataLogData instanceof InformationConversionDto) {
+                Information dlInfo = new Information((InformationConversionDto) dataLogData);
+                dlInfo.setData(payloadData.toString());
                 dataLogDto.addInformation(dlInfo);
             }
-            else if (value instanceof HashMap) {
-                Information dlInfo = new Information(((HashMap) value));
-                dlInfo.setData(data.toString());
+            else if (dataLogData instanceof HashMap) {
+                Information dlInfo = new Information(((HashMap) dataLogData));
+                dlInfo.setData(payloadData.toString());
                 dataLogDto.addInformation(dlInfo);
             }
         });
