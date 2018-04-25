@@ -25,14 +25,14 @@ public class Auth0ManagementService {
     @Autowired
     MgmtAPIWrapper mgmt;
 
-    public List<User> getUsers() {
+    public List<User> getUsers() throws Auth0Exception {
         UserFilter userFilter = new UserFilter();
         Request request = mgmt.users().list(userFilter);
         UsersPage up = (UsersPage) executeQuery(request, true);
         return up.getItems();
     }
 
-    public User createUser(User user) {
+    public User createUser(User user) throws Auth0Exception {
         // Set defaults
         user.setConnection(mgmt.getConnection());
         user = this.setDefaults(user);
@@ -41,7 +41,7 @@ public class Auth0ManagementService {
         return (User) executeQuery(request, true);
     }
 
-    public User updateUser(User user) {
+    public User updateUser(User user) throws Auth0Exception {
         // Set defaults
         user = this.setDefaults(user);
 
@@ -54,24 +54,18 @@ public class Auth0ManagementService {
         return (User) executeQuery(request, true);
     }
 
-    public Auth0UserDto deleteUser(String uid) {
+    public Auth0UserDto deleteUser(String uid) throws Auth0Exception {
         Request request = mgmt.users().delete(uid);
         return (Auth0UserDto) executeQuery(request, false);
     }
 
-    private Object executeQuery(Request request, Boolean hasReturn) {
-        try {
-            if (hasReturn) {
-                return request.execute();
-            }
-            else {
-                request.execute();
-                return new Auth0UserDto();
-            }
+    private Object executeQuery(Request request, Boolean hasReturn) throws Auth0Exception {
+        if (hasReturn) {
+            return request.execute();
         }
-        catch (Auth0Exception e) {
-            log.error(e.getMessage());
-            return new Auth0UserDto(e.getMessage().split(": ")[1]);
+        else {
+            request.execute();
+            return new Auth0UserDto();
         }
     }
 

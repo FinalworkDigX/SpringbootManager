@@ -1,5 +1,6 @@
 package ehb.finalwork.manager.error;
 
+import com.auth0.exception.Auth0Exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -117,6 +118,12 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = SignupException.class)
     public ResponseEntity<Object> handleSignupException(Exception exception) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(), (exception.getMessage() == null)? exception.getMessage():"");
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler(value = Auth0Exception.class)
+    public ResponseEntity<Object> handleAuth0Exception(Exception exception) {
+        ApiError apiError = new ApiError(HttpStatus.SEE_OTHER, exception.getLocalizedMessage(), (exception.getMessage() == null)? exception.getMessage():"");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
