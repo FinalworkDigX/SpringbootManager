@@ -31,6 +31,11 @@ public class DataItemController {
         return dataItemService.getById(id);
     }
 
+    @GetMapping("/byItemId/{id}")
+    public DataItem getByItemId(@PathVariable String id) throws Exception {
+        return dataItemService.getByItemId(id);
+    }
+
     @PostMapping
     public DataItem create(@RequestBody RethinkDataItemDto dataItemDto) throws Exception {
         return dataItemService.create(dataItemDto);

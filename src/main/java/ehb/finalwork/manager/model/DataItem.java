@@ -3,17 +3,27 @@ package ehb.finalwork.manager.model;
 import java.util.HashMap;
 
 public class DataItem extends ModelTemplate {
+    private String itemId;
     private String name;
     private Vector3 location;
     private String roomId;
 
     public DataItem() { }
 
-    public DataItem(String id, String name, Vector3 location, String roomId) {
+    public DataItem(String itemId, String id, String name, Vector3 location, String roomId) {
+        this.itemId = itemId;
         this.id = id;
         this.name = name;
         this.location = location;
         this.roomId = roomId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -54,6 +64,7 @@ public class DataItem extends ModelTemplate {
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("id", this.id);
+        hashMap.put("itemId", this.itemId);
         hashMap.put("roomId", this.roomId);
         hashMap.put("name", this.name);
 

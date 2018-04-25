@@ -79,7 +79,7 @@ public class DebugController {
 
     private List<DataItem> generateDataItems(String roomId) throws Exception {
         Vector3 v1 = new Vector3(0.0, 0.0, 0.0);
-        RethinkDataItemDto di1 = new RethinkDataItemDto("Screen 1", v1, roomId);
+        RethinkDataItemDto di1 = new RethinkDataItemDto("test_id", "Screen 1", v1, roomId);
 
         dataItemService.create(di1);
 
