@@ -5,10 +5,7 @@ import ehb.finalwork.manager.dto.RethinkDataItemDto;
 import ehb.finalwork.manager.dto.RethinkRoomDto;
 import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.error.TooManyReturnValuesException;
-import ehb.finalwork.manager.model.Beacon;
-import ehb.finalwork.manager.model.DataItem;
-import ehb.finalwork.manager.model.Room;
-import ehb.finalwork.manager.model.Vector3;
+import ehb.finalwork.manager.model.*;
 import ehb.finalwork.manager.service.BeaconService;
 import ehb.finalwork.manager.service.DataItemService;
 import ehb.finalwork.manager.service.RoomService;
@@ -41,6 +38,9 @@ public class DebugController {
     @Autowired
     DataItemService dataItemService;
 
+    @Autowired
+    MgmtApi mgmt;
+
     // ===================== //
     //      Web Sockets
     // ===================== //
@@ -54,6 +54,12 @@ public class DebugController {
     // ===================== //
     //      REST api
     // ===================== //
+
+    @GetMapping("workaround/mgmt")
+    public void debugMgmt() {
+        mgmt.resetManagementAPI();
+    }
+
     @GetMapping("/generate")
     public List<HashMap<String, String>> generateAll() throws Exception {
 

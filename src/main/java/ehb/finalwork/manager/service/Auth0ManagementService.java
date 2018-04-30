@@ -6,7 +6,7 @@ import com.auth0.json.mgmt.users.User;
 import com.auth0.json.mgmt.users.UsersPage;
 import com.auth0.net.Request;
 import ehb.finalwork.manager.dto.Auth0UserDto;
-import ehb.finalwork.manager.model.MgmtAPIWrapper;
+import ehb.finalwork.manager.model.MgmtApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,11 @@ public class Auth0ManagementService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    MgmtAPIWrapper mgmt;
+    MgmtApi mgmt;
 
     public List<User> getUsers() throws Auth0Exception {
         UserFilter userFilter = new UserFilter();
-        Request request = mgmt.users().list(userFilter);
+        Request request = mgmt.getManagementAPI().users().list(userFilter);
         UsersPage up = (UsersPage) executeQuery(request, true);
         return up.getItems();
     }
@@ -37,7 +37,7 @@ public class Auth0ManagementService {
         user.setConnection(mgmt.getConnection());
         user = this.setDefaults(user);
 
-        Request<User> request = mgmt.users().create(user);
+        Request<User> request = mgmt.getManagementAPI().users().create(user);
         return (User) executeQuery(request, true);
     }
 
@@ -50,12 +50,12 @@ public class Auth0ManagementService {
         u.setAppMetadata(user.getAppMetadata());
         u.setUserMetadata(user.getUserMetadata());
 
-        Request<User> request = mgmt.users().update(user.getId(), u);
+        Request<User> request = mgmt.getManagementAPI().users().update(user.getId(), u);
         return (User) executeQuery(request, true);
     }
 
     public Auth0UserDto deleteUser(String uid) throws Auth0Exception {
-        Request request = mgmt.users().delete(uid);
+        Request request = mgmt.getManagementAPI().users().delete(uid);
         return (Auth0UserDto) executeQuery(request, false);
     }
 
