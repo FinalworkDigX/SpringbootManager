@@ -1,5 +1,5 @@
 
-    const remote = "/api";
+    const remote = "";
     console.log('url prefix ="' + remote + '"');
 
     const DATALOG_URL = remote + "/v1/dataLog";
@@ -134,9 +134,9 @@
         $('.info_input_display').html(randomData);
     }
 
-    // ---------------------------- //
-    //    DataLog test functions    //
-    // ---------------------------- //
+    // ------------------------------------ //
+    //        DataLog test functions        //
+    // ------------------------------------ //
     var dataLogScript = false;
     var dataLogScriptLoop;
 
@@ -167,22 +167,25 @@
         return [{name: "first_row", data: randomString(), index: 1}, {name: "second_row", data: randomString(), index: 2}, {name: "third_row", data: randomString(), index: 3}];
     }
 
-    // ---------------------------- //
-    //   WebSocket test functions   //
-    // ---------------------------- //
+    // ------------------------------------ //
+    //       WebSocket test functions       //
+    // ------------------------------------ //
+
+
+    // =======  External WS Script  ======= //
     var externalWSScript = false;
     var externalWSScriptLoop;
 
-    $("#simulate_external_ws_script").on('click', function () {
+    $("#ws_simulator_button").on('click', function () {
         console.log("in Simulate External WS script");
         externalWSScript = !externalWSScript;
         if (externalWSScript) {
             simulateExternalWSScript();
-            $("#simulate_external_ws_script").html("Stop");
+            $("#ws_simulator_button").html("Stop");
         }
         else {
             clearInterval(externalWSScriptLoop);
-            $("#simulate_external_ws_script").html("Start");
+            $("#ws_simulator_button").html("Start");
         }
     });
 
@@ -218,48 +221,91 @@
         stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
     }
 
-    var testMessage = {
-        id: "qnix-qx2710led-999",
-        type: "screen",
-        use_info: {
-            on_time: new Date().getSeconds(),
-            temp: randomInt(25, 27)
-        },
-        item_info: {
-            purchased: 1288323623006,
-            warranty: 5
+
+    // ======  Sport scenario Script  ===== //
+    var sportScenarioScript = false;
+    var sportScenarioScriptLoop;
+
+    $("#ws_sport_scenario_button").on('click', function () {
+        console.log("in Sport Scenario Script");
+        sportScenarioScript = !sportScenarioScript;
+        if (sportScenarioScript) {
+            simSportScenarioScript();
+            $("#ws_sport_scenario_button").html("Stop");
         }
-    };
+        else {
+            clearInterval(sportScenarioScriptLoop);
+            $("#ws_sport_scenario_button").html("Start");
+        }
+    });
 
-    function testSendMessage(url, message) {
-        stompClient.send(url, message)
+    function simSportScenarioScript() {
+        sportScenarioScriptLoop = setInterval(function () {
+            testSportSim();
+        }, 1000);
     }
 
-    // ---------------------------- //
-    //    Beacon test functions     //
-    // ---------------------------- //
-    function testBeaconGetAll() {
-        stompClient.send(WS_BEACON, {priority: 9})
-    }
-
-    function testBeaconGetMajorMinor(major, minor) {
-        stompClient.send(WS_BEACON + "/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
-    }
-
-    function testBeaconCreate(message, major, minor, cf) {
-
+    function testSportSim() {
         var test = {
-            "id": message,
-            "name": "test_beacon - " + message,
-            "roomId": "test_room",
-            "major": major,
-            "minor": minor,
-            "calibrationFactor": cf
+            id: "qnix-qx2710led-ccc",
+            type: "screen",
+            use_info: {
+                on_time: new Date().getSeconds(),
+                temp: randomInt(25, 27)
+            },
+            item_info: {
+                purchased: 1288323623006,
+                warranty: 5
+            }
         };
 
-        stompClient.send(WS_BEACON + "/create", {priority: 9}, JSON.stringify(test));
+        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
     }
 
+
+    // ======  Cafe scenario Script  ===== //
+    var cafeScenarioScript = false;
+    var cafeScenarioScriptLoop;
+
+    $("#ws_cafe_scenario_button").on('click', function () {
+        console.log("in Sport Scenario Script");
+        cafeScenarioScript = !cafeScenarioScript;
+        if (cafeScenarioScript) {
+            simCafeScenarioScript();
+            $("#ws_cafe_scenario_button").html("Stop");
+        }
+        else {
+            clearInterval(cafeScenarioScriptLoop);
+            $("#ws_cafe_scenario_button").html("Start");
+        }
+    });
+
+    function simCafeScenarioScript() {
+        cafeScenarioScriptLoop = setInterval(function () {
+            testCafeSim();
+        }, 1000);
+    }
+
+    function testCafeSim() {
+        var test = {
+            id: "qnix-qx2710led-cccdddddd",
+            type: "screen",
+            use_info: {
+                on_time: new Date().getSeconds(),
+                temp: randomInt(25, 27)
+            },
+            item_info: {
+                purchased: 1288323623006,
+                warranty: 5
+            }
+        };
+
+        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
+    }
+
+    // ------------------------------------ //
+    //        Beacon test functions         //
+    // ------------------------------------ //
     function testCalibrate(message, float) {
 
         var test = {
@@ -271,9 +317,9 @@
         stompClient.send(WS_BEACON + "/test-id/calibrate", {priority: 9}, JSON.stringify(test));
     }
 
-    // ---------------------------- //
-    //     Room test functions      //
-    // ---------------------------- //
+    // ------------------------------------ //
+    //         Room test functions          //
+    // ------------------------------------ //
     function testRoomForRa(room_id) {
         //8f85bc69-fdcc-43fc-aaa9-c9563d42ae6e
         var test = {

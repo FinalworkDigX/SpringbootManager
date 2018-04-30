@@ -3,6 +3,8 @@ package ehb.finalwork.manager.controller;
 import ehb.finalwork.manager.dto.RethinkBeaconDto;
 import ehb.finalwork.manager.dto.RethinkDataItemDto;
 import ehb.finalwork.manager.dto.RethinkRoomDto;
+import ehb.finalwork.manager.error.CustomNotFoundException;
+import ehb.finalwork.manager.error.TooManyReturnValuesException;
 import ehb.finalwork.manager.model.Beacon;
 import ehb.finalwork.manager.model.DataItem;
 import ehb.finalwork.manager.model.Room;
@@ -54,52 +56,75 @@ public class DebugController {
     //      REST api
     // ===================== //
     @GetMapping("/generate")
-    public List<String> generateAll() throws Exception {
+    public List<HashMap<String, String>> generateAll() throws Exception {
 
-        Room r = this.generateRoom();
-        List<DataItem> items = this.generateDataItems(r.getId());
-        this.generateBeacons(r.getId());
+        List<HashMap<String, String>> returnList = new ArrayList<>();
 
-        List<String> dataItemsIds = new ArrayList<>();
-        for (DataItem di: items) {
-            dataItemsIds.add(di.getId());
+        // Sport Scenario generate
+        returnList.add(this.generateSport());
+
+        //Cafe Scenario Generate
+        returnList.add(this.generateCafe());
+
+
+        return returnList;
+    }
+
+    @GetMapping("/generate/sport")
+    public HashMap<String, String> generateSport() throws Exception {
+        HashMap<String, String> returnMap = new HashMap<>();
+        Vector3 originV = new Vector3(0.0, 0.0, 0.0);
+
+        // Room
+        RethinkRoomDto roomDto = new RethinkRoomDto("sport scenario", "Example scenario for IoT sport equipment", "Jupiter glv");
+        Room room = roomService.create(roomDto);
+        // Beacon
+        RethinkBeaconDto beaconDto = new RethinkBeaconDto(room.getId(), "beacon_1_1", "Sport scenario beacon", 1L, 4L, 64L);
+        this.deleteAndCreateBeacon(beaconDto);
+        // DataItem
+        RethinkDataItemDto dataItemDto = new RethinkDataItemDto("sport_scenario_item", "Sport Equipment", originV, room.getId());
+        this.deleteAndCreateDataItem(dataItemDto);
+
+        returnMap.put("sport_scenario id", dataItemDto.getItemId());
+        return returnMap;
+    }
+
+    @GetMapping("/generate/cafe")
+    public HashMap<String, String> generateCafe() throws Exception {
+        HashMap<String, String> returnMap = new HashMap<>();
+        Vector3 originV = new Vector3(0.0, 0.0, 0.0);
+
+        // Room
+        RethinkRoomDto roomDto = new RethinkRoomDto("cafe scenario", "Example scenario for smart cafe. Where bartenders and customer can see current stock", "Le corbeau");
+        Room room = roomService.create(roomDto);
+        // Beacon
+        RethinkBeaconDto beaconDto = new RethinkBeaconDto(room.getId(), "beacon_1_5", "Cafe scenario beacon", 1L, 5L, 64L);
+        this.deleteAndCreateBeacon(beaconDto);
+        // DataItem
+        RethinkDataItemDto dataItemDto = new RethinkDataItemDto("cafe_scenario_item", "Cooler 1", originV, room.getId());
+        this.deleteAndCreateDataItem(dataItemDto);
+
+        returnMap.put("cafe_scenario id", dataItemDto.getItemId());
+        return returnMap;
+    }
+
+
+
+    private void deleteAndCreateBeacon(RethinkBeaconDto beaconDto) throws Exception {
+        try {
+            Beacon b = beaconService.getByMajorMinor(Long.toString(beaconDto.getMajor()), Long.toString(beaconDto.getMinor()), "autogenerate");
+            beaconService.delete(b.getId());
         }
-
-        return dataItemsIds;
+        catch (Exception ignored) { }
+        beaconService.create(beaconDto);
     }
 
-
-    // $@GetMapping("/generate/room")
-    private Room generateRoom() throws Exception{
-        RethinkRoomDto r1 = new RethinkRoomDto("test_room", "room_desc_1", "Lokaal a201");
-
-        return roomService.create(r1);
-
-    }
-
-    private List<DataItem> generateDataItems(String roomId) throws Exception {
-        Vector3 v1 = new Vector3(0.0, 0.0, 0.0);
-        RethinkDataItemDto di1 = new RethinkDataItemDto("test_id", "Screen 1", v1, roomId);
-
-        dataItemService.create(di1);
-
-        return dataItemService.getAll();
-    }
-
-    // @GetMapping("/generate/beacon")
-    private List<Beacon> generateBeacons(String roomId) throws Exception {
-        RethinkBeaconDto b1 = new RethinkBeaconDto(roomId, "beacon_1_1", "Lokaal a201 pos.1", 1L, 1L, 61L);
-        RethinkBeaconDto b2 = new RethinkBeaconDto(roomId, "beacon_1_2", "Lokaal a201 pos.2", 1L, 2L, 61L);
-        RethinkBeaconDto b3 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 3L, 61L);
-        RethinkBeaconDto b4 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 4L, 61L);
-        RethinkBeaconDto b5 = new RethinkBeaconDto(roomId, "beacon_1_3", "Lokaal a201 pos.3", 1L, 5L, 61L);
-
-        beaconService.create(b1);
-        beaconService.create(b2);
-        beaconService.create(b3);
-        beaconService.create(b4);
-        beaconService.create(b5);
-
-        return beaconService.getAll();
+    private void deleteAndCreateDataItem(RethinkDataItemDto dataItemDto) throws Exception {
+        try {
+            DataItem di = dataItemService.getByItemId(dataItemDto.getItemId());
+            dataItemService.delete(di.getId());
+        }
+        catch (Exception ignored) { }
+        dataItemService.create(dataItemDto);
     }
 }

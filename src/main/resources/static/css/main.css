@@ -1,0 +1,67 @@
+body {
+    font-family: Consolas;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.head {
+    background: #333;
+    padding: 1em;
+}
+.head h1 {
+    color: #DDD;
+}
+
+.head a {
+    color: #F75421;
+    text-decoration: underline;
+}
+.head a:hover {
+    color: #dd3b08;
+}
+.head a:visited {
+    color: #F75421;
+    text-decoration: underline;
+}
+.content {
+    display: flex;
+}
+.left {
+    /*float: left;*/
+    max-width: 50%;
+    min-width: 50%;
+    padding: 0 1em;
+    box-sizing: border-box;
+}
+
+.data {
+    background: #DDD;
+}
+
+.script {
+    border-top: solid 1px #F75421;
+    margin: 0.5em;
+}
+
+.script p {
+    font-size: .8em;
+}
+
+form:not(.delete_room_form), .create_dataLog_script_div {
+    margin: .5em 0;
+}
+button[type=submit]:not(.delete_room_button), .create_dataLog_script {
+    min-width: 10em;
+    padding: .5em;
+    margin: .5em;
+}
+strong {
+    color: #F75421;
+}
