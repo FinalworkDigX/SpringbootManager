@@ -22,9 +22,11 @@ public class MgmtApi {
     }
 
     public void resetManagementAPI() {
-        RestTemplate restTemplate = new RestTemplate();
-        OauthToken token = restTemplate.postForObject(tokenIssuer, tokenRequestHeaders, OauthToken.class);
-        this.managementAPI = new ManagementAPI(domain, token.getAccessToken());
+        if (!domain.equals(tokenIssuer)) {
+            RestTemplate restTemplate = new RestTemplate();
+            OauthToken token = restTemplate.postForObject(tokenIssuer, tokenRequestHeaders, OauthToken.class);
+            this.managementAPI = new ManagementAPI(domain, token.getAccessToken());
+        }
     }
 
     public String getConnection() {
