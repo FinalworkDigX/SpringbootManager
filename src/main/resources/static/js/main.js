@@ -75,7 +75,6 @@
     function connectManagerWebSocket() {
         var socket = new SockJS(WS_URL);
         stompClient = Stomp.over(socket);
-        //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/dataLog', onNewData, onError);
@@ -84,7 +83,10 @@
             stompClient.subscribe('/topic/beacon/test-id/getByMajorMinor', onNewData, onError);
             stompClient.subscribe('/topic/beacon', onNewData, onError);
             stompClient.subscribe('/topic/room/test-id', onNewData, onError);
-            stompClient.subscribe('/topic/echo', onNewData, onError);
+            //
+            stompClient.subscribe('/topic/echo/ws', onNewData, onError);
+            stompClient.subscribe('/topic/echo/sport', onNewData, onError);
+            stompClient.subscribe('/topic/echo/cafe', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -218,7 +220,7 @@
             }
         };
 
-        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
+        stompClient.send(WS_ECHO + '/ws', {priority: 9}, JSON.stringify(test))
     }
 
 
@@ -259,7 +261,7 @@
             }
         };
 
-        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
+        stompClient.send(WS_ECHO + '/sport', {priority: 9}, JSON.stringify(test))
     }
 
 
@@ -300,7 +302,7 @@
             }
         };
 
-        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
+        stompClient.send(WS_ECHO + '/cafe', {priority: 9}, JSON.stringify(test))
     }
 
     // ------------------------------------ //

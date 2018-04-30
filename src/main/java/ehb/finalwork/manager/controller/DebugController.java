@@ -44,10 +44,9 @@ public class DebugController {
     // ===================== //
     //      Web Sockets
     // ===================== //
-    @MessageMapping("/echo")
-    @SendTo("/topic/echo")
+    @MessageMapping("/echo/{channel}")
+    @SendTo("/topic/echo/{channel}")
     public HashMap<String, Object> echo(@RequestBody HashMap<String, Object> json) {
-        log.info("in echo");
         return json;
     }
 
