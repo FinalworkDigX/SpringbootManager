@@ -107,6 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             log.warn("Default ManagementAPI is being used, check if security.properties is present and has all required information.");
             // Fucking travis
             //throw new Auth0Exception("Security properties not present");
+            return new MgmtApi("nope", "nope", "nope", new HttpEntity<>(""));
         }
         // Setup tokenRequestHeaders
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -119,7 +120,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         jsonMap.put("audience", issuer + "api/v2/");
 
         JSONObject json = new JSONObject(jsonMap);
-        HttpEntity<String> httpEntity = new HttpEntity<String>(json.toString(), httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>(json.toString(), httpHeaders);
 
         String tokenIssuer = issuer + "oauth/token";
 
