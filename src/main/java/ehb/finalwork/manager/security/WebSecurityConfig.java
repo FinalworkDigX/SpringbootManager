@@ -107,7 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             log.warn("Default ManagementAPI is being used, check if security.properties is present and has all required information.");
             // Fucking travis
             //throw new Auth0Exception("Security properties not present");
-            return new MgmtApi("nope", "nope", "nope", new HttpEntity<>(""));
+            return new MgmtApi(domain, "nope", "nope", new HttpEntity<>(""));
         }
         // Setup tokenRequestHeaders
         HttpHeaders httpHeaders = new HttpHeaders();
