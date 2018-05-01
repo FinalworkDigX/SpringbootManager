@@ -4,6 +4,7 @@ import ehb.finalwork.manager.dto.RethinkDataSourceDto;
 import ehb.finalwork.manager.error.CustomNotFoundException;
 import ehb.finalwork.manager.model.DataSource;
 import ehb.finalwork.manager.service.DataSourceService;
+import ehb.finalwork.manager.service.StompClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,19 @@ public class DataSourceController {
     @Autowired
     DataSourceService dataSourceService;
 
+    @Autowired
+    StompClientService stompClientService;
+
     @GetMapping()
     public List<DataSource> getAll() {
         return dataSourceService.getAll();
     }
 
+    @GetMapping("/restartClient")
+    public void restartClient() {
+        stompClientService.startStompClient();
+    }
+    
     @GetMapping("/byId/{id}")
     public DataSource getById(@PathVariable String id) throws CustomNotFoundException {
         return dataSourceService.getById(id);
