@@ -87,7 +87,7 @@ public class DebugController {
         RethinkBeaconDto beaconDto = new RethinkBeaconDto(room.getId(), "beacon_1_1", "Sport scenario beacon", 1L, 4L, 64L);
         this.deleteAndCreateBeacon(beaconDto);
         // DataItem
-        RethinkDataItemDto dataItemDto = new RethinkDataItemDto("sport_scenario_item", "Sport Equipment", originV, room.getId());
+        RethinkDataItemDto dataItemDto = new RethinkDataItemDto("sport_scenario_item", "Treadmill 21", originV, room.getId());
         this.deleteAndCreateDataItem(dataItemDto);
 
         returnMap.put("sport_scenario id", dataItemDto.getItemId());
@@ -106,7 +106,7 @@ public class DebugController {
         RethinkBeaconDto beaconDto = new RethinkBeaconDto(room.getId(), "beacon_1_5", "Cafe scenario beacon", 1L, 5L, 64L);
         this.deleteAndCreateBeacon(beaconDto);
         // DataItem
-        RethinkDataItemDto dataItemDto = new RethinkDataItemDto("cafe_scenario_item", "Cooler 1", originV, room.getId());
+        RethinkDataItemDto dataItemDto = new RethinkDataItemDto("cafe_scenario_item", "Jupiler tap", originV, room.getId());
         this.deleteAndCreateDataItem(dataItemDto);
 
         returnMap.put("cafe_scenario id", dataItemDto.getItemId());

@@ -198,21 +198,13 @@
         }, 1000);
     }
 
-    var alternateItems = false;
     function testExternalWSSimulation() {
-
-        var variation = '1';
-        if (alternateItems) {
-            variation = '2';
-        }
-        alternateItems = !alternateItems;
-
         var test = {
-            id: "qnix-qx2710led-" + variation,
+            id: "qnix-qx2710led-1",
             type: "screen",
             use_info: {
                 on_time: new Date().getSeconds(),
-                temp: randomInt(25, 27)
+                temp: randomInt(25, 27).toFixed(2)
             },
             item_info: {
                 purchased: 1288323623006,
@@ -249,15 +241,21 @@
 
     function testSportSim() {
         var test = {
-            id: "qnix-qx2710led-ccc",
-            type: "screen",
-            use_info: {
-                on_time: new Date().getSeconds(),
-                temp: randomInt(25, 27)
-            },
-            item_info: {
-                purchased: 1288323623006,
-                warranty: 5
+            equipment_id: "treadmill_21",
+            user: {
+                info: {
+                    name: "Jeff",
+                    age: 34,
+                    membership: {
+                        from: new Date().setFullYear(2016, 4, 12),
+                        to: new Date().setFullYear(2019, 1, 1)
+                    }
+                },
+                stats: {
+                    time: new Date().getSeconds(),
+                    kcal_burned: new Date().getSeconds() * 2.5,
+                    heart_rate: Math.round(randomInt(110, 115))
+                }
             }
         };
 
@@ -290,15 +288,15 @@
 
     function testCafeSim() {
         var test = {
-            id: "qnix-qx2710led-cccdddddd",
-            type: "screen",
-            use_info: {
-                on_time: new Date().getSeconds(),
-                temp: randomInt(25, 27)
+            tap_id: "tap_3",
+            draught: {
+                brand: "Jupiler"
             },
-            item_info: {
-                purchased: 1288323623006,
-                warranty: 5
+            stats: {
+                temp: randomInt(2, 4).toFixed(2),
+                pressure: randomInt(10, 12).toFixed(3),
+                liter: new Date().getSeconds(),
+                reserve: 4
             }
         };
 
