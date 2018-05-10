@@ -31,4 +31,9 @@ public class DaoConfiguration {
     public DataSourceDao dataSourceDao() {
         return new DataSourceDaoImpl(new DataSource());
     }
+
+    @Bean
+    public DataItemRequestDao dataItemRequestDao() {
+        return new DataItemRequestDaoImpl(new DataItemRequest());
+    }
 }

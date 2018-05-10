@@ -76,6 +76,9 @@ public class DBInitializer implements InitializingBean {
         if (!tables.contains("dataSource")) {
             r.db(database).tableCreate("dataSource").run(con);
         }
+        if (!tables.contains("dataItemRequest")) {
+            r.db(database).tableCreate("dataItemRequest").run(con);
+        }
         /* Verify / Create tables for each object? // 1 table with all info? */
     }
 }
