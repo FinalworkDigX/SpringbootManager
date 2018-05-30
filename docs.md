@@ -423,8 +423,8 @@ location        |String         |Yes
 parameter       |Type                              |required  
 ----------------|----------------------------------|:--------:
 roomLocation    |Vector3                           |Yes
-roomInfo        |[Room](model-room)                |Yes&ast;
-itemList        |List - [DataItem](model-data-item |No 
+roomInfo        |[Room](#model-room)                |Yes&ast;
+itemList        |List - [DataItem](#model-data-item) |No 
 
 &ast; Room id is required, rest optional
 
