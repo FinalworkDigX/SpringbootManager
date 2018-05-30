@@ -47,7 +47,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
         if (entity != null) {
             return entity;
         }
-        throw new CustomNotFoundException("Room with id: '" + id + "' not found.");
+        throw new CustomNotFoundException("Item with id: '" + id + "' not found.");
     }
 
     @Override
@@ -98,7 +98,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
         log.info("Delete {}", returnObject);
         log.info("Delete id {}", id);
         if (returnObject.getDeleted() == 0) {
-            throw new CustomNotFoundException("DataItem with id: " + id + ": Not Found");
+            throw new CustomNotFoundException("Item with id: " + id + ": Not Found");
         }
     }
 }

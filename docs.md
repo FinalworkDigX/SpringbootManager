@@ -72,6 +72,8 @@ Example:
 	"path": "/v1/dataLogd"
 }
 ```
+<br/>
+<br/>
 
 ***********************************************************************************************************************
 ## Auth0 management
@@ -81,34 +83,34 @@ Example:
 ### Model: User
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |required  
-----------------|:--------:
-client_id       |Yes
-connection      |Yes 
-password        |Yes
-verify_password |Yes
-username        |Yes
-email           |Yes
-Verify_email    |Yes 
-identities      |Yes
-email_verified  |No 
-phone_number    |No
-phone_verified  |No
-user_id         |No
-picture         |No
-name            |No
-nickname        |No
-given_name      |No
-family_name     |No
-created_at      |No
-updated_at      |No
-app_metadata    |No
-user_metadata   |No
-multifactor     |No
-last_ip         |No
-last_login      |No
-logins_count    |No
-blocked         |No
+parameter       |Type           |required  
+----------------|---------------|:--------:
+client_id       |String         |Yes
+connection      |String         |Yes 
+password        |String         |Yes
+verify_password |Boolean        |Yes
+username        |String         |Yes
+email           |String         |Yes
+Verify_email    |Boolean        |Yes 
+identities      |List - Identity|Yes
+email_verified  |Boolean        |No 
+phone_number    |String         |No
+phone_verified  |Boolean        |No
+user_id         |String         |No
+picture         |String         |No
+name            |String         |No
+nickname        |String         |No
+given_name      |String         |No
+family_name     |String         |No
+created_at      |Date - String  |No
+updated_at      |Date - String  |No
+app_metadata    |JSON - String  |No
+user_metadata   |JSON - String  |No
+multifactor     |List - String  |No
+last_ip         |String         |No
+last_login      |Date - String  |No
+logins_count    |Integer        |No
+blocked         |Boolean        |No
 
 ### API 
 #### &gt;_Get All_
@@ -267,6 +269,8 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 ##### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+<br/>
+<br/>
 
 ## Authentication 
 ### Base slug
@@ -274,29 +278,29 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 ### Model: Create
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |required  
-----------------|:--------:
-_id             |Yes
-email           |Yes
-email_verified  |Yes
+parameter       |Type           |required  
+----------------|---------------|:--------:
+_id             |String         |Yes
+email           |String         |Yes
+email_verified  |Boolean        |Yes
 
 ### Model Token holder
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |required  
-----------------|:--------:
-access_token    |Yes
-id_token        |Yes 
-refresh_token   |Yes
-token_type      |Yes
-expires_in      |Yes
+parameter       |Type           |required  
+----------------|---------------|:--------:
+access_token    |String         |Yes
+id_token        |String         |Yes 
+refresh_token   |String         |Yes
+token_type      |String         |Yes
+expires_in      |Double         |Yes
 
 ### DTO: Login 
 
-parameter       |required  
-----------------|:--------:
-email           |Yes
-password        |Yes 
+parameter       |Type           |required  
+----------------|---------------|:--------:
+email           |String         |Yes
+password        |String         |Yes 
 
 ### API
 #### &gt;_Sign up_
@@ -388,16 +392,203 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 ##### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+<br/>
+<br/>
+
 
 ## Room
-### Model
-### DTO
-<h3 id="room-api">API</h3>
-#### Errors
+### Base slug
+[_base_url_] /v1/room
+
+### Model: Room
+
+parameter       |Type           |required  
+----------------|---------------|:--------:
+id              |String         |Yes
+name            |String         |Yes
+description     |String         |Yes 
+location        |String         |Yes 
+
+    
+### DTO: Room
+
+parameter       |Type           |required  
+----------------|---------------|:--------:
+name            |String         |Yes
+description     |String         |Yes 
+location        |String         |Yes 
+
+### DTO: Room for AR
+
+parameter       |Type                              |required  
+----------------|----------------------------------|:--------:
+roomLocation    |Vector3                           |Yes
+roomInfo        |[Room](model-room)                |Yes&ast;
+itemList        |List - [DataItem](model-data-item |No 
+
+&ast; Room id is required, rest optional
+
+### API
+#### &gt;_Get All_
+* Slug: [_base_url_] /v1/room
+* Method: **GET**
+* Body: _NONE_
+
+##### Returns
+```
+[
+	{
+		"id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
+		"name": "Hospital R247",
+		"description": "Hosiptal scenario room",
+		"location": "Chirec"
+	},
+	{
+	    ...
+    }
+]	
+```
+
+##### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+#### &gt;_Get By Id_
+* Slug: [_base_url_] /v1/room/byId/{_room-id_}
+* Method: **GET**
+* Body: _NONE_
+
+##### Returns
+```
+{
+    "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
+    "name": "Hospital R247",
+    "description": "Hosiptal scenario room",
+    "location": "Chirec"
+}
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+###### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+#### &gt;_Create_
+* Slug: [_base_url_] /v1/room
+* Method: **POST**
+* Body: [Room Dto](#dto-room)
+
+##### Returns
+```
+{
+    "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
+    "name": "Hospital R247",
+    "description": "Hosiptal scenario room",
+    "location": "Chirec"
+}
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+#### &gt;_Update_
+* Slug: [_base_url_] /v1/room
+* Method: **PUT**
+* Body: [Room](#model-room)
+
+##### Returns
+```
+{
+    "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
+    "name": "Hospital R247",
+    "description": "Hosiptal scenario room",
+    "location": "Chirec"
+}
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+###### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+#### &gt;_Delete_
+* Slug: [_base_url_] /v1/room/{_room-id_}
+* Method: **PUT**
+* Body: [Room](#model-room)
+
+##### Returns
+```
+{ }
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+###### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
+
 <h3 id="room-ws">Web Sockets</h3>
-#### Errors
+#### &gt;_Room for AR_
+* Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
+* Response Channel: [_base_url_] /topic/room/{_private user channel_}
+* Body: [RoomForAR dto](#dto-room-for-ar)
+
+##### Returns
+```
+{
+    "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
+    "name": "Hospital R247",
+    "description": "Hosiptal scenario room",
+    "location": "Chirec"
+}
+```
+
+##### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+###### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+<br/>
+<br/>
+
+
 
 ## Beacon
 ### Model
@@ -408,6 +599,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="beacon-ws">Web Sockets</h3>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+<br/>
+<br/>
 
 ## Data Items
 ### Model
@@ -417,6 +610,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ### API
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+<br/>
+<br/>
 
 ## Data Sources
 ### Model
@@ -426,6 +621,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ### API
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+<br/>
+<br/>
 
 ## DataLog
 ### Model
@@ -436,6 +633,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="data-log-ws">Web Sockets</h3>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+<br/>
+<br/>
 
 ## Data Item Request
 ### Model
@@ -445,7 +644,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ### API
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
-
+<br/>
+<br/>
 
 ## Debug
 ### Model
