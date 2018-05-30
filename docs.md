@@ -500,6 +500,18 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
 ### &gt;_Update_
 * Slug: [_base_url_] /v1/room
 * Method: **PUT**
@@ -556,7 +568,6 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 <h3 id="room-ws">Web Sockets</h3>
-
 ### &gt;_Room for AR_
 
 * Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
@@ -566,10 +577,191 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 #### Returns
 ```
 {
-    "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
-    "name": "Hospital R247",
-    "description": "Hosiptal scenario room",
-    "location": "Chirec"
+    "roomLocation": {
+        "y":0.0021007359027862549,
+        "x":0.024585127830505371,
+        "z":0.015472851693630219
+    },
+    "itemList": [
+        {
+            "itemId":"tap_3",
+            "name":"Jupiler tap",
+            "location": {
+                "y":0,
+                "x":0,
+                "z":0
+            },
+            "id":"7d077626-eaad-46e7-9bd0-e1cd394fdcce",
+            "roomId":"88d10d30-b5c2-4555-b15c-416c6f7d0935"
+        }, 
+        {
+            ...
+        }
+    ],
+    "roomInfo": {
+        "description":"Example scenario for smart cafe. Where bartenders and customer can see current stock",
+        "name":"Cafe scenario",
+        "id":"88d10d30-b5c2-4555-b15c-416c6f7d0935",
+        "itemList": [
+            {
+                "itemId":"tap_3",
+                "name":"Jupiler tap",
+                "location": {
+                    "y":0,
+                    "x":0,
+                    "z":0
+                },
+                "id":"7d077626-eaad-46e7-9bd0-e1cd394fdcce",
+                "roomId":"88d10d30-b5c2-4555-b15c-416c6f7d0935"
+            },
+            {
+                ...
+            }
+        ]
+    }
+}
+
+
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
+<br/>
+<br/>
+
+
+## Beacon
+### Base slug
+[_base_url_] /v1/beacon
+
+### Model: Beacon
+    
+parameter       |Type           |required  
+----------------|---------------|:--------:
+id                  |String         |Yes
+roomId              |String         |Yes
+name                |String         |Yes
+description         |String         |Yes
+major               |Long           |Yes
+minor               |Long           |Yes
+calibrationFactor   |Long           |Yes
+lastUpdated         |Long           |Yes
+
+### DTO: Beacon
+
+parameter       |Type           |required  
+----------------|---------------|:--------:
+roomId              |String         |Yes
+name                |String         |Yes
+description         |String         |Yes
+major               |Long           |Yes
+minor               |Long           |Yes
+calibrationFactor   |Long           |Yes
+lastUpdated         |Long           |Yes
+
+### API
+### &gt;_Get All_
+* Slug: [_base_url_] /v1/beacon
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+        "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+        "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+        "name": "beacon_1_2",
+        "description": "Lokaal a201 pos.2",
+        "major": 1,
+        "minor": 2,
+        "calibrationFactor": 61,
+        "lastUpdated": 1524669288
+    },
+	{
+	    ...
+    }
+]	
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Create_
+* Slug: [_base_url_] /v1/beacon
+* Method: **POST**
+* Body: [Beacon Dto](#dto-beacon)
+
+#### Returns
+```
+{
+    "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+    "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+    "name": "beacon_1_2",
+    "description": "Lokaal a201 pos.2",
+    "major": 1,
+    "minor": 2,
+    "calibrationFactor": 61,
+    "lastUpdated": 1524669288
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+
+### &gt;_Update_
+* Slug: [_base_url_] /v1/beacon
+* Method: **PUT**
+* Body: [Beacon](#model-beacon)
+
+#### Returns
+```
+{
+    "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+    "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+    "name": "beacon_1_2",
+    "description": "Lokaal a201 pos.2",
+    "major": 1,
+    "minor": 2,
+    "calibrationFactor": 61,
+    "lastUpdated": 1524669288
 }
 ```
 
@@ -587,20 +779,190 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 	]
 }
 ```
-<br/>
-<br/>
 
+### &gt;_Delete_
+* Slug: [_base_url_] /v1/beacon/{_beacon-id_}
+* Method: **DELETE**
+* Body: _NONE_
 
+#### Returns
+```
+{ }
+```
 
-## Beacon
-### Model
-### DTO
-<h3 id="beacon-api">API</h3>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
+
 <h3 id="beacon-ws">Web Sockets</h3>
+
+### &gt;_Get All_
+
+* Request Channel: [_base_url_] /beacon/
+* Response Channel: [_base_url_] /topic/beacon
+* Body: [Beacon](#model-beacon)
+
+#### Returns
+```
+[
+	{
+        "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+        "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+        "name": "beacon_1_2",
+        "description": "Lokaal a201 pos.2",
+        "major": 1,
+        "minor": 2,
+        "calibrationFactor": 61,
+        "lastUpdated": 1524669288
+    },
+	{
+	    ...
+    }
+]	
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Create_
+
+* Request Channel: [_base_url_] /beacon/{_private user channel_}/calibrate
+* Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
+* Body: [Beacon](#model-beacon)
+
+#### Returns
+```
+{
+    "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+    "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+    "name": "beacon_1_2",
+    "description": "Lokaal a201 pos.2",
+    "major": 1,
+    "minor": 2,
+    "calibrationFactor": 61,
+    "lastUpdated": 1524669288
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Get by Major &amp; Minor_
+
+* Request Channel: [_base_url_] /beacon/{_private user channel_}/getByMajorMinor/{_major_}/{_minor_}
+* Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/getByMajorMinor
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+    "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+    "name": "beacon_1_2",
+    "description": "Lokaal a201 pos.2",
+    "major": 1,
+    "minor": 2,
+    "calibrationFactor": 61,
+    "lastUpdated": 1524669288
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### TooManyReturnValuesWebSocket Exception
+* Status code: 300
+```
+{
+	"status": "MULTIPLE_CHOICES",
+	"message": "Too Many Values",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Not Found",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Calibrate_
+
+* Request Channel: [_base_url_] /beacon/{_private user channel_}/calibrate
+* Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
+* Body: [Beacon](#model-beacon)
+
+#### Returns
+```
+{
+    "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
+    "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
+    "name": "beacon_1_2",
+    "description": "Lokaal a201 pos.2",
+    "major": 1,
+    "minor": 2,
+    "calibrationFactor": 61,
+    "lastUpdated": 1524669288
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Not Found",
+	"errors": [
+		""
+	]
+}
+```
 <br/>
 <br/>
 

@@ -133,6 +133,12 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
+    @ExceptionHandler(value = ItemNotCreatedException.class)
+    public ResponseEntity<Object> handleItemNotCreatedException(Exception exception) {
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT, exception.getLocalizedMessage(), (exception.getMessage() == null)? exception.getMessage():"");
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
     // Custom WebSocket Exceptions
     @MessageExceptionHandler(value = TooManyReturnValuesWebSocketException.class)
     public void handleTooManyReturnValuesWebSocketException(TooManyReturnValuesWebSocketException exception) {

@@ -4,6 +4,7 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.error.CustomNotFoundException;
+import ehb.finalwork.manager.error.ItemNotCreatedException;
 import ehb.finalwork.manager.error.MissingIdException;
 import ehb.finalwork.manager.model.ModelTemplate;
 import ehb.finalwork.manager.model.RethinkDBHashable;
@@ -62,7 +63,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
             return (T) returnObject.getFirstNewVal(this.entity.getClass());
         }
         // Create custom exception
-        throw new Exception();
+        throw new ItemNotCreatedException();
     }
 
     @Override
