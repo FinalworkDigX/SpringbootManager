@@ -303,7 +303,7 @@ email           |String         |Yes
 password        |String         |Yes 
 
 ### API
-### &gt;_Sign up_
+### &gt;_Sign up_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/auth/signup
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
@@ -332,7 +332,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 	]
 }
 ```
-### &gt;_Login_
+### &gt;_Login_ [^ To Top ^](#summary)
 Login types: __Admin__, __User__
 * Slug: [_base_url_] /v1/auth/{_type_}/login
 * Method: **POST**
@@ -364,7 +364,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 }
 ```
 
-### &gt;_Logout_
+### &gt;_Logout_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/auth/logout
 * Method: **POST**
 * Headers: Bearer token
@@ -379,7 +379,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-### &gt;_Reset password_
+### &gt;_Reset password_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/auth/reset-password
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
@@ -429,7 +429,7 @@ itemList        |List - [DataItem](#model-data-item) |No
 &ast; Room id is required, rest optional
 
 ### API
-### &gt;_Get All_
+### &gt;_Get All_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/room
 * Method: **GET**
 * Body: _NONE_
@@ -452,7 +452,7 @@ itemList        |List - [DataItem](#model-data-item) |No
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-### &gt;_Get By Id_
+### &gt;_Get By Id_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/room/byId/{_room-id_}
 * Method: **GET**
 * Body: _NONE_
@@ -482,7 +482,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Create_
+### &gt;_Create_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/room
 * Method: **POST**
 * Body: [Room Dto](#dto-room)
@@ -512,7 +512,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Update_
+### &gt;_Update_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/room
 * Method: **PUT**
 * Body: [Room](#model-room)
@@ -542,7 +542,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Delete_
+### &gt;_Delete_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/room/{_room-id_}
 * Method: **PUT**
 * Body: [Room](#model-room)
@@ -568,7 +568,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 <h3 id="room-ws">Web Sockets</h3>
-### &gt;_Room for AR_
+### &gt;_Room for AR_ [^ To Top ^](#summary)
 
 * Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
 * Response Channel: [_base_url_] /topic/room/{_private user channel_}
@@ -684,7 +684,7 @@ calibrationFactor   |Long           |Yes
 lastUpdated         |Long           |Yes
 
 ### API
-### &gt;_Get All_
+### &gt;_Get All_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/beacon
 * Method: **GET**
 * Body: _NONE_
@@ -711,7 +711,7 @@ lastUpdated         |Long           |Yes
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-### &gt;_Create_
+### &gt;_Create_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/beacon
 * Method: **POST**
 * Body: [Beacon Dto](#dto-beacon)
@@ -746,7 +746,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 
-### &gt;_Update_
+### &gt;_Update_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/beacon
 * Method: **PUT**
 * Body: [Beacon](#model-beacon)
@@ -780,7 +780,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Delete_
+### &gt;_Delete_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/beacon/{_beacon-id_}
 * Method: **DELETE**
 * Body: _NONE_
@@ -819,7 +819,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 <h3 id="beacon-ws">Web Sockets</h3>
 
-### &gt;_Get All_
+### &gt;_Get All_ [^ To Top ^](#summary)
 
 * Request Channel: [_base_url_] /beacon/
 * Response Channel: [_base_url_] /topic/beacon
@@ -847,7 +847,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-### &gt;_Create_
+### &gt;_Create_ [^ To Top ^](#summary)
 
 * Request Channel: [_base_url_] /beacon/{_private user channel_}/calibrate
 * Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
@@ -882,7 +882,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Get by Major &amp; Minor_
+### &gt;_Get by Major &amp; Minor_ [^ To Top ^](#summary)
 
 * Request Channel: [_base_url_] /beacon/{_private user channel_}/getByMajorMinor/{_major_}/{_minor_}
 * Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/getByMajorMinor
@@ -929,7 +929,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Calibrate_
+### &gt;_Calibrate_ [^ To Top ^](#summary)
 
 * Request Channel: [_base_url_] /beacon/{_private user channel_}/calibrate
 * Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
@@ -990,7 +990,7 @@ location            |Vector3        |Yes
 roomId              |String         |Yes
 
 ### API
-### &gt;_Get All_
+### &gt;_Get All_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem
 * Method: **GET**
 * Body: _NONE_
@@ -1018,7 +1018,7 @@ roomId              |String         |Yes
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-### &gt;_Get by Room id_
+### &gt;_Get by Room id_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem/byRoomId/{_room-id_}
 * Method: **GET**
 * Body: _NONE_
@@ -1046,7 +1046,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-### &gt;_Get by id_
+### &gt;_Get by id_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem/byId/{_dataItem-id_}
 * Method: **GET**
 * Body: _NONE_
@@ -1085,7 +1085,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 
-### &gt;_Create_
+### &gt;_Create_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem
 * Method: **POST**
 * Body: [DataItem Dto](#dto-dataitem)
@@ -1121,7 +1121,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 
-### &gt;_Update_
+### &gt;_Update_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem
 * Method: **PUT**
 * Body: [DataItem](#model-dataItem)
@@ -1156,7 +1156,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Delete_
+### &gt;_Delete_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem/{_dataItem-id_}
 * Method: **DELETE**
 * Body: _NONE_
@@ -1247,7 +1247,7 @@ url                 |String                                             |Yes
 destinations        |List - [DataDestination](#model-dataDestination)   |Yes
 
 ### API
-### &gt;_Get All_
+### &gt;_Get All_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem
 * Method: **GET**
 * Body: _NONE_
@@ -1289,7 +1289,7 @@ destinations        |List - [DataDestination](#model-dataDestination)   |Yes
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-### &gt;_Get by id_
+### &gt;_Get by id_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataSource/byId/{_dataSource-id_}
 * Method: **GET**
 * Body: _NONE_
@@ -1342,7 +1342,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 
-### &gt;_Create_
+### &gt;_Create_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataSource
 * Method: **POST**
 * Body: [DataSource Dto](#dto-datasource)
@@ -1392,7 +1392,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 
-### &gt;_Update_
+### &gt;_Update_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataSource
 * Method: **PUT**
 * Body: [DataSource](#model-datasource)
@@ -1441,7 +1441,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-### &gt;_Delete_
+### &gt;_Delete_ [^ To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataItem/{_dataSource-id_}
 * Method: **DELETE**
 * Body: _NONE_
