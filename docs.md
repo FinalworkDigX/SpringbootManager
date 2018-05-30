@@ -33,7 +33,23 @@ Example:
 {
 	"timestamp": 1527686103180,
 	"status": 400,
-	"error": "Not Found",
+	"error": "Bad Request",
+	"message": "No message available",
+	"path": "/v1/dataLogd"
+}
+```
+
+### 401
+occurs when trying to access a protected slug without a valid jwt token, check:
+1. Validity of jwt token
+2. Correct token format: "Bearer jwt.token"
+
+Example:
+```
+{
+	"timestamp": 1527686103180,
+	"status": 401,
+	"error": "Unauthorized",
 	"message": "No message available",
 	"path": "/v1/dataLogd"
 }
@@ -57,7 +73,82 @@ Example:
 
 ***********************************************************************************************************************
 ## Auth0 management
+### Base slug
+[base_url]/v1/management/user
 ### Model
+parameter   |required  
+------------|:--------:
+client_id   |Yes
+connection  |No 
+password    |Yes 
+
+@JsonProperty("client_id")
+    private String clientId;
+    @JsonProperty("connection")
+    private String connection;
+    @JsonProperty("password")
+    private String password;
+    @JsonProperty("verify_password")
+    private Boolean verifyPassword;
+    @JsonProperty("username")
+    private String username;
+    @JsonProperty("email")
+    private String email;
+    @JsonProperty("email_verified")
+    private Boolean emailVerified;
+    @JsonProperty("verify_email")
+    private Boolean verifyEmail;
+    @JsonProperty("phone_number")
+    private String phoneNumber;
+    @JsonProperty("phone_verified")
+    private Boolean phoneVerified;
+    @JsonProperty("verify_phone_number")
+    private Boolean verifyPhoneNumber;
+    @JsonProperty("user_id")
+    private String userId;
+    @JsonProperty("picture")
+    private String picture;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("nickname")
+    private String nickname;
+    @JsonProperty("given_name")
+    private String givenName;
+    @JsonProperty("family_name")
+    private String familyName;
+    @JsonFormat(
+        shape = Shape.STRING,
+        pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    )
+    @JsonProperty("created_at")
+    private Date createdAt;
+    @JsonFormat(
+        shape = Shape.STRING,
+        pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    )
+    @JsonProperty("updated_at")
+    private Date updatedAt;
+    @JsonProperty("identities")
+    private List<Identity> identities;
+    @JsonProperty("app_metadata")
+    private Map<String, Object> appMetadata;
+    @JsonProperty("user_metadata")
+    private Map<String, Object> userMetadata;
+    @JsonProperty("multifactor")
+    private List<String> multifactor;
+    @JsonProperty("last_ip")
+    private String lastIp;
+    @JsonFormat(
+        shape = Shape.STRING,
+        pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    )
+    @JsonProperty("last_login")
+    private Date lastLogin;
+    @JsonProperty("logins_count")
+    private Integer loginsCount;
+    @JsonProperty("blocked")
+    private Boolean blocked;
+    private Map<String, Object> values;
 ### DTO
 <h3 id="auth0-management-api">API</h3>
 #### Errors
