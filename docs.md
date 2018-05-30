@@ -77,7 +77,8 @@ Example:
 ## Auth0 management
 ### Base slug
 [_base_url_] /v1/management/user
-<h3 id="#model-user">Model</h3>
+
+### Model: User
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
 parameter       |required  
@@ -301,7 +302,7 @@ password        |Yes
 #### Sign up
 * Slug: [_base_url_] /v1/auth/signup
 * Method: **POST**
-* Body: [Login DTO](#dto:-login)
+* Body: [Login DTO](#dto-login)
 
 ##### Returns
 ```
@@ -331,7 +332,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 Login types: __Admin__, __User__
 * Slug: [_base_url_] /v1/auth/{_type_}/login
 * Method: **POST**
-* Body: [Login DTO](#dto:-login)
+* Body: [Login DTO](#dto-login)
 
 ##### Returns
 ```
@@ -377,7 +378,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 #### Reset password
 * Slug: [_base_url_] /v1/auth/reset-password
 * Method: **POST**
-* Body: [Login DTO](#dto:-login)
+* Body: [Login DTO](#dto-login)
 
 ##### Returns
 ```
