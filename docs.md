@@ -298,8 +298,8 @@ parameter       |required
 email           |Yes
 password        |Yes 
 
-
-#### Sign up
+### API
+#### __Sign up__
 * Slug: [_base_url_] /v1/auth/signup
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
