@@ -76,8 +76,8 @@ Example:
 ***********************************************************************************************************************
 ## Auth0 management
 ### Base slug
-[base_url]/v1/management/user
-### Model
+[_base_url_] /v1/management/user
+<h3 id="#model-user">Model</h3>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
 parameter       |required  
@@ -109,13 +109,13 @@ last_login      |No
 logins_count    |No
 blocked         |No
 
-<h3 id="auth0-management-api">API</h3>
+### API 
+#### Get All
+* Slug: [_base_url_] /v1/management/user
+* Method: **GET**
+* Body: [User](#model-user)
 
-Slug        | Method | Body        
-------------|:------:|------
-base_slug   | GET    | None 
-
-#####Returns
+##### Returns
 ```
 [
 	{
@@ -123,8 +123,8 @@ base_slug   | GET    | None
 		"email_verified": false,
 		"user_id": "auth0|5aaaad170724cf32a028e7ea",
 		"picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
-		"name": "pudi1711@hotmail.com",
-		"nickname": "pudi1711",
+		"name": "pudi17@hotmail.com",
+		"nickname": "pudi17",
 		"created_at": "2018-03-15T17:27:51.311Z",
 		"updated_at": "2018-05-30T12:42:36.808Z",
 		"identities": [
@@ -149,10 +149,14 @@ base_slug   | GET    | None
 	}
 ]
 ```
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-Slug        | Method | Body        
-------------|:------:|------
-base_slug   | POST   | User 
+#### Create
+* Slug: [_base_url_] /v1/management/user
+* Method: **POST**
+* Body: [User](#model-user)
 
 ##### Returns
 ```
@@ -161,8 +165,8 @@ base_slug   | POST   | User
     "email_verified": false,
     "user_id": "auth0|5aaaad170724cf32akjdi7ea",   
     "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
-    "name": "pudi1711@hotmail.com",
-    "nickname": "pudi1711",
+    "name": "pudi17@hotmail.com",
+    "nickname": "pudi17",
     "created_at": "2018-01-15T17:27:51.311Z",
     "updated_at": "2018-09-30T12:42:36.808Z",
     "identities": [
@@ -183,10 +187,14 @@ base_slug   | POST   | User
     "logins_count": 669
 }
 ```
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-Slug        | Method | Body        
-------------|:------:|------
-base_slug   | PUT    | User 
+#### Edit
+* Slug: [_base_url_] /v1/management/user
+* Method: **PUT**
+* Body: [User](#model-user)
 
 ##### Returns
 ```
@@ -195,8 +203,8 @@ base_slug   | PUT    | User
     "email_verified": false,
     "user_id": "auth0|5aaaad170724cf32akjdi7ea",
     "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
-    "name": "pudi1711@hotmail.com",
-    "nickname": "pudi1711",
+    "name": "pudi17@hotmail.com",
+    "nickname": "pudi17",
     "created_at": "2018-01-15T17:27:51.311Z",
     "updated_at": "2018-09-30T12:42:36.808Z",
     "identities": [
@@ -217,10 +225,14 @@ base_slug   | PUT    | User
     "logins_count": 669
 }
 ```
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-Slug        | Method | Body        
-------------|:------:|------
-base_slug   | DELETE | User 
+#### Delete
+* Slug: [_base_url_] /v1/management/user
+* Method: **DELETE**
+* Body: [User](#model-user)
 
 ##### Returns
 ```
@@ -229,8 +241,8 @@ base_slug   | DELETE | User
     "email_verified": false,
     "user_id": "auth0|5aaaad170724cf32akjdi7ea",
     "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
-    "name": "pudi1711@hotmail.com",
-    "nickname": "pudi1711",
+    "name": "pudi17@hotmail.com",
+    "nickname": "pudi17",
     "created_at": "2018-01-15T17:27:51.311Z",
     "updated_at": "2018-09-30T12:42:36.808Z",
     "identities": [
@@ -251,73 +263,187 @@ base_slug   | DELETE | User
     "logins_count": 669
 }
 ```
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
-
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
 ## Authentication 
-### Model
-### DTO
-<h3 id="authentication-api">API</h3>
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+### Base slug
+[_base_url_] /v1/auth
+### Model: Create
+This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+
+parameter       |required  
+----------------|:--------:
+_id             |Yes
+email           |Yes
+email_verified  |Yes
+
+### Model Token holder
+This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+
+parameter       |required  
+----------------|:--------:
+access_token    |Yes
+id_token        |Yes 
+refresh_token   |Yes
+token_type      |Yes
+expires_in      |Yes
+
+### DTO: Login 
+
+parameter       |required  
+----------------|:--------:
+email           |Yes
+password        |Yes 
+
+
+#### Sign up
+* Slug: [_base_url_] /v1/auth/signup
+* Method: **POST**
+* Body: [Login DTO](#dto:-login)
+
+##### Returns
+```
+{
+    "_id": "5aaaad170724cf32akjdi7ea",
+    "email": "pudi17@hotmail.com",
+    "email_verified": false 
+}
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+
+###### SignUp Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "username or password is invalid",
+	"errors": [
+		""
+	]
+}
+```
+#### Login
+Login types: __Admin__, __User__
+* Slug: [_base_url_] /v1/auth/{_type_}/login
+* Method: **POST**
+* Body: [Login DTO](#dto:-login)
+
+##### Returns
+```
+{
+	"access_token": "eyJ0eXAiOiJKV1QiLCJWTNOdyJ9.eyJpc3MiOiJod29yZCJ9.TfZ8zvEBLVv8foqvQXAzlx1yFA0s12K",
+	"id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI.eyJodHRwczovL2ZpbmFs.4j4gejazpLxosEJc7rmEk_r4uSYECGC",
+	"token_type": "Bearer",
+	"expires_in": 86400
+}
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+
+###### Login Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "Wrong email or password.",
+	"errors": [
+		""
+	]
+}
+```
+
+#### Logout
+* Slug: [_base_url_] /v1/auth/logout
+* Method: **POST**
+* Headers: Bearer token
+* Body: _NONE_
+
+##### Returns
+```
+{ }
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+
+#### Reset password
+* Slug: [_base_url_] /v1/auth/reset-password
+* Method: **POST**
+* Body: [Login DTO](#dto:-login)
+
+##### Returns
+```
+{ }
+```
+
+##### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
 ## Room
 ### Model
 ### DTO
 <h3 id="room-api">API</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="room-ws">Web Sockets</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ## Beacon
 ### Model
 ### DTO
 <h3 id="beacon-api">API</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="beacon-ws">Web Sockets</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ## Data Items
 ### Model
 ### DTO
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ### API
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ## Data Sources
 ### Model
 ### DTO
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ### API
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ## DataLog
 ### Model
 ### DTO
 <h3 id="datal-og-api">API</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="data-log-ws">Web Sockets</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ## Data Item Request
 ### Model
 ### DTO
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ### API
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 
 ## Debug
@@ -325,8 +451,8 @@ For base errors check here: [Recurring errors](#recurring-errors).<br/>
 ### DTO
 <h3 id="debug-api">API</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="debug-ws">Web Sockets</h3>
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors).<br/>
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
