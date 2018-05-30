@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/FinalworkDigX/SpringbootManager.svg?branch=master)](https://travis-ci.org/FinalworkDigX/SpringbootManager)
 
-[alt text](https://imgur.com/hvj4iMi "Github_logo")
+<img src="https://i.imgur.com/hvj4iMi.png" />
 
 
 # RAM - SpringbootManager
