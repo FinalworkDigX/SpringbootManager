@@ -558,6 +558,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="room-ws">Web Sockets</h3>
 
 ### &gt;_Room for AR_
+
 * Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
 * Response Channel: [_base_url_] /topic/room/{_private user channel_}
 * Body: [RoomForAR dto](#dto-room-for-ar)
