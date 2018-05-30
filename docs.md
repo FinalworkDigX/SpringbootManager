@@ -9,10 +9,10 @@ For this backend application to fully work, a working copy of _security.properti
 2. [Authentication](#authentication)
 7. [Room](#room)
 3. [Beacon](#beacon)
-4. [DataItem](#data-item)
-6. [DataSource](#data-source)
-5. [DataLog](#data-log)
-5. [DataItemRequest](#data-item-request)
+4. [DataItem](#dataitem)
+6. [DataSource](#datasource)
+5. [DataLog](#datalog)
+5. [DataItemRequest](#dataitemrequest)
 8. [Debug](#debug)
 
 ***********************************************************************************************************************
@@ -76,7 +76,7 @@ Example:
 <br/>
 
 ***********************************************************************************************************************
-## Auth0 management
+## Auth0 management [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/management/user
 
@@ -113,7 +113,7 @@ logins_count    |Integer        |No
 blocked         |Boolean        |No
 
 ### API 
-### &gt;_Get All_
+### &gt;_Get All_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/management/user
 * Method: **GET**
 * Body: [User](#model-user)
@@ -156,7 +156,7 @@ blocked         |Boolean        |No
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-### &gt;_Create_
+### &gt;_Create_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/management/user
 * Method: **POST**
 * Body: [User](#model-user)
@@ -194,7 +194,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-### &gt;_Edit_
+### &gt;_Edit_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/management/user
 * Method: **PUT**
 * Body: [User](#model-user)
@@ -232,7 +232,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-### &gt;_Delete_
+### &gt;_Delete_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/management/user
 * Method: **DELETE**
 * Body: [User](#model-user)
@@ -272,7 +272,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 <br/>
 <br/>
 
-## Authentication 
+## Authentication [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/auth
 ### Model: Create
@@ -396,7 +396,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 <br/>
 
 
-## Room
+## Room [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/room
 
@@ -654,7 +654,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 
-## Beacon
+## Beacon [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/beacon
 
@@ -966,7 +966,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Items
+## Data Items [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/beacon
 
@@ -1195,7 +1195,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Sources
+## Data Sources [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/dataSource
 
@@ -1480,7 +1480,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## DataLog
+## DataLog [To Top ^](#summary)
 ### Model
 ### DTO
 <h3 id="datal-og-api">API</h3>
@@ -1492,7 +1492,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Item Request
+## Data Item Request [To Top ^](#summary)
 ### Model
 ### DTO
 #### Errors
@@ -1503,7 +1503,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Debug
+## Debug [To Top ^](#summary)
 ### Model
 ### DTO
 <h3 id="debug-api">API</h3>
