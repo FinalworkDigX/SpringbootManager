@@ -111,7 +111,7 @@ logins_count    |No
 blocked         |No
 
 ### API 
-#### Get All
+#### &gt;_Get All_
 * Slug: [_base_url_] /v1/management/user
 * Method: **GET**
 * Body: [User](#model-user)
@@ -154,7 +154,7 @@ blocked         |No
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### Create
+#### &gt;_Create_
 * Slug: [_base_url_] /v1/management/user
 * Method: **POST**
 * Body: [User](#model-user)
@@ -192,7 +192,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### Edit
+#### &gt;_Edit_
 * Slug: [_base_url_] /v1/management/user
 * Method: **PUT**
 * Body: [User](#model-user)
@@ -230,7 +230,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### Delete
+#### &gt;_Delete_
 * Slug: [_base_url_] /v1/management/user
 * Method: **DELETE**
 * Body: [User](#model-user)
@@ -299,7 +299,7 @@ email           |Yes
 password        |Yes 
 
 ### API
-#### __Sign up__
+#### &gt;_Sign up_
 * Slug: [_base_url_] /v1/auth/signup
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
@@ -328,7 +328,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 	]
 }
 ```
-#### Login
+#### &gt;_Login_
 Login types: __Admin__, __User__
 * Slug: [_base_url_] /v1/auth/{_type_}/login
 * Method: **POST**
@@ -360,7 +360,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 }
 ```
 
-#### Logout
+#### &gt;_Logout_
 * Slug: [_base_url_] /v1/auth/logout
 * Method: **POST**
 * Headers: Bearer token
@@ -375,7 +375,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### Reset password
+#### &gt;_Reset password_
 * Slug: [_base_url_] /v1/auth/reset-password
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
