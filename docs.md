@@ -113,12 +113,12 @@ logins_count    |Integer        |No
 blocked         |Boolean        |No
 
 ### API 
-#### &gt;_Get All_
+### &gt;_Get All_
 * Slug: [_base_url_] /v1/management/user
 * Method: **GET**
 * Body: [User](#model-user)
 
-##### Returns
+#### Returns
 ```
 [
 	{
@@ -152,16 +152,16 @@ blocked         |Boolean        |No
 	}
 ]
 ```
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### &gt;_Create_
+### &gt;_Create_
 * Slug: [_base_url_] /v1/management/user
 * Method: **POST**
 * Body: [User](#model-user)
 
-##### Returns
+#### Returns
 ```
 {
     "email": "pudi1711@hotmail.com",
@@ -190,16 +190,16 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
     "logins_count": 669
 }
 ```
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### &gt;_Edit_
+### &gt;_Edit_
 * Slug: [_base_url_] /v1/management/user
 * Method: **PUT**
 * Body: [User](#model-user)
 
-##### Returns
+#### Returns
 ```
 {
     "email": "pudi1711@hotmail.com",
@@ -228,16 +228,16 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
     "logins_count": 669
 }
 ```
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### &gt;_Delete_
+### &gt;_Delete_
 * Slug: [_base_url_] /v1/management/user
 * Method: **DELETE**
 * Body: [User](#model-user)
 
-##### Returns
+#### Returns
 ```
 {
     "email": "pudi1711@hotmail.com",
@@ -266,7 +266,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
     "logins_count": 669
 }
 ```
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 Other possible errors: This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 <br/>
@@ -303,12 +303,12 @@ email           |String         |Yes
 password        |String         |Yes 
 
 ### API
-#### &gt;_Sign up_
+### &gt;_Sign up_
 * Slug: [_base_url_] /v1/auth/signup
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
 
-##### Returns
+#### Returns
 ```
 {
     "_id": "5aaaad170724cf32akjdi7ea",
@@ -317,11 +317,11 @@ password        |String         |Yes
 }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-###### SignUp Exception
+##### SignUp Exception
 * Status code: 400
 ```
 {
@@ -332,13 +332,13 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 	]
 }
 ```
-#### &gt;_Login_
+### &gt;_Login_
 Login types: __Admin__, __User__
 * Slug: [_base_url_] /v1/auth/{_type_}/login
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
 
-##### Returns
+#### Returns
 ```
 {
 	"access_token": "eyJ0eXAiOiJKV1QiLCJWTNOdyJ9.eyJpc3MiOiJod29yZCJ9.TfZ8zvEBLVv8foqvQXAzlx1yFA0s12K",
@@ -348,11 +348,11 @@ Login types: __Admin__, __User__
 }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-###### Login Exception
+##### Login Exception
 * Status code: 400
 ```
 {
@@ -364,32 +364,32 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 }
 ```
 
-#### &gt;_Logout_
+### &gt;_Logout_
 * Slug: [_base_url_] /v1/auth/logout
 * Method: **POST**
 * Headers: Bearer token
 * Body: _NONE_
 
-##### Returns
+#### Returns
 ```
 { }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-#### &gt;_Reset password_
+### &gt;_Reset password_
 * Slug: [_base_url_] /v1/auth/reset-password
 * Method: **POST**
 * Body: [Login DTO](#dto-login)
 
-##### Returns
+#### Returns
 ```
 { }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 <br/>
@@ -429,12 +429,12 @@ itemList        |List - [DataItem](#model-data-item) |No
 &ast; Room id is required, rest optional
 
 ### API
-#### &gt;_Get All_
+### &gt;_Get All_
 * Slug: [_base_url_] /v1/room
 * Method: **GET**
 * Body: _NONE_
 
-##### Returns
+#### Returns
 ```
 [
 	{
@@ -449,15 +449,15 @@ itemList        |List - [DataItem](#model-data-item) |No
 ]	
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-#### &gt;_Get By Id_
+### &gt;_Get By Id_
 * Slug: [_base_url_] /v1/room/byId/{_room-id_}
 * Method: **GET**
 * Body: _NONE_
 
-##### Returns
+#### Returns
 ```
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
@@ -467,10 +467,10 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-###### CustomNotFound Exception
+##### CustomNotFound Exception
 * Status code: 404
 ```
 {
@@ -482,12 +482,12 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-#### &gt;_Create_
+### &gt;_Create_
 * Slug: [_base_url_] /v1/room
 * Method: **POST**
 * Body: [Room Dto](#dto-room)
 
-##### Returns
+#### Returns
 ```
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
@@ -497,15 +497,15 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-#### &gt;_Update_
+### &gt;_Update_
 * Slug: [_base_url_] /v1/room
 * Method: **PUT**
 * Body: [Room](#model-room)
 
-##### Returns
+#### Returns
 ```
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
@@ -515,10 +515,10 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-###### MissingId Exception
+##### MissingId Exception
 * Status code: 400
 ```
 {
@@ -530,20 +530,20 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-#### &gt;_Delete_
+### &gt;_Delete_
 * Slug: [_base_url_] /v1/room/{_room-id_}
 * Method: **PUT**
 * Body: [Room](#model-room)
 
-##### Returns
+#### Returns
 ```
 { }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-###### CustomNotFound Exception
+##### CustomNotFound Exception
 * Status code: 404
 ```
 {
@@ -556,12 +556,12 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 <h3 id="room-ws">Web Sockets</h3>
-#### &gt;_Room for AR_
+### &gt;_Room for AR_
 * Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
 * Response Channel: [_base_url_] /topic/room/{_private user channel_}
 * Body: [RoomForAR dto](#dto-room-for-ar)
 
-##### Returns
+#### Returns
 ```
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
@@ -571,10 +571,10 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-##### Errors
+#### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
-###### MissingId Exception
+##### MissingId Exception
 * Status code: 400
 ```
 {
