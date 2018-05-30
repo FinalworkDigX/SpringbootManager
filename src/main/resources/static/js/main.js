@@ -87,6 +87,7 @@
             stompClient.subscribe('/topic/echo/ws', onNewData, onError);
             stompClient.subscribe('/topic/echo/sport', onNewData, onError);
             stompClient.subscribe('/topic/echo/cafe', onNewData, onError);
+            stompClient.subscribe('/topic/echo/hospital', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -302,6 +303,89 @@
 
         stompClient.send(WS_ECHO + '/cafe', {priority: 9}, JSON.stringify(test))
     }
+
+
+    // ======  Hospital scenario Script  ===== //
+    var hospitalScenarioScript = false;
+    var hospitalScenarioScriptLoop;
+
+    $("#ws_hospital_scenario_button").on('click', function () {
+        console.log("in Hospital Scenario Script");
+        hospitalScenarioScript = !hospitalScenarioScript;
+        if (hospitalScenarioScript) {
+            simHospitalScenarioScript();
+            $("#ws_hospital_scenario_button").html("Stop");
+        }
+        else {
+            clearInterval(hospitalScenarioScriptLoop);
+            $("#ws_hospital_scenario_button").html("Start");
+        }
+    });
+
+    function simHospitalScenarioScript() {
+        hospitalScenarioScriptLoop = setInterval(function () {
+            testHospitalSim();
+        }, 1000);
+    }
+
+    function testHospitalSim() {
+        var test1 = {
+            room_id: "room_246",
+            patient: {
+                name: "Diane",
+                age: 27,
+                period: {
+                    from: new Date().setFullYear(2018, 4, 12),
+                    to: new Date().setFullYear(2018, 4, 16)
+                },
+                reason: "R - Ulna"
+            },
+            stats: {
+                heart_rate: Math.round(randomInt(61, 65)),
+                blood_pressure: Math.round(randomInt(117, 120)) + '-' + Math.round(randomInt(77, 80))
+            }
+        };
+
+        var test2 = {
+            room_id: "room_247",
+            patient: {
+                name: "Louis",
+                age: 32,
+                period: {
+                    from: new Date().setFullYear(2018, 4, 10),
+                    to: new Date().setFullYear(2018, 4, 15)
+                },
+                reason: "L - rib 7"
+            },
+            stats: {
+                heart_rate: Math.round(randomInt(71, 73)),
+                blood_pressure: Math.round(randomInt(135, 137)) + '-' + Math.round(randomInt(88, 91))
+            }
+        };
+
+        var test3 = {
+            room_id: "room_248",
+            patient: {
+                name: "Chloe",
+                age: 64,
+                period: {
+                    from: new Date().setFullYear(2018, 4, 13),
+                    to: new Date().setFullYear(2018, 4, 14)
+                },
+                reason: "L - tibia"
+            },
+            stats: {
+                heart_rate: Math.round(randomInt(84, 86)),
+                blood_pressure: Math.round(randomInt(107, 110)) + '-' + Math.round(randomInt(75, 78))
+            }
+        };
+
+        stompClient.send(WS_ECHO + '/hospital', {priority: 9}, JSON.stringify(test1));
+        stompClient.send(WS_ECHO + '/hospital', {priority: 9}, JSON.stringify(test2));
+        stompClient.send(WS_ECHO + '/hospital', {priority: 9}, JSON.stringify(test3));
+    }
+
+
 
     // ------------------------------------ //
     //        Beacon test functions         //
