@@ -660,8 +660,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### Model: Beacon
     
-parameter       |Type           |required  
-----------------|---------------|:--------:
+parameter           |Type           |required  
+--------------------|---------------|:--------:
 id                  |String         |Yes
 roomId              |String         |Yes
 name                |String         |Yes
@@ -673,8 +673,8 @@ lastUpdated         |Long           |Yes
 
 ### DTO: Beacon
 
-parameter       |Type           |required  
-----------------|---------------|:--------:
+parameter           |Type           |required  
+--------------------|---------------|:--------:
 roomId              |String         |Yes
 name                |String         |Yes
 description         |String         |Yes
@@ -967,13 +967,231 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## Data Items
-### Model
-### DTO
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
+### Base slug
+[_base_url_] /v1/beacon
+
+### Model: DataItem
+    
+parameter           |Type           |required  
+--------------------|---------------|:--------:
+id                  |String         |Yes
+itemId              |String         |Yes
+name                |String         |Yes
+location            |Vector3        |Yes
+roomId              |String         |Yes
+
+### DTO: DataItem
+
+parameter           |Type           |required  
+--------------------|---------------|:--------:
+itemId              |String         |Yes
+name                |String         |Yes
+location            |Vector3        |Yes
+roomId              |String         |Yes
+
 ### API
+### &gt;_Get All_
+* Slug: [_base_url_] /v1/dataItem
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+        "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
+        "itemId": "arm_aparatus_21",
+        "name": "Arms 21",
+        "location": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "roomId": "d5182fb3-zzzz-4a9e-994d-c004b003ebe4"
+    },
+	{
+	    ...
+    }
+]	
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Get by Room id_
+* Slug: [_base_url_] /v1/dataItem/byRoomId/{_room-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+        "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
+        "itemId": "arm_aparatus_21",
+        "name": "Arms 21",
+        "location": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "roomId": "d5182fb3-zzzz-4a9e-994d-c004b003ebe4"
+    },
+	{
+	    ...
+    }
+]	
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Get by id_
+* Slug: [_base_url_] /v1/dataItem/byId/{_dataItem-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
+    "itemId": "arm_aparatus_21",
+    "name": "Arms 21",
+    "location": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "roomId": "d5182fb3-zzzz-4a9e-994d-c004b003ebe4"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+
+### &gt;_Create_
+* Slug: [_base_url_] /v1/dataItem
+* Method: **POST**
+* Body: [DataItem Dto](#dto-dataitem)
+
+#### Returns
+```
+{
+    "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
+    "itemId": "arm_aparatus_21",
+    "name": "Arms 21",
+    "location": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "roomId": "d5182fb3-zzzz-4a9e-994d-c004b003ebe4"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+
+### &gt;_Update_
+* Slug: [_base_url_] /v1/dataItem
+* Method: **PUT**
+* Body: [DataItem](#model-dataItem)
+
+#### Returns
+```
+{
+    "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
+    "itemId": "arm_aparatus_21",
+    "name": "Arms 21",
+    "location": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "roomId": "d5182fb3-zzzz-4a9e-994d-c004b003ebe4"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Delete_
+* Slug: [_base_url_] /v1/dataItem/{_dataItem-id_}
+* Method: **DELETE**
+* Body: _NONE_
+
+#### Returns
+```
+{ }
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
 <br/>
 <br/>
 
