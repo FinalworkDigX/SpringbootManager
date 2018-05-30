@@ -79,6 +79,7 @@ Example:
 [base_url]/v1/management/user
 ### Model
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
+
 parameter       |required  
 ----------------|:--------:
 client_id       |Yes
@@ -121,7 +122,7 @@ base_slug   | GET    | None
 		"email": "pudi1711@hotmail.com",
 		"email_verified": false,
 		"user_id": "auth0|5aaaad170724cf32a028e7ea",
-		"picture": "https://s.gravatar.com/avatar/b798048f060d1a54df7a0a92778b8a55?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fpu.png",
+		"picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
 		"name": "pudi1711@hotmail.com",
 		"nickname": "pudi1711",
 		"created_at": "2018-03-15T17:27:51.311Z",
@@ -153,13 +154,13 @@ Slug        | Method | Body
 ------------|:------:|------
 base_slug   | POST   | User 
 
-#####Returns
+##### Returns
 ```
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
-    "user_id": "auth0|5aaaad170724cf32akjdi7ea",
-    "picture": "https://s.gravatar.com/avatar/b798048f060d1a54df7a0a92778b8a55?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fpu.png",
+    "user_id": "auth0|5aaaad170724cf32akjdi7ea",   
+    "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
     "name": "pudi1711@hotmail.com",
     "nickname": "pudi1711",
     "created_at": "2018-01-15T17:27:51.311Z",
@@ -187,13 +188,13 @@ Slug        | Method | Body
 ------------|:------:|------
 base_slug   | PUT    | User 
 
-#####Returns
+##### Returns
 ```
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
     "user_id": "auth0|5aaaad170724cf32akjdi7ea",
-    "picture": "https://s.gravatar.com/avatar/b798048f060d1a54df7a0a92778b8a55?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fpu.png",
+    "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
     "name": "pudi1711@hotmail.com",
     "nickname": "pudi1711",
     "created_at": "2018-01-15T17:27:51.311Z",
@@ -221,13 +222,13 @@ Slug        | Method | Body
 ------------|:------:|------
 base_slug   | DELETE | User 
 
-#####Returns
+##### Returns
 ```
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
     "user_id": "auth0|5aaaad170724cf32akjdi7ea",
-    "picture": "https://s.gravatar.com/avatar/b798048f060d1a54df7a0a92778b8a55?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fpu.png",
+    "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
     "name": "pudi1711@hotmail.com",
     "nickname": "pudi1711",
     "created_at": "2018-01-15T17:27:51.311Z",
