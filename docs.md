@@ -25,8 +25,35 @@ Web sockets currently need no credentials to be used. This may changed as the ba
 4. [Debug](#debug-ws)
 
 ## Recurring errors
+### 400
+occurs when there is no existing slug to the asked method
 
+Example:
+```
+{
+	"timestamp": 1527686103180,
+	"status": 400,
+	"error": "Not Found",
+	"message": "No message available",
+	"path": "/v1/dataLogd"
+}
+```
 
+### 404
+Occurs when a wrong slug is presented to the api, check:
+1. If the syntax is correct
+2. If the requested slug exists
+
+Example:
+```
+{
+	"timestamp": 1527686103180,
+	"status": 404,
+	"error": "Not Found",
+	"message": "No message available",
+	"path": "/v1/dataLogd"
+}
+```
 
 ***********************************************************************************************************************
 ## Auth0 management
