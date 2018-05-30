@@ -46,7 +46,7 @@ public class RoomService {
         return roomDao.create(roomDto);
     }
 
-    public Room update(Room room) {
+    public Room update(Room room) throws Exception{
         return roomDao.update(room);
     }
 

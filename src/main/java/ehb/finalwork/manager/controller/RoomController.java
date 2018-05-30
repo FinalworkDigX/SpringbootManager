@@ -59,7 +59,7 @@ public class RoomController {
     }
 
     @PutMapping()
-    public Room update(@RequestBody Room room) {
+    public Room update(@RequestBody Room room) throws Exception {
         return roomService.update(room);
     }
 

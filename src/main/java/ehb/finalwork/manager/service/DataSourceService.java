@@ -32,7 +32,7 @@ public class DataSourceService {
         return dataSourceDao.create(dataSourceDto);
     }
 
-    public DataSource update(DataSource dataConversion) {
+    public DataSource update(DataSource dataConversion) throws Exception {
         return dataSourceDao.update(dataConversion);
     }
 

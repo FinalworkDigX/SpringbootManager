@@ -4,6 +4,7 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.error.CustomNotFoundException;
+import ehb.finalwork.manager.error.MissingIdException;
 import ehb.finalwork.manager.model.ModelTemplate;
 import ehb.finalwork.manager.model.RethinkDBHashable;
 import ehb.finalwork.manager.model.RethinkReturnObject;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> implements BaseDao<T, U> {
@@ -64,7 +66,10 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
     }
 
     @Override
-    public T update(T entity) {
+    public T update(T entity) throws Exception{
+        if (entity == null || entity.getId() == null) {
+            throw new MissingIdException();
+        }
         RethinkReturnObject returnObject = r.db("manager")
                                             .table(entity.getTableName())
                                             .get(entity.getId())

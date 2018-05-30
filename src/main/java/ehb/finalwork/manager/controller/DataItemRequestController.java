@@ -38,7 +38,7 @@ public class DataItemRequestController {
     }
 
     @PutMapping()
-    public DataItemRequest update(@RequestBody DataItemRequest dataItemRequest) {
+    public DataItemRequest update(@RequestBody DataItemRequest dataItemRequest) throws Exception {
         return dataItemRequestService.update(dataItemRequest);
     }
 

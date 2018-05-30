@@ -127,6 +127,12 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
+    @ExceptionHandler(value = MissingIdException.class)
+    public ResponseEntity<Object> handleMissingIdException(Exception exception) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(), (exception.getMessage() == null)? exception.getMessage():"");
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
     // Custom WebSocket Exceptions
     @MessageExceptionHandler(value = TooManyReturnValuesWebSocketException.class)
     public void handleTooManyReturnValuesWebSocketException(TooManyReturnValuesWebSocketException exception) {

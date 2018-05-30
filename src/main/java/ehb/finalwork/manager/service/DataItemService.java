@@ -38,7 +38,7 @@ public class DataItemService {
         return dataItemDao.create(dataItemDto);
     }
 
-    public DataItem update(DataItem dataItem) {
+    public DataItem update(DataItem dataItem) throws Exception {
         return dataItemDao.update(dataItem);
     }
 

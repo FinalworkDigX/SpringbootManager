@@ -41,7 +41,7 @@ public class DataSourceController {
     }
 
     @PutMapping()
-    public DataSource update(@RequestBody DataSource dataSource) {
+    public DataSource update(@RequestBody DataSource dataSource) throws Exception {
         return  dataSourceService.update(dataSource);
     }
 

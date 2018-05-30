@@ -58,7 +58,7 @@ public class DataItemRequestService {
         return dataItemRequestDao.create(dataItemRequestDto);
     }
 
-    public DataItemRequest update(DataItemRequest dataItemRequest) {
+    public DataItemRequest update(DataItemRequest dataItemRequest) throws Exception {
         return dataItemRequestDao.update(dataItemRequest);
     }
 
