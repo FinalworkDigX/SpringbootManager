@@ -1196,13 +1196,287 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## Data Sources
-### Model
-### DTO
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
+### Base slug
+[_base_url_] /v1/dataSource
+
+### Model info
+This model servers for selecting data sources (from Web Socket endpoints) and convert the incoming data to the used DataLog convention.
+
+### Model: DataSource
+    
+parameter           |Type                                               |required  
+--------------------|---------------------------------------------------|:--------:
+id                  |String                                             |Yes
+url                 |String                                             |Yes
+destinations        |List - [DataDestination](#model-dataDestination)   |Yes
+
+### Model: DataDestination
+    
+parameter           |Type                                                           |required  
+--------------------|---------------------------------------------------------------|:--------:
+destination         |String                                                         |Yes
+conversionScheme    |List - [ConversionSchemeEntry](#model-conversionSchemeEntry)   |Yes
+
+### Model: DataDestination
+
+parameter           |Type       |required  
+--------------------|-----------|:--------:
+incomingDataKey     |String     |Yes
+dataLogData         |Object*    |Yes
+
+&ast; Should be either:
+* String: For dataItemId
+* [InformationConversionDto](#dto-informationConversionDto): To display the information in AR
+
+
+### DTO: InformationConversionDto
+
+parameter   |Type       |required  
+------------|-----------|:--------:
+name        |String     |Yes
+index       |Long       |Yes
+
+Name: should be the wanted name to display in AR
+Index: should be the order of the selected item
+
+### DTO: DataSource
+    
+parameter           |Type                                               |required  
+--------------------|---------------------------------------------------|:--------:
+url                 |String                                             |Yes
+destinations        |List - [DataDestination](#model-dataDestination)   |Yes
+
 ### API
+### &gt;_Get All_
+* Slug: [_base_url_] /v1/dataItem
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+        "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
+        "url": "ws://127.0.0.1:9000/managerWS",
+        "destinations": [
+            {
+                "destination": "/topic/echo/ws",
+                "conversionScheme": [
+                    {
+                        "incomingDataKey": "id",
+                        "dataLogData": "item_id"
+                    },
+                    {
+                        "incomingDataKey": "type",
+                        "dataLogData": {
+                            "name": "Kind",
+                            "index": 1
+                        }
+                    },
+                    {
+                        ...
+                    }
+                ]
+            }
+        ]
+    },
+	{
+	    ...
+    }
+]	
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Get by id_
+* Slug: [_base_url_] /v1/dataSource/byId/{_dataSource-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
+    "url": "ws://127.0.0.1:9000/managerWS",
+    "destinations": [
+        {
+            "destination": "/topic/echo/ws",
+            "conversionScheme": [
+                {
+                    "incomingDataKey": "id",
+                    "dataLogData": "item_id"
+                },
+                {
+                    "incomingDataKey": "type",
+                    "dataLogData": {
+                        "name": "Kind",
+                        "index": 1
+                    }
+                },
+                {
+                    ...
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+
+### &gt;_Create_
+* Slug: [_base_url_] /v1/dataSource
+* Method: **POST**
+* Body: [DataSource Dto](#dto-datasource)
+
+#### Returns
+```
+{
+    "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
+    "url": "ws://127.0.0.1:9000/managerWS",
+    "destinations": [
+        {
+            "destination": "/topic/echo/ws",
+            "conversionScheme": [
+                {
+                    "incomingDataKey": "id",
+                    "dataLogData": "item_id"
+                },
+                {
+                    "incomingDataKey": "type",
+                    "dataLogData": {
+                        "name": "Kind",
+                        "index": 1
+                    }
+                },
+                {
+                    ...
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+
+### &gt;_Update_
+* Slug: [_base_url_] /v1/dataSource
+* Method: **PUT**
+* Body: [DataSource](#model-datasource)
+
+#### Returns
+```
+{
+    "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
+    "url": "ws://127.0.0.1:9000/managerWS",
+    "destinations": [
+        {
+            "destination": "/topic/echo/ws",
+            "conversionScheme": [
+                {
+                    "incomingDataKey": "id",
+                    "dataLogData": "item_id"
+                },
+                {
+                    "incomingDataKey": "type",
+                    "dataLogData": {
+                        "name": "Kind",
+                        "index": 1
+                    }
+                },
+                {
+                    ...
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Delete_
+* Slug: [_base_url_] /v1/dataItem/{_dataSource-id_}
+* Method: **DELETE**
+* Body: _NONE_
+
+#### Returns
+```
+{ }
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
 <br/>
 <br/>
 
