@@ -1,36 +1,22 @@
 package ehb.finalwork.manager.security;
 
-import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
-import com.google.common.collect.ImmutableList;
+import com.auth0.exception.Auth0Exception;
 import ehb.finalwork.manager.model.AuthAPIWrapper;
-import ehb.finalwork.manager.model.MgmtAPIWrapper;
-import ehb.finalwork.manager.model.OauthToken;
-import org.apache.catalina.filters.CorsFilter;
+import ehb.finalwork.manager.model.MgmtApi;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 @Configuration
@@ -111,8 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     @Bean
-    public MgmtAPIWrapper mgmtAPIWrapper() {
-
+    public MgmtApi mgmtApi() throws Auth0Exception {
         // Return unusable Wrapper if no properties present
         if (isNullOrEmpty(managementConnection) ||
                 isNullOrEmpty(clientId) ||
@@ -120,10 +105,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 isNullOrEmpty(issuer)
                 ) {
             log.warn("Default ManagementAPI is being used, check if security.properties is present and has all required information.");
-            return new MgmtAPIWrapper(domain, "nope", apiConnection);
+            // Fucking travis
+            //throw new Auth0Exception("Security properties not present");
+            return new MgmtApi(domain, domain, domain, new HttpEntity<>(""));
         }
-
-        // Return correct Wrapper is properties are present
+        // Setup tokenRequestHeaders
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-Type", "application/json");
 
@@ -134,12 +120,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         jsonMap.put("audience", issuer + "api/v2/");
 
         JSONObject json = new JSONObject(jsonMap);
-        HttpEntity<String> httpEntity = new HttpEntity<String>(json.toString(), httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>(json.toString(), httpHeaders);
 
-        RestTemplate restTemplate = new RestTemplate();
-        OauthToken response = restTemplate.postForObject(issuer + "oauth/token", httpEntity, OauthToken.class);
+        String tokenIssuer = issuer + "oauth/token";
 
-        return new MgmtAPIWrapper(domain, response.getAccessToken(), apiConnection);
+        return new MgmtApi(domain, apiConnection, tokenIssuer, httpEntity);
     }
 
     private boolean isNullOrEmpty(String s) {

@@ -8,16 +8,26 @@ import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RethinkDataItemDto implements RethinkDBHashable {
+    private String itemId;
     private String name;
     private Vector3 location;
     private String roomId;
 
     public RethinkDataItemDto() { }
 
-    public RethinkDataItemDto(String name, Vector3 location, String roomId) {
+    public RethinkDataItemDto(String itemId, String name, Vector3 location, String roomId) {
+        this.itemId = itemId;
         this.name = name;
         this.location = location;
         this.roomId = roomId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -47,6 +57,7 @@ public class RethinkDataItemDto implements RethinkDBHashable {
     @Override
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("itemId", this.itemId);
         hashMap.put("name", this.name);
         hashMap.put("roomId", this.roomId);
 

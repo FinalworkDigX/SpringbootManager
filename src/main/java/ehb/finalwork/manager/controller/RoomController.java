@@ -37,12 +37,7 @@ public class RoomController {
     @MessageMapping("/room/{privateChannel}/{roomId}")
     @SendTo("/topic/room/{privateChannel}")
     public RoomForARDto getForAR(@DestinationVariable String privateChannel, @DestinationVariable String roomId, RoomForARDto roomForARDto) throws Exception {
-        log.info("in room for ar");
-        roomForARDto.setRoomInfo(roomService.getById(roomId));
-        roomForARDto.setItemList(dataItemService.getByRoomId(roomId));
-
-        log.info("{}", roomForARDto);
-        return roomForARDto;
+        return roomService.getForAR(roomId, roomForARDto);
     }
 
     // ===================== //
@@ -64,7 +59,7 @@ public class RoomController {
     }
 
     @PutMapping()
-    public Room update(@RequestBody Room room) {
+    public Room update(@RequestBody Room room) throws Exception {
         return roomService.update(room);
     }
 

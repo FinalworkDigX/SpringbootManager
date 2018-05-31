@@ -6,7 +6,7 @@ import com.auth0.json.mgmt.users.User;
 import com.auth0.json.mgmt.users.UsersPage;
 import com.auth0.net.Request;
 import ehb.finalwork.manager.dto.Auth0UserDto;
-import ehb.finalwork.manager.model.MgmtAPIWrapper;
+import ehb.finalwork.manager.model.MgmtApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +23,25 @@ public class Auth0ManagementService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    MgmtAPIWrapper mgmt;
+    MgmtApi mgmt;
 
-    public List<User> getUsers() {
+    public List<User> getUsers() throws Auth0Exception {
         UserFilter userFilter = new UserFilter();
-        Request request = mgmt.users().list(userFilter);
+        Request request = mgmt.getManagementAPI().users().list(userFilter);
         UsersPage up = (UsersPage) executeQuery(request, true);
         return up.getItems();
     }
 
-    public User createUser(User user) {
+    public User createUser(User user) throws Auth0Exception {
         // Set defaults
         user.setConnection(mgmt.getConnection());
         user = this.setDefaults(user);
 
-        Request<User> request = mgmt.users().create(user);
+        Request<User> request = mgmt.getManagementAPI().users().create(user);
         return (User) executeQuery(request, true);
     }
 
-    public User updateUser(User user) {
+    public User updateUser(User user) throws Auth0Exception {
         // Set defaults
         user = this.setDefaults(user);
 
@@ -50,28 +50,22 @@ public class Auth0ManagementService {
         u.setAppMetadata(user.getAppMetadata());
         u.setUserMetadata(user.getUserMetadata());
 
-        Request<User> request = mgmt.users().update(user.getId(), u);
+        Request<User> request = mgmt.getManagementAPI().users().update(user.getId(), u);
         return (User) executeQuery(request, true);
     }
 
-    public Auth0UserDto deleteUser(String uid) {
-        Request request = mgmt.users().delete(uid);
+    public Auth0UserDto deleteUser(String uid) throws Auth0Exception {
+        Request request = mgmt.getManagementAPI().users().delete(uid);
         return (Auth0UserDto) executeQuery(request, false);
     }
 
-    private Object executeQuery(Request request, Boolean hasReturn) {
-        try {
-            if (hasReturn) {
-                return request.execute();
-            }
-            else {
-                request.execute();
-                return new Auth0UserDto();
-            }
+    private Object executeQuery(Request request, Boolean hasReturn) throws Auth0Exception {
+        if (hasReturn) {
+            return request.execute();
         }
-        catch (Auth0Exception e) {
-            log.error(e.getMessage());
-            return new Auth0UserDto(e.getMessage().split(": ")[1]);
+        else {
+            request.execute();
+            return new Auth0UserDto();
         }
     }
 

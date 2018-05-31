@@ -3,62 +3,82 @@
     <head>
         <meta charset="UTF-8">
         <title>TestPage - manager</title>
+        <link rel="stylesheet" href="css/main.css">
     </head>
-    <style>
-        body {
-            font-family: Consolas;
-        }
-
-        form:not(.delete_room_form), .create_dataLog_script_div {
-            margin: .5em 0;
-        }
-        button[type=submit]:not(.delete_room_button), .create_dataLog_script {
-            min-width: 10em;
-            padding: .5em;
-            margin: .5em;
-        }
-        strong {
-            color: #F75421;
-        }
-
-        .display_info {
-            max-height: 500px;
-            overflow: hidden;
-        }
-    </style>
     <body>
-        <div>
-            <h1>All actions should be done using the manager <strong>>>><a href="https://fw.ludovicmarchand.be">MANAGER</a><<<</strong></h1>
-        </div>
-        <div id="ws_simulator">
-            <h2>Simulate external ws..</h2>
-            <p>This script uses a simple echo that can be used for testing subscription for incoming data in our app</p>
-            <label>
-                Using internal service
-                <button type="button" id="simulate_external_ws_script">Start</button>
-            </label>
-        </div>
-
-        <div id="dataLog">
-            <h2>DataLog</h2>
-            <form method="get" id="create_dataLog_form">
-                <label>
-                    ItemId:
-                    <input type="text" id="item_id" name="item_id" value="test_item"/>
-                </label>
-                <input type="hidden" name="information" value="">
-                <button type="submit">Send</button>
-            </form>
-            <div class="create_dataLog_script_div">
-                <label>
-                    DataLog TestScript:
-                    <button type="button" id="create_dataLog_script">Start</button>
-                </label>
+        <div class="wrapper">
+            <div class="head">
+                <div>
+                    <h1>All actions should be done using the manager <strong><a href="https://fw.ludovicmarchand.be">>>> MANAGER <<<</a></strong></h1>
+                </div>
             </div>
-            <div id="displayDataLogs" class="display_info"></div>
+            <div class="content">
+                <div class="left">
+                    <h2>Scripts</h2>
+                    <div id="rest_dataLog" class="script">
+                        <h3>DataLog</h3>
+                        <p>Uses REST api to create dataLogs for given "ItemId"</p>
+                        <form method="get" id="create_dataLog_form">
+                            <label>
+                                ItemId:
+                                <input type="text" id="item_id" name="item_id" value="test_item"/>
+                            </label>
+                            <input type="hidden" name="information" value="">
+                            <button type="submit">Send</button>
+                        </form>
+                        <div class="create_dataLog_script_div">
+                            <label>
+                                DataLog TestScript:
+                                <button type="button" id="create_dataLog_script">Start</button>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="ws_simulator" class="script">
+                        <h3>Simulate external ws..</h3>
+                        <p>Uses a simple echo that can be used for testing subscription for incoming data in our app</p>
+                        <label>
+                            Echo subscription script
+                            <button type="button" id="ws_simulator_button">Start</button>
+                        </label>
+                    </div>
+
+                    <div id="ws_sport_scenario" class="script">
+                        <h3>Sport scenario script</h3>
+                        <p>Uses the same function as previous test script but for a IoT sport equipment scenario</p>
+                        <label>
+                            Sport scenario script
+                            <button type="button" id="ws_sport_scenario_button">Start</button>
+                        </label>
+                    </div>
+
+                    <div id="ws_cafe_scenario" class="script">
+                        <h3>Cafe scenario script</h3>
+                        <p>Uses the same function as previous test script but for a Connected cafe scenario</p>
+                        <label>
+                            Cafe scenario script
+                            <button type="button" id="ws_cafe_scenario_button">Start</button>
+                        </label>
+                    </div>
+
+                    <div id="ws_hospital_scenario" class="script">
+                        <h3>Hospital scenario script</h3>
+                        <p>Uses the same function as previous test script, in an hospital setting</p>
+                        <label>
+                            Hospital scenario script
+                            <button type="button" id="ws_hospital_scenario_button">Start</button>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="right data">
+                    <div id="dataLog">
+                        <h2>Incoming DataLogs</h2>
+                        <div id="displayDataLogs" class="display_info"></div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-
-
         <footer>
             <script src="webjars/jquery/2.1.4/jquery.js"></script>
             <script src="webjars/sockjs-client/1.0.0/sockjs.js"></script>

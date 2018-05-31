@@ -4,6 +4,8 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import ehb.finalwork.manager.dao.database.RethinkDBConnectionFactory;
 import ehb.finalwork.manager.error.CustomNotFoundException;
+import ehb.finalwork.manager.error.ItemNotCreatedException;
+import ehb.finalwork.manager.error.MissingIdException;
 import ehb.finalwork.manager.model.ModelTemplate;
 import ehb.finalwork.manager.model.RethinkDBHashable;
 import ehb.finalwork.manager.model.RethinkReturnObject;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> implements BaseDao<T, U> {
@@ -45,7 +48,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
         if (entity != null) {
             return entity;
         }
-        throw new CustomNotFoundException("Room with id: '" + id + "' not found.");
+        throw new CustomNotFoundException("Item with id: '" + id + "' not found.");
     }
 
     @Override
@@ -60,11 +63,14 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
             return (T) returnObject.getFirstNewVal(this.entity.getClass());
         }
         // Create custom exception
-        throw new Exception();
+        throw new ItemNotCreatedException();
     }
 
     @Override
-    public T update(T entity) {
+    public T update(T entity) throws Exception{
+        if (entity == null || entity.getId() == null) {
+            throw new MissingIdException();
+        }
         RethinkReturnObject returnObject = r.db("manager")
                                             .table(entity.getTableName())
                                             .get(entity.getId())
@@ -93,7 +99,7 @@ public class BaseDaoImpl<T extends ModelTemplate, U extends RethinkDBHashable> i
         log.info("Delete {}", returnObject);
         log.info("Delete id {}", id);
         if (returnObject.getDeleted() == 0) {
-            throw new CustomNotFoundException("DataItem with id: " + id + ": Not Found");
+            throw new CustomNotFoundException("Item with id: " + id + ": Not Found");
         }
     }
 }

@@ -8,6 +8,6 @@ public interface BaseDao<T, U> {
     List<T> getAll();
     T getById(String id) throws CustomNotFoundException;
     T create(U entityDto) throws Exception;
-    T update(T entity);
+    T update(T entity) throws Exception;
     void delete(String id) throws CustomNotFoundException;
 }

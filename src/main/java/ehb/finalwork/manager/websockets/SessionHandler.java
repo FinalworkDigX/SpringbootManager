@@ -35,6 +35,8 @@ public class SessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+
+        List<DataDestination> convertedList = new ArrayList<>();
         for (Object dd : this.destinations) {
             DataDestination dest = new DataDestination();
             if (dd instanceof DataDestination) {
@@ -43,13 +45,13 @@ public class SessionHandler extends StompSessionHandlerAdapter {
             }
             else if (dd instanceof HashMap) {
                 dest = new DataDestination((HashMap<String, Object>) dd);
-                destinations.remove(dd);
-                destinations.add(dest);
-
                 log.warn("Destination ReQL issue => List<DataDestination> filled with HashMaps....?");
             }
+            convertedList.add(dest);
             session.subscribe(dest.getDestination(), this);
         }
+
+        this.destinations = convertedList;
     }
 
     @Override

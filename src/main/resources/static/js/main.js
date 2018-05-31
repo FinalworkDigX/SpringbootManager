@@ -75,7 +75,6 @@
     function connectManagerWebSocket() {
         var socket = new SockJS(WS_URL);
         stompClient = Stomp.over(socket);
-        //stompClient.debug = null;
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/dataLog', onNewData, onError);
@@ -84,7 +83,11 @@
             stompClient.subscribe('/topic/beacon/test-id/getByMajorMinor', onNewData, onError);
             stompClient.subscribe('/topic/beacon', onNewData, onError);
             stompClient.subscribe('/topic/room/test-id', onNewData, onError);
-            stompClient.subscribe('/topic/echo', onNewData, onError);
+            //
+            stompClient.subscribe('/topic/echo/ws', onNewData, onError);
+            stompClient.subscribe('/topic/echo/sport', onNewData, onError);
+            stompClient.subscribe('/topic/echo/cafe', onNewData, onError);
+            stompClient.subscribe('/topic/echo/hospital', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100
@@ -134,9 +137,9 @@
         $('.info_input_display').html(randomData);
     }
 
-    // ---------------------------- //
-    //    DataLog test functions    //
-    // ---------------------------- //
+    // ------------------------------------ //
+    //        DataLog test functions        //
+    // ------------------------------------ //
     var dataLogScript = false;
     var dataLogScriptLoop;
 
@@ -167,22 +170,25 @@
         return [{name: "first_row", data: randomString(), index: 1}, {name: "second_row", data: randomString(), index: 2}, {name: "third_row", data: randomString(), index: 3}];
     }
 
-    // ---------------------------- //
-    //   WebSocket test functions   //
-    // ---------------------------- //
+    // ------------------------------------ //
+    //       WebSocket test functions       //
+    // ------------------------------------ //
+
+
+    // =======  External WS Script  ======= //
     var externalWSScript = false;
     var externalWSScriptLoop;
 
-    $("#simulate_external_ws_script").on('click', function () {
+    $("#ws_simulator_button").on('click', function () {
         console.log("in Simulate External WS script");
         externalWSScript = !externalWSScript;
         if (externalWSScript) {
             simulateExternalWSScript();
-            $("#simulate_external_ws_script").html("Stop");
+            $("#ws_simulator_button").html("Stop");
         }
         else {
             clearInterval(externalWSScriptLoop);
-            $("#simulate_external_ws_script").html("Start");
+            $("#ws_simulator_button").html("Start");
         }
     });
 
@@ -193,21 +199,13 @@
         }, 1000);
     }
 
-    var alternateItems = false;
     function testExternalWSSimulation() {
-
-        var variation = '1';
-        if (alternateItems) {
-            variation = '2';
-        }
-        alternateItems = !alternateItems;
-
         var test = {
-            id: "qnix-qx2710led-" + variation,
+            id: "qnix-qx2710led-1",
             type: "screen",
             use_info: {
                 on_time: new Date().getSeconds(),
-                temp: randomInt(25, 27)
+                temp: randomInt(25, 27).toFixed(2)
             },
             item_info: {
                 purchased: 1288323623006,
@@ -215,51 +213,183 @@
             }
         };
 
-        stompClient.send(WS_ECHO, {priority: 9}, JSON.stringify(test))
+        stompClient.send(WS_ECHO + '/ws', {priority: 9}, JSON.stringify(test))
     }
 
-    var testMessage = {
-        id: "qnix-qx2710led-999",
-        type: "screen",
-        use_info: {
-            on_time: new Date().getSeconds(),
-            temp: randomInt(25, 27)
-        },
-        item_info: {
-            purchased: 1288323623006,
-            warranty: 5
+
+    // ======  Sport scenario Script  ===== //
+    var sportScenarioScript = false;
+    var sportScenarioScriptLoop;
+
+    $("#ws_sport_scenario_button").on('click', function () {
+        console.log("in Sport Scenario Script");
+        sportScenarioScript = !sportScenarioScript;
+        if (sportScenarioScript) {
+            simSportScenarioScript();
+            $("#ws_sport_scenario_button").html("Stop");
         }
-    };
+        else {
+            clearInterval(sportScenarioScriptLoop);
+            $("#ws_sport_scenario_button").html("Start");
+        }
+    });
 
-    function testSendMessage(url, message) {
-        stompClient.send(url, message)
+    function simSportScenarioScript() {
+        sportScenarioScriptLoop = setInterval(function () {
+            testSportSim();
+        }, 1000);
     }
 
-    // ---------------------------- //
-    //    Beacon test functions     //
-    // ---------------------------- //
-    function testBeaconGetAll() {
-        stompClient.send(WS_BEACON, {priority: 9})
-    }
-
-    function testBeaconGetMajorMinor(major, minor) {
-        stompClient.send(WS_BEACON + "/test-id/getByMajorMinor/" + major + "/" + minor, {priority: 9})
-    }
-
-    function testBeaconCreate(message, major, minor, cf) {
-
+    function testSportSim() {
         var test = {
-            "id": message,
-            "name": "test_beacon - " + message,
-            "roomId": "test_room",
-            "major": major,
-            "minor": minor,
-            "calibrationFactor": cf
+            equipment_id: "treadmill_21",
+            user: {
+                info: {
+                    name: "Jeff",
+                    age: 34,
+                    membership: {
+                        from: new Date().setFullYear(2016, 4, 12),
+                        to: new Date().setFullYear(2019, 1, 1)
+                    }
+                },
+                stats: {
+                    time: new Date().getSeconds(),
+                    kcal_burned: new Date().getSeconds() * 2.5,
+                    heart_rate: Math.round(randomInt(110, 115))
+                }
+            }
         };
 
-        stompClient.send(WS_BEACON + "/create", {priority: 9}, JSON.stringify(test));
+        stompClient.send(WS_ECHO + '/sport', {priority: 9}, JSON.stringify(test))
     }
 
+
+    // ======  Cafe scenario Script  ===== //
+    var cafeScenarioScript = false;
+    var cafeScenarioScriptLoop;
+
+    $("#ws_cafe_scenario_button").on('click', function () {
+        console.log("in Sport Scenario Script");
+        cafeScenarioScript = !cafeScenarioScript;
+        if (cafeScenarioScript) {
+            simCafeScenarioScript();
+            $("#ws_cafe_scenario_button").html("Stop");
+        }
+        else {
+            clearInterval(cafeScenarioScriptLoop);
+            $("#ws_cafe_scenario_button").html("Start");
+        }
+    });
+
+    function simCafeScenarioScript() {
+        cafeScenarioScriptLoop = setInterval(function () {
+            testCafeSim();
+        }, 1000);
+    }
+
+    function testCafeSim() {
+        var test = {
+            tap_id: "tap_3",
+            draught: {
+                brand: "Jupiler"
+            },
+            stats: {
+                temp: randomInt(2, 4).toFixed(2),
+                pressure: randomInt(10, 12).toFixed(3),
+                liter: new Date().getSeconds(),
+                reserve: 4
+            }
+        };
+
+        stompClient.send(WS_ECHO + '/cafe', {priority: 9}, JSON.stringify(test))
+    }
+
+
+    // ======  Hospital scenario Script  ===== //
+    var hospitalScenarioScript = false;
+    var hospitalScenarioScriptLoop;
+
+    $("#ws_hospital_scenario_button").on('click', function () {
+        console.log("in Hospital Scenario Script");
+        hospitalScenarioScript = !hospitalScenarioScript;
+        if (hospitalScenarioScript) {
+            simHospitalScenarioScript();
+            $("#ws_hospital_scenario_button").html("Stop");
+        }
+        else {
+            clearInterval(hospitalScenarioScriptLoop);
+            $("#ws_hospital_scenario_button").html("Start");
+        }
+    });
+
+    function simHospitalScenarioScript() {
+        hospitalScenarioScriptLoop = setInterval(function () {
+            testHospitalSim();
+        }, 1000);
+    }
+
+    function testHospitalSim() {
+        var test1 = {
+            room_id: "room_246",
+            patient: {
+                name: "Diane",
+                age: 27,
+                period: {
+                    from: new Date().setFullYear(2018, 4, 12),
+                    to: new Date().setFullYear(2018, 4, 16)
+                },
+                reason: "R - Ulna"
+            },
+            stats: {
+                heart_rate: Math.round(randomInt(61, 65)),
+                blood_pressure: Math.round(randomInt(117, 120)) + '-' + Math.round(randomInt(77, 80))
+            }
+        };
+
+        var test2 = {
+            room_id: "room_247",
+            patient: {
+                name: "Louis",
+                age: 32,
+                period: {
+                    from: new Date().setFullYear(2018, 4, 10),
+                    to: new Date().setFullYear(2018, 4, 15)
+                },
+                reason: "L - rib 7"
+            },
+            stats: {
+                heart_rate: Math.round(randomInt(71, 73)),
+                blood_pressure: Math.round(randomInt(135, 137)) + '-' + Math.round(randomInt(88, 91))
+            }
+        };
+
+        var test3 = {
+            room_id: "room_248",
+            patient: {
+                name: "Chloe",
+                age: 64,
+                period: {
+                    from: new Date().setFullYear(2018, 4, 13),
+                    to: new Date().setFullYear(2018, 4, 14)
+                },
+                reason: "L - tibia"
+            },
+            stats: {
+                heart_rate: Math.round(randomInt(84, 86)),
+                blood_pressure: Math.round(randomInt(107, 110)) + '-' + Math.round(randomInt(75, 78))
+            }
+        };
+
+        stompClient.send(WS_ECHO + '/hospital', {priority: 9}, JSON.stringify(test1));
+        stompClient.send(WS_ECHO + '/hospital', {priority: 9}, JSON.stringify(test2));
+        stompClient.send(WS_ECHO + '/hospital', {priority: 9}, JSON.stringify(test3));
+    }
+
+
+
+    // ------------------------------------ //
+    //        Beacon test functions         //
+    // ------------------------------------ //
     function testCalibrate(message, float) {
 
         var test = {
@@ -271,9 +401,9 @@
         stompClient.send(WS_BEACON + "/test-id/calibrate", {priority: 9}, JSON.stringify(test));
     }
 
-    // ---------------------------- //
-    //     Room test functions      //
-    // ---------------------------- //
+    // ------------------------------------ //
+    //         Room test functions          //
+    // ------------------------------------ //
     function testRoomForRa(room_id) {
         //8f85bc69-fdcc-43fc-aaa9-c9563d42ae6e
         var test = {
