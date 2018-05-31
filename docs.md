@@ -1208,16 +1208,16 @@ parameter           |Type                                               |require
 --------------------|---------------------------------------------------|:--------:
 id                  |String                                             |Yes
 url                 |String                                             |Yes
-destinations        |List - [DataDestination](#model-dataDestination)   |Yes
+destinations        |List - [DataDestination](#model-datadestination)   |Yes
 
 ### Model: DataDestination
 
 parameter           |Type                                                           |required
 --------------------|---------------------------------------------------------------|:--------:
 destination         |String                                                         |Yes
-conversionScheme    |List - [ConversionSchemeEntry](#model-conversionSchemeEntry)   |Yes
+conversionScheme    |List - [ConversionSchemeEntry](#model-conversionschemeentry)   |Yes
 
-### Model: DataDestination
+### Model: ConversionSchemeEntry
 
 parameter           |Type       |required
 --------------------|-----------|:--------:
@@ -1226,10 +1226,10 @@ dataLogData         |Object*    |Yes
 
 &ast; Should be either:
 * String: For dataItemId
-* [InformationConversionDto](#dto-informationConversionDto): To display the information in AR
+* [InformationConversionDto](#dto-informationconversion): To display the information in AR
 
 
-### DTO: InformationConversionDto
+### DTO: InformationConversion
 
 parameter   |Type       |required
 ------------|-----------|:--------:
