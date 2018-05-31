@@ -5,15 +5,15 @@ For this backend application to fully work, a working copy of _security.properti
 ## Summary
 1. [Working with websockets](#web-socket-basics)
 1. [Recurring errors](#recurring-errors)
-1. [Auth0 management](#auth0-management)
-2. [Authentication](#authentication)
-7. [Room](#room)
-3. [Beacon](#beacon)
-4. [DataItem](#dataitem)
-6. [DataSource](#datasource)
-5. [DataLog](#datalog)
-5. [DataItemRequest](#dataitemrequest)
-8. [Debug](#debug)
+1. [Auth0 management](#auth0-management-to-top-)
+2. [Authentication](#authentication-to-top-)
+7. [Room](#room-to-top-)
+3. [Beacon](#beacon-to-top-)
+4. [DataItem](#dataitem-to-top-)
+6. [DataSource](#datasource-to-top-)
+5. [DataLog](#datalog-to-top-)
+5. [DataItemRequest](#dataitemrequest-to-top-)
+8. [Debug](#debug-to-top-)
 
 ***********************************************************************************************************************
 ## Web Socket basics
@@ -83,17 +83,17 @@ Example:
 ### Model: User
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 client_id       |String         |Yes
-connection      |String         |Yes 
+connection      |String         |Yes
 password        |String         |Yes
 verify_password |Boolean        |Yes
 username        |String         |Yes
 email           |String         |Yes
-Verify_email    |Boolean        |Yes 
+Verify_email    |Boolean        |Yes
 identities      |List - Identity|Yes
-email_verified  |Boolean        |No 
+email_verified  |Boolean        |No
 phone_number    |String         |No
 phone_verified  |Boolean        |No
 user_id         |String         |No
@@ -112,7 +112,7 @@ last_login      |Date - String  |No
 logins_count    |Integer        |No
 blocked         |Boolean        |No
 
-### API 
+### API
 ### &gt;_Get All_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/management/user
 * Method: **GET**
@@ -166,7 +166,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
-    "user_id": "auth0|5aaaad170724cf32akjdi7ea",   
+    "user_id": "auth0|5aaaad170724cf32akjdi7ea",
     "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
     "name": "pudi17@hotmail.com",
     "nickname": "pudi17",
@@ -278,7 +278,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 ### Model: Create
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 _id             |String         |Yes
 email           |String         |Yes
@@ -287,20 +287,20 @@ email_verified  |Boolean        |Yes
 ### Model Token holder
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 access_token    |String         |Yes
-id_token        |String         |Yes 
+id_token        |String         |Yes
 refresh_token   |String         |Yes
 token_type      |String         |Yes
 expires_in      |Double         |Yes
 
-### DTO: Login 
+### DTO: Login
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 email           |String         |Yes
-password        |String         |Yes 
+password        |String         |Yes
 
 ### API
 ### &gt;_Sign up_ [To Top ^](#summary)
@@ -313,7 +313,7 @@ password        |String         |Yes
 {
     "_id": "5aaaad170724cf32akjdi7ea",
     "email": "pudi17@hotmail.com",
-    "email_verified": false 
+    "email_verified": false
 }
 ```
 
@@ -402,29 +402,29 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 
 ### Model: Room
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 id              |String         |Yes
 name            |String         |Yes
-description     |String         |Yes 
-location        |String         |Yes 
+description     |String         |Yes
+location        |String         |Yes
 
-    
+
 ### DTO: Room
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 name            |String         |Yes
-description     |String         |Yes 
-location        |String         |Yes 
+description     |String         |Yes
+location        |String         |Yes
 
 ### DTO: Room for AR
 
-parameter       |Type                              |required  
+parameter       |Type                              |required
 ----------------|----------------------------------|:--------:
 roomLocation    |Vector3                           |Yes
 roomInfo        |[Room](#model-room)                |Yes&ast;
-itemList        |List - [DataItem](#model-data-item) |No 
+itemList        |List - [DataItem](#model-data-item) |No
 
 &ast; Room id is required, rest optional
 
@@ -446,7 +446,7 @@ itemList        |List - [DataItem](#model-data-item) |No
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -593,7 +593,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
             },
             "id":"7d077626-eaad-46e7-9bd0-e1cd394fdcce",
             "roomId":"88d10d30-b5c2-4555-b15c-416c6f7d0935"
-        }, 
+        },
         {
             ...
         }
@@ -659,8 +659,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 [_base_url_] /v1/beacon
 
 ### Model: Beacon
-    
-parameter           |Type           |required  
+
+parameter           |Type           |required
 --------------------|---------------|:--------:
 id                  |String         |Yes
 roomId              |String         |Yes
@@ -673,7 +673,7 @@ lastUpdated         |Long           |Yes
 
 ### DTO: Beacon
 
-parameter           |Type           |required  
+parameter           |Type           |required
 --------------------|---------------|:--------:
 roomId              |String         |Yes
 name                |String         |Yes
@@ -705,7 +705,7 @@ lastUpdated         |Long           |Yes
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -841,7 +841,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -971,8 +971,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 [_base_url_] /v1/beacon
 
 ### Model: DataItem
-    
-parameter           |Type           |required  
+
+parameter           |Type           |required
 --------------------|---------------|:--------:
 id                  |String         |Yes
 itemId              |String         |Yes
@@ -982,7 +982,7 @@ roomId              |String         |Yes
 
 ### DTO: DataItem
 
-parameter           |Type           |required  
+parameter           |Type           |required
 --------------------|---------------|:--------:
 itemId              |String         |Yes
 name                |String         |Yes
@@ -1012,7 +1012,7 @@ roomId              |String         |Yes
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -1040,7 +1040,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -1203,23 +1203,23 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model servers for selecting data sources (from Web Socket endpoints) and convert the incoming data to the used DataLog convention.
 
 ### Model: DataSource
-    
-parameter           |Type                                               |required  
+
+parameter           |Type                                               |required
 --------------------|---------------------------------------------------|:--------:
 id                  |String                                             |Yes
 url                 |String                                             |Yes
 destinations        |List - [DataDestination](#model-dataDestination)   |Yes
 
 ### Model: DataDestination
-    
-parameter           |Type                                                           |required  
+
+parameter           |Type                                                           |required
 --------------------|---------------------------------------------------------------|:--------:
 destination         |String                                                         |Yes
 conversionScheme    |List - [ConversionSchemeEntry](#model-conversionSchemeEntry)   |Yes
 
 ### Model: DataDestination
 
-parameter           |Type       |required  
+parameter           |Type       |required
 --------------------|-----------|:--------:
 incomingDataKey     |String     |Yes
 dataLogData         |Object*    |Yes
@@ -1231,7 +1231,7 @@ dataLogData         |Object*    |Yes
 
 ### DTO: InformationConversionDto
 
-parameter   |Type       |required  
+parameter   |Type       |required
 ------------|-----------|:--------:
 name        |String     |Yes
 index       |Long       |Yes
@@ -1240,8 +1240,8 @@ Name: should be the wanted name to display in AR
 Index: should be the order of the selected item
 
 ### DTO: DataSource
-    
-parameter           |Type                                               |required  
+
+parameter           |Type                                               |required
 --------------------|---------------------------------------------------|:--------:
 url                 |String                                             |Yes
 destinations        |List - [DataDestination](#model-dataDestination)   |Yes
@@ -1283,7 +1283,7 @@ destinations        |List - [DataDestination](#model-dataDestination)   |Yes
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -1337,10 +1337,6 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 	]
 }
 ```
-
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
-
 
 ### &gt;_Create_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataSource
@@ -1481,14 +1477,255 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## DataLog [To Top ^](#summary)
-### Model
-### DTO
-<h3 id="datal-og-api">API</h3>
+### Base slug
+[_base_url_] /v1/dataLog
+
+### Model: DataLog
+
+parameter           |Type                                       |required
+--------------------|-------------------------------------------|:--------:
+id                  |String                                     |Yes
+itemId              |String                                     |Yes
+information         |List - [Information](#model-information)   |Yes
+timestamp	        |Long					                    |Yes
+
+### Model: Information
+
+
+parameter   |Type       |required
+------------|-----------|:--------:
+name        |String     |Yes
+data        |String     |Yes
+index       |Long       |Yes
+
+### DTO: DataLog
+
+parameter           |Type                                       |required
+--------------------|-------------------------------------------|:--------:
+itemId              |String                                     |Yes
+information         |List - [Information](#model-information)   |Yes
+timestamp	        |Long					                    |Yes
+
+### API
+### &gt;_Get All_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+        "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+        "itemId": "tap_3",
+        "information": [
+            {
+                "data": "3.02",
+                "name": "Temp",
+                "index": 1
+            },
+            {
+                "data": "11.535",
+                "name": "Pressure",
+                "index": 2
+            },
+            {
+                "data": "40",
+                "name": "Litres",
+                "index": 3
+            }
+        ],
+        "timestamp": 1525270179
+    },
+	{
+	    ...
+    }
+]
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Get By Id_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog/byId/{_dataLog-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+    "itemId": "tap_3",
+    "information": [
+        {
+            "data": "3.02",
+            "name": "Temp",
+            "index": 1
+        },
+        {
+            "data": "11.535",
+            "name": "Pressure",
+            "index": 2
+        },
+        {
+            "data": "40",
+            "name": "Litres",
+            "index": 3
+        }
+    ],
+    "timestamp": 1525270179
+}
+```
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Get By Item Id_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog/byItemId/{_item-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+		"id": "0062359f-llll-4bcf-8c63-b14816b88727",
+		"itemId": "tap_3",
+		"information": [
+			{
+				"data": "3.02",
+				"name": "Temp",
+				"index": 1
+			},
+			{
+				"data": "11.535",
+				"name": "Pressure",
+				"index": 2
+			},
+			{
+				"data": "40",
+				"name": "Litres",
+				"index": 3
+			}
+		],
+		"timestamp": 1525270179
+	},
+	{
+		"id": "008d6c1f-llll-44a9-b59b-38970488503f",
+		"itemId": "tap_3",
+		...
+	}
+]
+```
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Create_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog
+* Method: **POST**
+* Body: [DataLog Dto](#model-datalog)
+
+#### Returns
+```
+{
+    "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+    "itemId": "tap_3",
+    "information": [
+        {
+            "data": "3.02",
+            "name": "Temp",
+            "index": 1
+        },
+        {
+            "data": "11.535",
+            "name": "Pressure",
+            "index": 2
+        },
+        {
+            "data": "40",
+            "name": "Litres",
+            "index": 3
+        }
+    ],
+    "timestamp": 1525270179
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
 <h3 id="data-log-ws">Web Sockets</h3>
+
+### &gt;_Get All_ [To Top ^](#summary)
+
+* Request Channel: _NONE_
+* Response Channel: [_base_url_] /topic/dataLog
+* Body: [DataLog](#model-datalog)
+
+#### Returns
+```
+{
+    "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+    "itemId": "tap_3",
+    "information": [
+        {
+            "data": "3.02",
+            "name": "Temp",
+            "index": 1
+        },
+        {
+            "data": "11.535",
+            "name": "Pressure",
+            "index": 2
+        },
+        {
+            "data": "40",
+            "name": "Litres",
+            "index": 3
+        }
+    ],
+    "timestamp": 1525270179
+}
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
 <br/>
 <br/>
 
@@ -1512,4 +1749,3 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <h3 id="debug-ws">Web Sockets</h3>
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
-
