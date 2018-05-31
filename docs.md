@@ -568,6 +568,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 <h3 id="room-ws">Web Sockets</h3>
+
 ### &gt;_Room for AR_ [To Top ^](#summary)
 
 * Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
@@ -1689,7 +1690,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-<h3 id="data-log-ws">Web Sockets</h3>
+<h3 id="datalog-ws">Web Sockets</h3>
 
 ### &gt;_Get All_ [To Top ^](#summary)
 
@@ -2041,6 +2042,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 <h3 id="debug-ws">Web Sockets</h3>
+
 ### &gt;_Get All_ [To Top ^](#summary)
 
 * Request Channel: [_base_url_] /echo/{_channel_}&ast;
