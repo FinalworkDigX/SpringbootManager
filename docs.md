@@ -966,7 +966,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Items [To Top ^](#summary)
+## DataItem [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/beacon
 
@@ -1195,7 +1195,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Sources [To Top ^](#summary)
+## DataSource [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/dataSource
 
