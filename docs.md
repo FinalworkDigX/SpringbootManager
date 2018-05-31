@@ -1962,11 +1962,117 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## Debug [To Top ^](#summary)
-### Model
-### DTO
-<h3 id="debug-api">API</h3>
+### Base slug
+[_base_url_] /v1/debug
+
+### Purpose
+This controller only serves to debug. IT does __two__ important things.
+1. Generate the example scenarios that will be used for presenting the project.
+2. Echo for Web Socket to emulate a Web Socket endpoint.<br/>
+(Searched online to find a legit endpoint to use, instead of an echo with a Javascript script, but no endpoint was found that sent data at an acceptable rate.)
+
+### API
+### &gt;_Generate All_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+	    "sport_scenario id": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac"
+	},
+    {
+        "cafe_scenario id": "d228384b-ssss-4fa4-8f3a-c1c4d17997ac"
+    },
+    {
+        "hospital_scenario id": "d228384b-dddd-4fa4-8f3a-c1c4d17997ac"
+    }
+]
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Generate Sport_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate/sport
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "sport_scenario id": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Generate Cafe_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate/cafe
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "cafe_scenario id": "d228384b-ssss-4fa4-8f3a-c1c4d17997ac"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Generate Hospital_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate/hospital
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "hospital_scenario id": "d228384b-dddd-4fa4-8f3a-c1c4d17997ac"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
 <h3 id="debug-ws">Web Sockets</h3>
+### &gt;_Get All_ [To Top ^](#summary)
+
+* Request Channel: [_base_url_] /echo/{_channel_}&ast;
+* Response Channel: [_base_url_] /topic/echo/{_channel_}
+* Body: JSON String that needs to be echoed back
+
+&ast; Channel where echo should be sent too. Doesn't need to be a private channel
+
+#### Returns (Example)
+```
+{
+	"user": {
+		"info": {
+			"name": "Jeff",
+			"age": 34,
+			"membership": {
+				"from": 1463060368544,
+				"to": 1549031968544
+			}
+		},
+		"stats": {
+			"time": 28,
+			"kcal_burned": 70,
+			"heart_rate": 113
+		}
+	},
+	"equipment_id": "treadmill_21"
+}
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+<br/>
+<br/>
