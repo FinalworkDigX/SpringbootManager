@@ -1244,7 +1244,7 @@ Index: should be the order of the selected item
 parameter           |Type                                               |required
 --------------------|---------------------------------------------------|:--------:
 url                 |String                                             |Yes
-destinations        |List - [DataDestination](#model-dataDestination)   |Yes
+destinations        |List - [DataDestination](#model-datadestination)   |Yes
 
 ### API
 ### &gt;_Get All_ [To Top ^](#summary)
