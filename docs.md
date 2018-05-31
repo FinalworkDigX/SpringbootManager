@@ -20,8 +20,8 @@ For this backend application to fully work, a working copy of _security.properti
 Web sockets currently need no credentials to be used. This may changed as the backend evolves.
 
 ### Summary of models using Web Sockets
-1. [Beacon](#beacon-ws)
 2. [Room](#room-ws)
+1. [Beacon](#beacon-ws)
 3. [DataLog](#datalog-ws)
 4. [Debug](#debug-ws)
 

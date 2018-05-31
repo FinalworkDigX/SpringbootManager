@@ -61,3 +61,9 @@ mvn clean package
 ## Using the API &amp; Web Sockets
 
 Full documentation can be found here: [docs.md](/docs.md)
+
+## Example scripts
+
+Multiple scenario's where implemented to showcase RAM. Those are accessible on the URL where This application is deployed.
+
+<img src="https://i.imgur.com/20mQUL0.png" alt="manager test scripts" />
