@@ -1729,14 +1729,235 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Item Request [To Top ^](#summary)
-### Model
-### DTO
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
+## DataItemRequest [To Top ^](#summary)
+### Base slug
+[_base_url_] /v1/request
+
+### Model: DataItemRequest
+
+parameter       |Type           |required
+----------------|---------------|:--------:
+id              |String         |Yes
+beaconId        |String         |Yes
+dataItemName    |String         |Yes
+requester       |String&ast;    |Yes
+
+&ast; Should be the requester's email. Administration set to easily send mails.
+
+### DTO: DataItemRequest
+
+parameter       |Type           |required
+----------------|---------------|:--------:
+beaconId        |String         |Yes
+dataItemName    |String         |Yes
+requester       |String&ast;    |Yes
+
+&ast; Should be the requester's email. Administration set to easily send mails.
+
+### DTO: DataItemRequestForAdmin
+
+parameter       |Type                       |required
+----------------|---------------------------|:--------:
+id              |String                     |Yes
+beaconId        |String                     |Yes
+dataItemName    |String                     |Yes
+requester       |String&ast;                |Yes
+beacon          |[Beacon](#model-beacon)    |Yes
+room            |[Room](#model-room)        |Yes
+
+&ast; Should be the requester's email. Administration set to easily send mails.
+
 ### API
+### &gt;_Get All_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+		"id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+		"beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+		"dataItemName": "pom",
+		"requester": "lud.marcha@pom.be"
+	},
+	{
+	    ...
+    }
+]
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Get For Admin_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request/getForAdmin
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+[
+	{
+        "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+        "beaconId": "d228384b-zzzz-4fa4-8f3a-c1c4d17997ac",
+        "dataItemName": "pom",
+        "requester": "lud.marcha@pom.be",
+        "beacon": {
+            "id": "d228384b-zzzz-4fa4-8f3a-c1c4d17997ac",
+            "roomId": "164fe621-ffff-4b18-87d0-7d56d56a6640",
+            "name": "beacon_1_1",
+            "description": "Lokaal a201 pos.1",
+            "major": 1,
+            "minor": 1,
+            "calibrationFactor": 61,
+            "lastUpdated": 1524669288
+        },
+        "room": {
+            "id": "164fe621-ffff-4b18-87d0-7d56d56a6640",
+            "name": "Hospital R246",
+            "description": "Hosiptal scenario room",
+            "location": "Chirec"
+        }
+    },
+	{
+	    ...
+    }
+]
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+
+### &gt;_Get by id_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request/byId/{_request-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```
+{
+    "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+    "beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+    "dataItemName": "pom",
+    "requester": "lud.marcha@pom.be"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Create_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request
+* Method: **POST**
+* Body: [Request Dto](#dto-dataitemrequest)
+
+#### Returns
+```
+{
+    "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+    "beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+    "dataItemName": "pom",
+    "requester": "lud.marcha@pom.be"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+
+### &gt;_Update_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/reauest
+* Method: **PUT**
+* Body: [Request](#model-dataitemrequest)
+
+#### Returns
+```
+{
+    "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+    "beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+    "dataItemName": "pom",
+    "requester": "lud.marcha@pom.be"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Delete_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request/{_request-id_}
+* Method: **DELETE**
+* Body: _NONE_
+
+#### Returns
+```
+{ }
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
 <br/>
 <br/>
 
