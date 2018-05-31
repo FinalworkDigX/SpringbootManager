@@ -26,16 +26,16 @@ Copy example.security.properties to security.properties (located in src >>> main
 cp src/main/resources/example.security.properties src/main/resources/security.properties
 ```
 ##### Needed information:<br/>
-__ _RethinkDB:_ __
+__*RethinkDB:*__
 * rethinkdb.username: Username to connect to your deployed RethinkDB instance<br/>
 __example:__ admin
 * rethink.password: Password to connect to your deployed RethinkDB instance<br/>
 __example:__ Admin1
 * rethink.host: The URL to where the database is deployed<br/>
 __example:__ https://myRethinkDB.com
-
 <br/>
-__ _Auth0:_ __
+
+__*Auth0:*__
 * auth0.issuer: Auth0 tenant url<br/>
 __example:__ https://myTenantsAPI.eu.auth0.com/
 * auth0.apiAudience: Auth0 identifier from created API. Best if same as where [SpringbootManager](https://github.com/FinalworkDigX/SpringbootManager) is deployed<br/>
