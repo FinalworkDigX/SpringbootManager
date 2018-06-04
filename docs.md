@@ -2103,7 +2103,9 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## System Monitoring [To Top ^](#summary)
-This only exists in Web Socket. It serves to send server updates to the administration panel.
+This only exists in Web Socket. 
+
+This endpoint broadcasts Server information every 5 seconds. This will primarily be used by the Administration panel.
 
 <h3 id="sysMon-ws">Web Sockets</h3>
 
