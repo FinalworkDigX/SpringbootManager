@@ -12,8 +12,12 @@ public class MachineInformationService {
     public CPU getCpuLoadARMv7() {
         CPU myCPU = new CPU();
 
-        myCPU.setCurrentClockSpeed(this.executeCommand("cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq"));
-        myCPU.setMaxClockSpeed(this.executeCommand("cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq"));
+        Double current = Double.parseDouble(this.executeCommand("cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq")) / 1000000;
+        Double max = Double.parseDouble(this.executeCommand("cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq")) / 1000000;
+
+        myCPU.setCurrentClockSpeed(String.format("%.2f", current));
+        myCPU.setMaxClockSpeed(String.format("%.2f", max));
+        myCPU.setLoadPercentage(String.format("%.2f", current / max * 100));
 
         return myCPU;
     }

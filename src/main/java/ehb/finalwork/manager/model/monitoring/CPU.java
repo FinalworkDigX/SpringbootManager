@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CPU implements RethinkDBHashable {
-
     private String name;
     private String maxClockSpeed;
     private String currentClockSpeed;
@@ -18,13 +17,14 @@ public class CPU implements RethinkDBHashable {
     }
 
     public CPU(ProcessorInfo processorInfo) {
-        Map<String, String> fullInfos = processorInfo.getFullInfo();
+        Map<String, String> fullInfo = processorInfo.getFullInfo();
 
+        // Seem to be Hardware specific.. (intel i7 2600)
         this.name = processorInfo.getModelName();
-        this.maxClockSpeed = fullInfos.get("MaxClockSpeed");
-        this.currentClockSpeed = fullInfos.get("CurrentClockSpeed");
-        this.temperature = fullInfos.get("temperature");
-        this.loadPercentage = fullInfos.get("LoadPercentage");
+        this.maxClockSpeed = fullInfo.get("MaxClockSpeed");
+        this.currentClockSpeed = fullInfo.get("CurrentClockSpeed");
+        this.temperature = fullInfo.get("temperature");
+        this.loadPercentage = fullInfo.get("LoadPercentage");
     }
 
     public CPU(String name, String maxClockSpeed, String currentClockSpeed, String temperature, String loadPercentage) {
