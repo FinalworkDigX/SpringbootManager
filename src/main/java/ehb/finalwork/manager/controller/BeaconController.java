@@ -45,9 +45,9 @@ public class BeaconController {
         return beaconService.create(beaconDto);
     }
 
-    @MessageMapping("/beacon")
-    @SendTo("/topic/beacon")
-    public List<Beacon> getAllWS() {
+    @MessageMapping("/beacon/{privateChannel}")
+    @SendTo("/topic/beacon/{privateChannel}")
+    public List<Beacon> getAllWS(@DestinationVariable String privateChannel) {
         return beaconService.getAll();
     }
 
