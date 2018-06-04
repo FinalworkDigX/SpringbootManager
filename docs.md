@@ -594,8 +594,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Room for AR_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /app/room/{_private user channel_}/{_room-id_}
-* Response Channel: [_base_url_] /topic/room/{_private user channel_}
+* Request Channel: [_base_url_] /app/room/{_private_user_channel_}/{_room-id_}
+* Response Channel: [_base_url_] /topic/room/{_private_user_channel_}
 * Body: [RoomForAR dto](#dto-room-for-ar)
 
 #### Returns
@@ -845,8 +845,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Get All_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /app/beacon 
-* Response Channel: [_base_url_] /topic/beacon
+* Request Channel: [_base_url_] /app/beacon/{_private_user_channel_} 
+* Response Channel: [_base_url_] /topic/beacon/{_private_user_channel_}
 * Body: [Beacon](#model-beacon)
 
 #### Returns
@@ -873,8 +873,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Create_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /app/beacon/{_private user channel_}/calibrate
-* Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
+* Request Channel: [_base_url_] /app/beacon/{_private_user_channel_}/calibrate
+* Response Channel: [_base_url_] /topic/beacon/{_private_user_channel_}/calibrate
 * Body: [Beacon](#model-beacon)
 
 #### Returns
@@ -908,8 +908,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Get by Major &amp; Minor_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /app/beacon/{_private user channel_}/getByMajorMinor/{_major_}/{_minor_}
-* Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/getByMajorMinor
+* Request Channel: [_base_url_] /app/beacon/{_private_user_channel_}/getByMajorMinor/{_major_}/{_minor_}
+* Response Channel: [_base_url_] /topic/beacon/{_private_user_channel_}/getByMajorMinor
 * Body: _NONE_
 
 #### Returns
@@ -955,8 +955,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Calibrate_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /app/beacon/{_private user channel_}/calibrate
-* Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
+* Request Channel: [_base_url_] /app/beacon/{_private_user_channel_}/calibrate
+* Response Channel: [_base_url_] /topic/beacon/{_private_user_channel_}/calibrate
 * Body: [Beacon](#model-beacon)
 
 #### Returns
