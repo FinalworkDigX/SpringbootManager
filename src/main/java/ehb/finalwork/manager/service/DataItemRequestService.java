@@ -16,16 +16,19 @@ public class DataItemRequestService {
     private DataItemRequestDao dataItemRequestDao;
     private BeaconService beaconService;
     private RoomService roomService;
+    private NotificationService notificationService;
 
 
     public DataItemRequestService(
             DataItemRequestDao dataItemRequestDao,
             BeaconService beaconService,
-            RoomService roomService
+            RoomService roomService,
+            NotificationService notificationService
     ) {
         this.dataItemRequestDao = dataItemRequestDao;
         this.beaconService = beaconService;
         this.roomService = roomService;
+        this.notificationService = notificationService;
     }
 
     public List<DataItemRequest> getAll() {
@@ -55,7 +58,14 @@ public class DataItemRequestService {
     }
 
     public DataItemRequest create(RethinkDataItemRequestDto dataItemRequestDto) throws Exception {
-        return dataItemRequestDao.create(dataItemRequestDto);
+        try {
+            DataItemRequest req = dataItemRequestDao.create(dataItemRequestDto);
+            this.notificationService.broadcastNotification("request", this.getAll().size());
+            return req;
+
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public DataItemRequest update(DataItemRequest dataItemRequest) throws Exception {
