@@ -4,16 +4,17 @@ For this backend application to fully work, a working copy of _security.properti
 
 ## Summary
 1. [Working with websockets](#web-socket-basics)
-1. [Recurring errors](#recurring-errors)
-1. [Auth0 management](#auth0-management-to-top-)
-2. [Authentication](#authentication-to-top-)
-7. [Room](#room-to-top-)
-3. [Beacon](#beacon-to-top-)
-4. [DataItem](#dataitem-to-top-)
-6. [DataSource](#datasource-to-top-)
-5. [DataLog](#datalog-to-top-)
-5. [DataItemRequest](#dataitemrequest-to-top-)
-8. [Debug](#debug-to-top-)
+2. [Recurring errors](#recurring-errors)
+3. [Auth0 management](#auth0-management-to-top-)
+4. [Authentication](#authentication-to-top-)
+5. [Room](#room-to-top-)
+6. [Beacon](#beacon-to-top-)
+7. [DataItem](#dataitem-to-top-)
+8. [DataSource](#datasource-to-top-)
+9. [DataLog](#datalog-to-top-)
+10. [DataItemRequest](#dataitemrequest-to-top-)
+11. [Debug](#debug-to-top-)
+12. [System Monitoring](#system-monitoring-to-top-)
 
 ***********************************************************************************************************************
 ## Web Socket basics
@@ -41,10 +42,11 @@ connectManagerWebSocket();
 ```
 
 ### Summary of models using Web Sockets
-2. [Room](#room-ws)
-1. [Beacon](#beacon-ws)
+1. [Room](#room-ws)
+2. [Beacon](#beacon-ws)
 3. [DataLog](#datalog-ws)
 4. [Debug](#debug-ws)
+4. [System Monitoring](#sysMon-ws)
 
 ***********************************************************************************************************************
 ## Recurring errors
@@ -2091,6 +2093,43 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 		}
 	},
 	"equipment_id": "treadmill_21"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+<br/>
+<br/>
+
+## System Monitoring [To Top ^](#summary)
+This only exists in Web Socket. 
+
+This endpoint broadcasts Server information every 5 seconds. This will primarily be used by the Administration panel.
+
+<h3 id="sysMon-ws">Web Sockets</h3>
+
+### &gt;_Get system information_ [To Top ^](#summary)
+
+* Request Channel: _NONE_
+* Response Channel: [_base_url_] /topic/monitoring/
+* Body: _NONE_
+
+#### Returns (Example)
+```json
+{
+	"memory": {
+		"totalMemory": "2062584 kB",
+		"freeMemory": "627120 kB",
+		"availableMemory": "1618192 kB"
+	},
+	"cpu": {
+		"name": "ARMv7 Processor rev 1 (v7l)",
+		"maxClockSpeed": "1800000",
+		"currentClockSpeed": "216000",
+		"temperature": "41",
+		"loadPercentage": "12.00"
+	}
 }
 ```
 

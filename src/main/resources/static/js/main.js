@@ -88,6 +88,9 @@
             stompClient.subscribe('/topic/echo/sport', onNewData, onError);
             stompClient.subscribe('/topic/echo/cafe', onNewData, onError);
             stompClient.subscribe('/topic/echo/hospital', onNewData, onError);
+
+
+            stompClient.subscribe('/topic/monitoring', onNewData, onError);
         });
         // stompClient.heartbeat.incoming = 0
         // stompClient.heartbeat.outgoing = 100

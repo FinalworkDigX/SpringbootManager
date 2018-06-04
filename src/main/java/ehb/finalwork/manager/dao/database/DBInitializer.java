@@ -3,6 +3,7 @@ package ehb.finalwork.manager.dao.database;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
 import ehb.finalwork.manager.service.ChangeListener;
+import ehb.finalwork.manager.service.ServerMonitoringService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -27,6 +28,9 @@ public class DBInitializer implements InitializingBean {
     @Qualifier("DataLogChangeListener")
     private ChangeListener dataLogChangeListener;
 
+    @Autowired
+    private ServerMonitoringService serverMonitoringService;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         if (connectionFactory.isTestAccount()) {
@@ -38,6 +42,8 @@ public class DBInitializer implements InitializingBean {
 
         roomChangeListener.startCursorScheduler();
         dataLogChangeListener.startCursorScheduler();
+
+        serverMonitoringService.startMonitoring();
     }
 
     private void createDb() {
