@@ -5,7 +5,7 @@
 
 # RAM - SpringbootManager
 
-Spring boot backend application that serves as central point to the RAM application suite. Has Rest API and Web Socket end points for the other applications to use.([docs here](/docs.md)). continuously listens to RethinkDB for changes and broadcast those to the previously mentioned Web Socket endpoints.
+Spring boot backend application that serves as central point to the RAM application suite. Has Rest API and Web Socket end points for the other applications to use.([docs here](/DOCUMENTATION.md)). continuously listens to RethinkDB for changes and broadcast those to the previously mentioned Web Socket endpoints.
 
 Other applications in the RAM Application suite:
 * [ARMonitoring](https://github.com/FinalworkDigX/ARMonitoringApp): Which is the iOS app that displays all info in Augmented Reality.
@@ -60,7 +60,7 @@ mvn clean package
 
 ## Using the API &amp; Web Sockets
 
-Full documentation can be found here: [docs.md](/docs.md)
+Full documentation can be found here: [DOCUMENTATION.md](/DOCUMENTATION.md)
 
 ## Example scripts
 
