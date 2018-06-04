@@ -5,23 +5,44 @@ For this backend application to fully work, a working copy of _security.properti
 ## Summary
 1. [Working with websockets](#web-socket-basics)
 1. [Recurring errors](#recurring-errors)
-1. [Auth0 management](#auth0-management)
-2. [Authentication](#authentication)
-7. [Room](#room)
-3. [Beacon](#beacon)
-4. [DataItem](#dataitem)
-6. [DataSource](#datasource)
-5. [DataLog](#datalog)
-5. [DataItemRequest](#dataitemrequest)
-8. [Debug](#debug)
+1. [Auth0 management](#auth0-management-to-top-)
+2. [Authentication](#authentication-to-top-)
+7. [Room](#room-to-top-)
+3. [Beacon](#beacon-to-top-)
+4. [DataItem](#dataitem-to-top-)
+6. [DataSource](#datasource-to-top-)
+5. [DataLog](#datalog-to-top-)
+5. [DataItemRequest](#dataitemrequest-to-top-)
+8. [Debug](#debug-to-top-)
 
 ***********************************************************************************************************************
 ## Web Socket basics
-Web sockets currently need no credentials to be used. This may changed as the backend evolves.
+Web sockets currently need no credentials to be used. This may changed as the backend evolves.<br/>
+This Backend application uses [STOMP](https://stomp.github.io/) ease the use of the Web Socket endpoints.
+
+### How to use
+#### Javascript Example (Using SockJS)
+```javascript
+var stompClient;
+
+function connectManagerWebSocket() {
+    var socket = new SockJS(WS_URL);
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/dataLog', onNewData, onError);
+        stompClient.subscribe('/topic/room', onNewData, onError);
+    });
+    // stompClient.heartbeat.incoming = 0
+    // stompClient.heartbeat.outgoing = 100
+}
+
+connectManagerWebSocket();
+```
 
 ### Summary of models using Web Sockets
-1. [Beacon](#beacon-ws)
 2. [Room](#room-ws)
+1. [Beacon](#beacon-ws)
 3. [DataLog](#datalog-ws)
 4. [Debug](#debug-ws)
 
@@ -31,7 +52,7 @@ Web sockets currently need no credentials to be used. This may changed as the ba
 occurs when there is no existing slug to the asked method
 
 Example:
-```
+```json
 {
 	"timestamp": 1527686103180,
 	"status": 400,
@@ -47,7 +68,7 @@ occurs when trying to access a protected slug without a valid jwt token, check:
 2. Correct token format: "Bearer jwt.token"
 
 Example:
-```
+```json
 {
 	"timestamp": 1527686103180,
 	"status": 401,
@@ -63,7 +84,7 @@ Occurs when a wrong slug is presented to the api, check:
 2. If the requested slug exists
 
 Example:
-```
+```json
 {
 	"timestamp": 1527686103180,
 	"status": 404,
@@ -83,17 +104,17 @@ Example:
 ### Model: User
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 client_id       |String         |Yes
-connection      |String         |Yes 
+connection      |String         |Yes
 password        |String         |Yes
 verify_password |Boolean        |Yes
 username        |String         |Yes
 email           |String         |Yes
-Verify_email    |Boolean        |Yes 
+Verify_email    |Boolean        |Yes
 identities      |List - Identity|Yes
-email_verified  |Boolean        |No 
+email_verified  |Boolean        |No
 phone_number    |String         |No
 phone_verified  |Boolean        |No
 user_id         |String         |No
@@ -112,14 +133,14 @@ last_login      |Date - String  |No
 logins_count    |Integer        |No
 blocked         |Boolean        |No
 
-### API 
+### API
 ### &gt;_Get All_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/management/user
 * Method: **GET**
 * Body: [User](#model-user)
 
 #### Returns
-```
+```json
 [
 	{
 		"email": "pudi1711@hotmail.com",
@@ -162,11 +183,11 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 * Body: [User](#model-user)
 
 #### Returns
-```
+```json
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
-    "user_id": "auth0|5aaaad170724cf32akjdi7ea",   
+    "user_id": "auth0|5aaaad170724cf32akjdi7ea",
     "picture": "https://s.gravatar.com/avatar/b79ars%2Fpu.png",
     "name": "pudi17@hotmail.com",
     "nickname": "pudi17",
@@ -200,7 +221,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 * Body: [User](#model-user)
 
 #### Returns
-```
+```json
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
@@ -238,7 +259,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 * Body: [User](#model-user)
 
 #### Returns
-```
+```json
 {
     "email": "pudi1711@hotmail.com",
     "email_verified": false,
@@ -278,7 +299,7 @@ Other possible errors: This model comes from Auth0's plugin. [Documentation](htt
 ### Model: Create
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 _id             |String         |Yes
 email           |String         |Yes
@@ -287,20 +308,20 @@ email_verified  |Boolean        |Yes
 ### Model Token holder
 This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/auth0-java)<br/>
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 access_token    |String         |Yes
-id_token        |String         |Yes 
+id_token        |String         |Yes
 refresh_token   |String         |Yes
 token_type      |String         |Yes
 expires_in      |Double         |Yes
 
-### DTO: Login 
+### DTO: Login
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 email           |String         |Yes
-password        |String         |Yes 
+password        |String         |Yes
 
 ### API
 ### &gt;_Sign up_ [To Top ^](#summary)
@@ -309,11 +330,11 @@ password        |String         |Yes
 * Body: [Login DTO](#dto-login)
 
 #### Returns
-```
+```json
 {
     "_id": "5aaaad170724cf32akjdi7ea",
     "email": "pudi17@hotmail.com",
-    "email_verified": false 
+    "email_verified": false
 }
 ```
 
@@ -323,7 +344,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 
 ##### SignUp Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "username or password is invalid",
@@ -339,7 +360,7 @@ Login types: __Admin__, __User__
 * Body: [Login DTO](#dto-login)
 
 #### Returns
-```
+```json
 {
 	"access_token": "eyJ0eXAiOiJKV1QiLCJWTNOdyJ9.eyJpc3MiOiJod29yZCJ9.TfZ8zvEBLVv8foqvQXAzlx1yFA0s12K",
 	"id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI.eyJodHRwczovL2ZpbmFs.4j4gejazpLxosEJc7rmEk_r4uSYECGC",
@@ -354,7 +375,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 
 ##### Login Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "Wrong email or password.",
@@ -371,7 +392,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 * Body: _NONE_
 
 #### Returns
-```
+```json
 { }
 ```
 
@@ -385,7 +406,7 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 * Body: [Login DTO](#dto-login)
 
 #### Returns
-```
+```json
 { }
 ```
 
@@ -402,29 +423,29 @@ This model comes from Auth0's plugin. [Documentation](https://github.com/auth0/a
 
 ### Model: Room
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 id              |String         |Yes
 name            |String         |Yes
-description     |String         |Yes 
-location        |String         |Yes 
+description     |String         |Yes
+location        |String         |Yes
 
-    
+
 ### DTO: Room
 
-parameter       |Type           |required  
+parameter       |Type           |required
 ----------------|---------------|:--------:
 name            |String         |Yes
-description     |String         |Yes 
-location        |String         |Yes 
+description     |String         |Yes
+location        |String         |Yes
 
 ### DTO: Room for AR
 
-parameter       |Type                              |required  
+parameter       |Type                              |required
 ----------------|----------------------------------|:--------:
 roomLocation    |Vector3                           |Yes
 roomInfo        |[Room](#model-room)                |Yes&ast;
-itemList        |List - [DataItem](#model-data-item) |No 
+itemList        |List - [DataItem](#model-data-item) |No
 
 &ast; Room id is required, rest optional
 
@@ -435,7 +456,7 @@ itemList        |List - [DataItem](#model-data-item) |No
 * Body: _NONE_
 
 #### Returns
-```
+```json
 [
 	{
 		"id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
@@ -446,7 +467,7 @@ itemList        |List - [DataItem](#model-data-item) |No
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -458,7 +479,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
     "name": "Hospital R247",
@@ -472,7 +493,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _ID_ not found.",
@@ -488,7 +509,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [Room Dto](#dto-room)
 
 #### Returns
-```
+```json
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
     "name": "Hospital R247",
@@ -502,7 +523,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### ItemNotCreated Exception
 * Status code: 409
-```
+```json
 {
 	"status": "CONFLICT",
 	"message": "Parameter Conflicts",
@@ -518,7 +539,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [Room](#model-room)
 
 #### Returns
-```
+```json
 {
     "id": "b94fa41d-ssss-4c4c-9c42-b5d654c5c0b3",
     "name": "Hospital R247",
@@ -532,7 +553,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -548,7 +569,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [Room](#model-room)
 
 #### Returns
-```
+```json
 { }
 ```
 
@@ -557,7 +578,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _item-id_: Not Found",
@@ -568,14 +589,15 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 ```
 
 <h3 id="room-ws">Web Sockets</h3>
+
 ### &gt;_Room for AR_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /room/{_private user channel_}/{_room-id_}
+* Request Channel: [_base_url_] /app/room/{_private user channel_}/{_room-id_}
 * Response Channel: [_base_url_] /topic/room/{_private user channel_}
 * Body: [RoomForAR dto](#dto-room-for-ar)
 
 #### Returns
-```
+```json
 {
     "roomLocation": {
         "y":0.0021007359027862549,
@@ -593,7 +615,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
             },
             "id":"7d077626-eaad-46e7-9bd0-e1cd394fdcce",
             "roomId":"88d10d30-b5c2-4555-b15c-416c6f7d0935"
-        }, 
+        },
         {
             ...
         }
@@ -629,7 +651,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -641,7 +663,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _item-id_: Not Found",
@@ -659,8 +681,8 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 [_base_url_] /v1/beacon
 
 ### Model: Beacon
-    
-parameter           |Type           |required  
+
+parameter           |Type           |required
 --------------------|---------------|:--------:
 id                  |String         |Yes
 roomId              |String         |Yes
@@ -673,7 +695,7 @@ lastUpdated         |Long           |Yes
 
 ### DTO: Beacon
 
-parameter           |Type           |required  
+parameter           |Type           |required
 --------------------|---------------|:--------:
 roomId              |String         |Yes
 name                |String         |Yes
@@ -690,7 +712,7 @@ lastUpdated         |Long           |Yes
 * Body: _NONE_
 
 #### Returns
-```
+```json
 [
 	{
         "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
@@ -705,7 +727,7 @@ lastUpdated         |Long           |Yes
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -717,7 +739,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [Beacon Dto](#dto-beacon)
 
 #### Returns
-```
+```json
 {
     "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
     "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
@@ -735,7 +757,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### ItemNotCreated Exception
 * Status code: 409
-```
+```json
 {
 	"status": "CONFLICT",
 	"message": "Parameter Conflicts",
@@ -752,7 +774,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [Beacon](#model-beacon)
 
 #### Returns
-```
+```json
 {
     "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
     "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
@@ -770,7 +792,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -786,7 +808,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 { }
 ```
 
@@ -795,7 +817,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -807,7 +829,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _item-id_: Not Found",
@@ -821,12 +843,12 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Get All_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /beacon/
+* Request Channel: [_base_url_] /app/beacon 
 * Response Channel: [_base_url_] /topic/beacon
 * Body: [Beacon](#model-beacon)
 
 #### Returns
-```
+```json
 [
 	{
         "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
@@ -841,7 +863,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -849,12 +871,12 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Create_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /beacon/{_private user channel_}/calibrate
+* Request Channel: [_base_url_] /app/beacon/{_private user channel_}/calibrate
 * Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
 * Body: [Beacon](#model-beacon)
 
 #### Returns
-```
+```json
 {
     "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
     "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
@@ -872,7 +894,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### ItemNotCreated Exception
 * Status code: 409
-```
+```json
 {
 	"status": "CONFLICT",
 	"message": "Parameter Conflicts",
@@ -884,12 +906,12 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Get by Major &amp; Minor_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /beacon/{_private user channel_}/getByMajorMinor/{_major_}/{_minor_}
+* Request Channel: [_base_url_] /app/beacon/{_private user channel_}/getByMajorMinor/{_major_}/{_minor_}
 * Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/getByMajorMinor
 * Body: _NONE_
 
 #### Returns
-```
+```json
 {
     "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
     "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
@@ -907,7 +929,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### TooManyReturnValuesWebSocket Exception
 * Status code: 300
-```
+```json
 {
 	"status": "MULTIPLE_CHOICES",
 	"message": "Too Many Values",
@@ -919,7 +941,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Not Found",
@@ -931,12 +953,12 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ### &gt;_Calibrate_ [To Top ^](#summary)
 
-* Request Channel: [_base_url_] /beacon/{_private user channel_}/calibrate
+* Request Channel: [_base_url_] /app/beacon/{_private user channel_}/calibrate
 * Response Channel: [_base_url_] /topic/beacon/{_private user channel_}/calibrate
 * Body: [Beacon](#model-beacon)
 
 #### Returns
-```
+```json
 {
     "id": "b82881db-eeee-44c4-a76c-a8c9a1cc282c",
     "roomId": "b94fa41d-aaaa-4c4c-9c42-b5d654c5c0b3",
@@ -954,7 +976,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Not Found",
@@ -966,13 +988,13 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Items [To Top ^](#summary)
+## DataItem [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/beacon
 
 ### Model: DataItem
-    
-parameter           |Type           |required  
+
+parameter           |Type           |required
 --------------------|---------------|:--------:
 id                  |String         |Yes
 itemId              |String         |Yes
@@ -982,7 +1004,7 @@ roomId              |String         |Yes
 
 ### DTO: DataItem
 
-parameter           |Type           |required  
+parameter           |Type           |required
 --------------------|---------------|:--------:
 itemId              |String         |Yes
 name                |String         |Yes
@@ -996,7 +1018,7 @@ roomId              |String         |Yes
 * Body: _NONE_
 
 #### Returns
-```
+```json
 [
 	{
         "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
@@ -1012,7 +1034,7 @@ roomId              |String         |Yes
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -1024,7 +1046,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 [
 	{
         "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
@@ -1040,7 +1062,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -1052,7 +1074,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 {
     "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
     "itemId": "arm_aparatus_21",
@@ -1071,7 +1093,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _ID_ not found.",
@@ -1091,7 +1113,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [DataItem Dto](#dto-dataitem)
 
 #### Returns
-```
+```json
 {
     "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
     "itemId": "arm_aparatus_21",
@@ -1110,7 +1132,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### ItemNotCreated Exception
 * Status code: 409
-```
+```json
 {
 	"status": "CONFLICT",
 	"message": "Parameter Conflicts",
@@ -1127,7 +1149,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [DataItem](#model-dataItem)
 
 #### Returns
-```
+```json
 {
     "id": "b407f8ac-zzzz-4f93-81a9-1d34b8442333",
     "itemId": "arm_aparatus_21",
@@ -1146,7 +1168,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -1162,7 +1184,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 { }
 ```
 
@@ -1171,7 +1193,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -1183,7 +1205,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _item-id_: Not Found",
@@ -1195,7 +1217,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 <br/>
 
-## Data Sources [To Top ^](#summary)
+## DataSource [To Top ^](#summary)
 ### Base slug
 [_base_url_] /v1/dataSource
 
@@ -1203,35 +1225,35 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 This model servers for selecting data sources (from Web Socket endpoints) and convert the incoming data to the used DataLog convention.
 
 ### Model: DataSource
-    
-parameter           |Type                                               |required  
+
+parameter           |Type                                               |required
 --------------------|---------------------------------------------------|:--------:
 id                  |String                                             |Yes
 url                 |String                                             |Yes
-destinations        |List - [DataDestination](#model-dataDestination)   |Yes
+destinations        |List - [DataDestination](#model-datadestination)   |Yes
 
 ### Model: DataDestination
-    
-parameter           |Type                                                           |required  
+
+parameter           |Type                                                           |required
 --------------------|---------------------------------------------------------------|:--------:
 destination         |String                                                         |Yes
-conversionScheme    |List - [ConversionSchemeEntry](#model-conversionSchemeEntry)   |Yes
+conversionScheme    |List - [ConversionSchemeEntry](#model-conversionschemeentry)   |Yes
 
-### Model: DataDestination
+### Model: ConversionSchemeEntry
 
-parameter           |Type       |required  
+parameter           |Type       |required
 --------------------|-----------|:--------:
 incomingDataKey     |String     |Yes
 dataLogData         |Object*    |Yes
 
 &ast; Should be either:
 * String: For dataItemId
-* [InformationConversionDto](#dto-informationConversionDto): To display the information in AR
+* [InformationConversionDto](#dto-informationconversion): To display the information in AR
 
 
-### DTO: InformationConversionDto
+### DTO: InformationConversion
 
-parameter   |Type       |required  
+parameter   |Type       |required
 ------------|-----------|:--------:
 name        |String     |Yes
 index       |Long       |Yes
@@ -1240,11 +1262,11 @@ Name: should be the wanted name to display in AR
 Index: should be the order of the selected item
 
 ### DTO: DataSource
-    
-parameter           |Type                                               |required  
+
+parameter           |Type                                               |required
 --------------------|---------------------------------------------------|:--------:
 url                 |String                                             |Yes
-destinations        |List - [DataDestination](#model-dataDestination)   |Yes
+destinations        |List - [DataDestination](#model-datadestination)   |Yes
 
 ### API
 ### &gt;_Get All_ [To Top ^](#summary)
@@ -1253,7 +1275,7 @@ destinations        |List - [DataDestination](#model-dataDestination)   |Yes
 * Body: _NONE_
 
 #### Returns
-```
+```json
 [
 	{
         "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
@@ -1283,7 +1305,7 @@ destinations        |List - [DataDestination](#model-dataDestination)   |Yes
 	{
 	    ...
     }
-]	
+]
 ```
 
 #### Errors
@@ -1295,7 +1317,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 {
     "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
     "url": "ws://127.0.0.1:9000/managerWS",
@@ -1328,7 +1350,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _ID_ not found.",
@@ -1338,17 +1360,13 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 }
 ```
 
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
-
-
 ### &gt;_Create_ [To Top ^](#summary)
 * Slug: [_base_url_] /v1/dataSource
 * Method: **POST**
 * Body: [DataSource Dto](#dto-datasource)
 
 #### Returns
-```
+```json
 {
     "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
     "url": "ws://127.0.0.1:9000/managerWS",
@@ -1381,7 +1399,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### ItemNotCreated Exception
 * Status code: 409
-```
+```json
 {
 	"status": "CONFLICT",
 	"message": "Parameter Conflicts",
@@ -1398,7 +1416,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: [DataSource](#model-datasource)
 
 #### Returns
-```
+```json
 {
     "id": "94145f76-dddd-4277-b1b9-d70f8016d83a",
     "url": "ws://127.0.0.1:9000/managerWS",
@@ -1431,7 +1449,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -1447,7 +1465,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 * Body: _NONE_
 
 #### Returns
-```
+```json
 { }
 ```
 
@@ -1456,7 +1474,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### MissingId Exception
 * Status code: 400
-```
+```json
 {
 	"status": "BAD_REQUEST",
 	"message": "id parameter missing from request",
@@ -1468,7 +1486,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
 ##### CustomNotFound Exception
 * Status code: 404
-```
+```json
 {
 	"status": "NOT_FOUND",
 	"message": "Item with id: _item-id_: Not Found",
@@ -1481,35 +1499,603 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## DataLog [To Top ^](#summary)
-### Model
-### DTO
-<h3 id="datal-og-api">API</h3>
+### Base slug
+[_base_url_] /v1/dataLog
+
+### Model: DataLog
+
+parameter           |Type                                       |required
+--------------------|-------------------------------------------|:--------:
+id                  |String                                     |Yes
+itemId              |String                                     |Yes
+information         |List - [Information](#model-information)   |Yes
+timestamp	        |Long					                    |Yes
+
+### Model: Information
+
+
+parameter   |Type       |required
+------------|-----------|:--------:
+name        |String     |Yes
+data        |String     |Yes
+index       |Long       |Yes
+
+### DTO: DataLog
+
+parameter           |Type                                       |required
+--------------------|-------------------------------------------|:--------:
+itemId              |String                                     |Yes
+information         |List - [Information](#model-information)   |Yes
+timestamp	        |Long					                    |Yes
+
+### API
+### &gt;_Get All_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+[
+	{
+        "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+        "itemId": "tap_3",
+        "information": [
+            {
+                "data": "3.02",
+                "name": "Temp",
+                "index": 1
+            },
+            {
+                "data": "11.535",
+                "name": "Pressure",
+                "index": 2
+            },
+            {
+                "data": "40",
+                "name": "Litres",
+                "index": 3
+            }
+        ],
+        "timestamp": 1525270179
+    },
+	{
+	    ...
+    }
+]
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
-<h3 id="data-log-ws">Web Sockets</h3>
+
+### &gt;_Get By Id_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog/byId/{_dataLog-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+{
+    "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+    "itemId": "tap_3",
+    "information": [
+        {
+            "data": "3.02",
+            "name": "Temp",
+            "index": 1
+        },
+        {
+            "data": "11.535",
+            "name": "Pressure",
+            "index": 2
+        },
+        {
+            "data": "40",
+            "name": "Litres",
+            "index": 3
+        }
+    ],
+    "timestamp": 1525270179
+}
+```
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```json
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Get By Item Id_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog/byItemId/{_item-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+[
+	{
+		"id": "0062359f-llll-4bcf-8c63-b14816b88727",
+		"itemId": "tap_3",
+		"information": [
+			{
+				"data": "3.02",
+				"name": "Temp",
+				"index": 1
+			},
+			{
+				"data": "11.535",
+				"name": "Pressure",
+				"index": 2
+			},
+			{
+				"data": "40",
+				"name": "Litres",
+				"index": 3
+			}
+		],
+		"timestamp": 1525270179
+	},
+	{
+		"id": "008d6c1f-llll-44a9-b59b-38970488503f",
+		"itemId": "tap_3",
+		...
+	}
+]
+```
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```json
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Create_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/dataLog
+* Method: **POST**
+* Body: [DataLog Dto](#model-datalog)
+
+#### Returns
+```json
+{
+    "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+    "itemId": "tap_3",
+    "information": [
+        {
+            "data": "3.02",
+            "name": "Temp",
+            "index": 1
+        },
+        {
+            "data": "11.535",
+            "name": "Pressure",
+            "index": 2
+        },
+        {
+            "data": "40",
+            "name": "Litres",
+            "index": 3
+        }
+    ],
+    "timestamp": 1525270179
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```json
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+<h3 id="datalog-ws">Web Sockets</h3>
+
+### &gt;_Get All_ [To Top ^](#summary)
+
+* Request Channel: _NONE_
+* Response Channel: [_base_url_] /topic/dataLog
+* Body: [DataLog](#model-datalog)
+
+#### Returns
+```json
+{
+    "id": "0062359f-llll-4bcf-8c63-b14816b88727",
+    "itemId": "tap_3",
+    "information": [
+        {
+            "data": "3.02",
+            "name": "Temp",
+            "index": 1
+        },
+        {
+            "data": "11.535",
+            "name": "Pressure",
+            "index": 2
+        },
+        {
+            "data": "40",
+            "name": "Litres",
+            "index": 3
+        }
+    ],
+    "timestamp": 1525270179
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
 <br/>
 <br/>
 
-## Data Item Request [To Top ^](#summary)
-### Model
-### DTO
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
+## DataItemRequest [To Top ^](#summary)
+### Base slug
+[_base_url_] /v1/request
+
+### Model: DataItemRequest
+
+parameter       |Type           |required
+----------------|---------------|:--------:
+id              |String         |Yes
+beaconId        |String         |Yes
+dataItemName    |String         |Yes
+requester       |String&ast;    |Yes
+
+&ast; Should be the requester's email. Administration set to easily send mails.
+
+### DTO: DataItemRequest
+
+parameter       |Type           |required
+----------------|---------------|:--------:
+beaconId        |String         |Yes
+dataItemName    |String         |Yes
+requester       |String&ast;    |Yes
+
+&ast; Should be the requester's email. Administration set to easily send mails.
+
+### DTO: DataItemRequestForAdmin
+
+parameter       |Type                       |required
+----------------|---------------------------|:--------:
+id              |String                     |Yes
+beaconId        |String                     |Yes
+dataItemName    |String                     |Yes
+requester       |String&ast;                |Yes
+beacon          |[Beacon](#model-beacon)    |Yes
+room            |[Room](#model-room)        |Yes
+
+&ast; Should be the requester's email. Administration set to easily send mails.
+
 ### API
+### &gt;_Get All_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+[
+	{
+		"id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+		"beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+		"dataItemName": "pom",
+		"requester": "lud.marcha@pom.be"
+	},
+	{
+	    ...
+    }
+]
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Get For Admin_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request/getForAdmin
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+[
+	{
+        "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+        "beaconId": "d228384b-zzzz-4fa4-8f3a-c1c4d17997ac",
+        "dataItemName": "pom",
+        "requester": "lud.marcha@pom.be",
+        "beacon": {
+            "id": "d228384b-zzzz-4fa4-8f3a-c1c4d17997ac",
+            "roomId": "164fe621-ffff-4b18-87d0-7d56d56a6640",
+            "name": "beacon_1_1",
+            "description": "Lokaal a201 pos.1",
+            "major": 1,
+            "minor": 1,
+            "calibrationFactor": 61,
+            "lastUpdated": 1524669288
+        },
+        "room": {
+            "id": "164fe621-ffff-4b18-87d0-7d56d56a6640",
+            "name": "Hospital R246",
+            "description": "Hosiptal scenario room",
+            "location": "Chirec"
+        }
+    },
+	{
+	    ...
+    }
+]
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+
+### &gt;_Get by id_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request/byId/{_request-id_}
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+{
+    "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+    "beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+    "dataItemName": "pom",
+    "requester": "lud.marcha@pom.be"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### CustomNotFound Exception
+* Status code: 404
+```json
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _ID_ not found.",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Create_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request
+* Method: **POST**
+* Body: [Request Dto](#dto-dataitemrequest)
+
+#### Returns
+```json
+{
+    "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+    "beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+    "dataItemName": "pom",
+    "requester": "lud.marcha@pom.be"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### ItemNotCreated Exception
+* Status code: 409
+```json
+{
+	"status": "CONFLICT",
+	"message": "Parameter Conflicts",
+	"errors": [
+		""
+	]
+}
+```
+
+
+### &gt;_Update_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/reauest
+* Method: **PUT**
+* Body: [Request](#model-dataitemrequest)
+
+#### Returns
+```json
+{
+    "id": "f82816dc-dddd-42e5-bf47-8d3f81217cfa",
+    "beaconId": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac",
+    "dataItemName": "pom",
+    "requester": "lud.marcha@pom.be"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```json
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+### &gt;_Delete_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/request/{_request-id_}
+* Method: **DELETE**
+* Body: _NONE_
+
+#### Returns
+```json
+{ }
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+##### MissingId Exception
+* Status code: 400
+```json
+{
+	"status": "BAD_REQUEST",
+	"message": "id parameter missing from request",
+	"errors": [
+		""
+	]
+}
+```
+
+##### CustomNotFound Exception
+* Status code: 404
+```json
+{
+	"status": "NOT_FOUND",
+	"message": "Item with id: _item-id_: Not Found",
+	"errors": [
+		""
+	]
+}
+```
 <br/>
 <br/>
 
 ## Debug [To Top ^](#summary)
-### Model
-### DTO
-<h3 id="debug-api">API</h3>
-#### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
-<h3 id="debug-ws">Web Sockets</h3>
+### Base slug
+[_base_url_] /v1/debug
+
+### Purpose
+This controller only serves to debug. IT does __two__ important things.
+1. Generate the example scenarios that will be used for presenting the project.
+2. Echo for Web Socket to emulate a Web Socket endpoint.<br/>
+(Searched online to find a legit endpoint to use, instead of an echo with a Javascript script, but no endpoint was found that sent data at an acceptable rate.)
+
+### API
+### &gt;_Generate All_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+[
+	{
+	    "sport_scenario id": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac"
+	},
+    {
+        "cafe_scenario id": "d228384b-ssss-4fa4-8f3a-c1c4d17997ac"
+    },
+    {
+        "hospital_scenario id": "d228384b-dddd-4fa4-8f3a-c1c4d17997ac"
+    }
+]
+```
+
 #### Errors
 For base errors check here: [Recurring errors](#recurring-errors)<br/>
 
+### &gt;_Generate Sport_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate/sport
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+{
+    "sport_scenario id": "d228384b-aaaa-4fa4-8f3a-c1c4d17997ac"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Generate Cafe_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate/cafe
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+{
+    "cafe_scenario id": "d228384b-ssss-4fa4-8f3a-c1c4d17997ac"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+### &gt;_Generate Hospital_ [To Top ^](#summary)
+* Slug: [_base_url_] /v1/debug/generate/hospital
+* Method: **GET**
+* Body: _NONE_
+
+#### Returns
+```json
+{
+    "hospital_scenario id": "d228384b-dddd-4fa4-8f3a-c1c4d17997ac"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+<h3 id="debug-ws">Web Sockets</h3>
+
+### &gt;_Get All_ [To Top ^](#summary)
+
+* Request Channel: [_base_url_] /app/echo/{_channel_}&ast;
+* Response Channel: [_base_url_] /topic/echo/{_channel_}
+* Body: JSON String that needs to be echoed back
+
+&ast; Channel where echo should be sent too. Doesn't need to be a private channel
+
+#### Returns (Example)
+```json
+{
+	"user": {
+		"info": {
+			"name": "Jeff",
+			"age": 34,
+			"membership": {
+				"from": 1463060368544,
+				"to": 1549031968544
+			}
+		},
+		"stats": {
+			"time": 28,
+			"kcal_burned": 70,
+			"heart_rate": 113
+		}
+	},
+	"equipment_id": "treadmill_21"
+}
+```
+
+#### Errors
+For base errors check here: [Recurring errors](#recurring-errors)<br/>
+
+<br/>
+<br/>
