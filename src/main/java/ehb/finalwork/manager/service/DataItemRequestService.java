@@ -73,6 +73,11 @@ public class DataItemRequestService {
     }
 
     public void delete(String id) throws CustomNotFoundException {
-        dataItemRequestDao.delete(id);
+        try {
+            dataItemRequestDao.delete(id);
+            this.notificationService.broadcastNotification("request", this.getAll().size());
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
