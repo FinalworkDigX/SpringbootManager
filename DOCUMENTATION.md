@@ -2112,7 +2112,7 @@ This endpoint broadcasts Server information every 5 seconds. This will primarily
 ### &gt;_Get system information_ [To Top ^](#summary)
 
 * Request Channel: _NONE_
-* Response Channel: [_base_url_] /topic/monitoring/
+* Response Channel: [_base_url_] /topic/monitoring
 * Body: _NONE_
 
 #### Returns (Example)
