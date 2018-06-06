@@ -4,17 +4,18 @@ For this backend application to fully work, a working copy of _security.properti
 
 ## Summary
 1. [Working with websockets](#web-socket-basics)
-2. [Recurring errors](#recurring-errors)
-3. [Auth0 management](#auth0-management-to-top-)
-4. [Authentication](#authentication-to-top-)
-5. [Room](#room-to-top-)
-6. [Beacon](#beacon-to-top-)
-7. [DataItem](#dataitem-to-top-)
-8. [DataSource](#datasource-to-top-)
-9. [DataLog](#datalog-to-top-)
-10. [DataItemRequest](#dataitemrequest-to-top-)
-11. [Debug](#debug-to-top-)
-12. [System Monitoring](#system-monitoring-to-top-)
+1. [Recurring errors](#recurring-errors)
+1. [Auth0 management](#auth0-management-to-top-)
+1. [Authentication](#authentication-to-top-)
+1. [Room](#room-to-top-)
+1. [Beacon](#beacon-to-top-)
+1. [DataItem](#dataitem-to-top-)
+1. [DataSource](#datasource-to-top-)
+1. [DataLog](#datalog-to-top-)
+1. [DataItemRequest](#dataitemrequest-to-top-)
+1. [Debug](#debug-to-top-)
+1. [System Monitoring](#system-monitoring-to-top-)
+1. [Notifications](#notifications-to-top-)
 
 ***********************************************************************************************************************
 ## Web Socket basics
@@ -43,10 +44,11 @@ connectManagerWebSocket();
 
 ### Summary of models using Web Sockets
 1. [Room](#room-ws)
-2. [Beacon](#beacon-ws)
-3. [DataLog](#datalog-ws)
-4. [Debug](#debug-ws)
-4. [System Monitoring](#sysMon-ws)
+1. [Beacon](#beacon-ws)
+1. [DataLog](#datalog-ws)
+1. [Debug](#debug-ws)
+1. [System Monitoring](#sysMon-ws)
+1. [Notifications](#notifications-ws)
 
 ***********************************************************************************************************************
 ## Recurring errors
@@ -2103,7 +2105,7 @@ For base errors check here: [Recurring errors](#recurring-errors)<br/>
 <br/>
 
 ## System Monitoring [To Top ^](#summary)
-This only exists in Web Socket. 
+This only exists as a Web Socket endpoint. 
 
 This endpoint broadcasts Server information every 5 seconds. This will primarily be used by the Administration panel.
 
@@ -2112,7 +2114,7 @@ This endpoint broadcasts Server information every 5 seconds. This will primarily
 ### &gt;_Get system information_ [To Top ^](#summary)
 
 * Request Channel: _NONE_
-* Response Channel: [_base_url_] /topic/monitoring/
+* Response Channel: [_base_url_] /topic/monitoring
 * Body: _NONE_
 
 #### Returns (Example)
@@ -2134,7 +2136,36 @@ This endpoint broadcasts Server information every 5 seconds. This will primarily
 ```
 
 #### Errors
-For base errors check here: [Recurring errors](#recurring-errors)<br/>
+No errors possible.<br/>
+Data kan be `null` as some functions are hardware specific.
+
+<br/>
+<br/>
+
+## Notifications [To Top ^](#summary)
+This only exists as a Web Socket endpoint. 
+
+This endpoint broadcasts notifications when the service is called.<br/>
+While the ChangeListener can be set to listen for changes in the database and send those changes on specific channels, <br/>
+this endpoint can be set to send any kind of data that doesn't have to come from the Database.
+The send data can also be chosen on the moment of implementation.
+
+<h3 id="notifications-ws">Web Sockets</h3>
+
+### &gt;_Request notification_ [To Top ^](#summary)
+
+* Request Channel: _NONE_
+* Response Channel: [_base_url_] /topic/notification/request
+* Body: _NONE_
+
+#### Returns (Example)
+This is set up to only send the number of request there currently are. Mainly serves as example.
+```
+  2
+```
+
+#### Errors
+No errors possible.
 
 <br/>
 <br/>

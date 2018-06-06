@@ -36,7 +36,7 @@ public class ServerMonitoringService {
 
             myCpu.setMaxClockSpeed(tmpCpu.getMaxClockSpeed());
             myCpu.setCurrentClockSpeed(tmpCpu.getCurrentClockSpeed());
-            myCpu.setLoadPercentage(tmpCpu.calcLoad());
+            myCpu.setLoadPercentage(tmpCpu.getLoadPercentage());
         }
 
         MonitoringMessage monitoringMessage = new MonitoringMessage(myCpu, myMem);
