@@ -25,7 +25,7 @@ public class ServerMonitoringService {
     }
 
     @Async
-    @Scheduled(cron = "*/5 * * * * *")
+    @Scheduled(cron = "*/3 * * * * *")
     public void startMonitoring() {
         CPU myCpu = new CPU(HardwareInfo.getProcessorInfo());
         Memory myMem = new Memory(HardwareInfo.getMemoryInfo());
